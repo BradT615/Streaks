@@ -8,8 +8,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/Login" element={<LoginPage />} />
-        <Route path="/CreateAccount" element={<CreateAccountPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/create-account" element={<CreateAccountPage />} />
         <Route path="/" element={<MainPage />} />
       </Routes>
     </Router>
