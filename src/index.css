@@ -22,3 +22,7 @@ code {
   -ms-user-select: none;      /* IE10+/Edge */
   user-select: none;          /* Standard syntax */
 }
+
+.group:hover input::placeholder {
+  color: #deeaff; /* Change this color to the highlight color you want */
+}
