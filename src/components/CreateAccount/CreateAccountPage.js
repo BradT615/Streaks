@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import logo from './logo.png';
-import { CiUser, CiLock } from "react-icons/ci";
+import { CiMail, CiUser, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
-import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 
 
-const LoginPage = () => {
+
+const CreateAccountPage = () => {
     const [inputType, setInputType] = useState('password');
     const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
-    const [rememberMe, setRememberMe] = useState(false);
 
     const togglePasswordVisibility = () => {
         if (inputType === 'password') {
@@ -18,10 +17,6 @@ const LoginPage = () => {
             setInputType('password');
             setIcon(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
         }
-    };
-
-    const toggleRememberMe = () => {
-        setRememberMe(!rememberMe);
     };
 
     return (
@@ -34,6 +29,10 @@ const LoginPage = () => {
                 
                 <div className='flex flex-col items-center w-full pb-16'>
                     <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-3/4 min-w-72'>
+                        <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full sm:w-8'/>
+                        <input className='bg-[#24334c] text-custom-text p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none' type='text' placeholder='Email' />
+                    </div>
+                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 w-3/4 min-w-72'>
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full sm:w-8'/>
                         <input className='bg-[#24334c] text-custom-text p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none' type='text' placeholder='Username' />
                     </div>
@@ -45,37 +44,13 @@ const LoginPage = () => {
                             {icon}
                         </button>
                     </div>
-
-
-                    <div className='flex justify-around w-full px-2'>
-                        <div className='group/nested flex items-center mt-2 cursor-pointer no-select' onClick={toggleRememberMe}>
-                            {rememberMe 
-                                ? <FaCheckSquare className="text-custom-text pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/> 
-                                : <FaRegSquare className="text-custom-text pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/>
-                            }
-                            <p className='text-sm sm:text-lg font-thin text-custom-text group-hover/nested:text-custom-hover'>Remember Me</p>
-                        </div>
-                        <p className='text-sm sm:text-lg font-thin text-custom-text mt-2 no-select hover:text-custom-hover'>Forgot Password?</p>
-                    </div>
                 </div>
                 <div className='font-thin text-sm sm:text-lg flex flex-col'>
-                    <button className="bg-gradient-to-r from-custom-green to-custom-blue text-[#dce9fc] text-2xl font-medium py-2 mx-6 hover:mx-2 rounded-full shadow-lg no-select transition-all duration-200 ease-out">Log In</button>
-                    <div className='flex gap-1 w-full justify-center text-custom-text mt-2'>
-                        <p>Don't have an account?</p>
-                        <p className='font-medium hover:text-custom-hover no-select'>Sign Up</p>
-                    </div>
-                    <div className='flex items-center w-full justify-center text-custom-text -mt-2 no-select'>
-                        <div className='flex-1 border-t border-custom-text'></div>
-                        <p className='px-1 pb-1'>or</p>
-                        <div className='flex-1 border-t border-custom-text'></div>
-                    </div>
-                    <div className='flex justify-center'>
-                        <p className='text-custom-text hover:text-custom-hover -mt-3'>Continue as Guest</p>
-                    </div>
+                    <button className="bg-gradient-to-r from-custom-green to-custom-blue text-[#dce9fc] text-2xl font-medium py-2 px-4 hover:px-8 rounded-full shadow-lg no-select transition-all duration-200 ease-out">Create Account</button>
                 </div>
             </div>
         </div>
     );
 };
 
-export default LoginPage;
+export default CreateAccountPage;
