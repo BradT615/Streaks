@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './components/Login/LoginPage';
 import CreateAccountPage from './components/CreateAccount/CreateAccountPage';
+import EmailVerificationPage from './components/CreateAccount/EmailVerificationPage';
 import MainPage from './components/Main/MainPage';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/create-account" element={<CreateAccountPage />} />
+        <Route path="/email-verification" element={<EmailVerificationPage />} />
         <Route path="/" element={<MainPage />} />
       </Routes>
     </Router>
