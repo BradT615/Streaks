@@ -26,3 +26,10 @@ code {
 .group:hover input::placeholder {
   color: #deeaff; /* Change this color to the highlight color you want */
 }
+
+.text-gradient {
+  background: linear-gradient(to right, #36c0ae, #00b8d1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent; /* Makes the text take the color of the background */
+}
