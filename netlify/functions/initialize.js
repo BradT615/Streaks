@@ -6,7 +6,7 @@ exports.handler = async function(event, context) {
   const visitorUUID = event.queryStringParameters.uuid;
 
   const uri = process.env.MONGODB_URI;
-  const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+  const client = new MongoClient(uri);
 
   let visitorData;
 
@@ -39,4 +39,4 @@ exports.handler = async function(event, context) {
     statusCode: 200,
     body: JSON.stringify(visitorData)
   };
-}
+};
