@@ -13,7 +13,7 @@ function Header() {
                 </div>
             </Link>
 
-            <Link to='/create-account'>
+            <Link to='/login'>
                 <div className="group flex gap-1 justify-center items-center bg-[#192737] mt-1 p-2 pr-4 rounded-full">
                     <CiUser className='w-6 h-6 sm:w-8 sm:h-8 rounded-full'/>
                     <button className='text-md sm:text-lg text-custom-text group-hover:text-custom-hover'>Log In</button>
