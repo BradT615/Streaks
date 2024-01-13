@@ -5,7 +5,7 @@ import logo from '../assets/logo.png';
 
 function Header() {
     return (
-        <header className='flex justify-between items-center font-medium mx-[2vw] my-2 md:my-6'>
+        <header className='flex justify-between items-center font-medium mx-[2vw] mt-2 md:mt-6'>
             <Link to='/'>
                 <div className="group flex items-center no-select">
                     <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
