@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import logo from '../assets/logo.png';
 
 
@@ -7,7 +7,7 @@ const EmailVerificationPage = () => {
         <div className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
             <div className='LoginPage flex flex-col gap-4 justify-around items-center m-auto py-8 w-full sm:max-w-lg h-full sm:h-4/5'>
                 <div className='no-select'>
-                    <img src={logo} className='w-1/3 mx-auto mb-4'></img>
+                    <img src={logo} alt='Logo' className='w-1/3 mx-auto mb-4'></img>
                     <p className='text-custom-text text-4xl text-center'>Streaks</p>
                 </div>
                 <div className='flex flex-col items-center w-full pb-16'>

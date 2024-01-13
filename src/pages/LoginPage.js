@@ -29,7 +29,7 @@ const LoginPage = () => {
         <div className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
             <div className='flex flex-col gap-4 justify-around items-center m-auto py-8 w-full max-w-lg'>
                 <div className='no-select'>
-                    <img src={logo} className='w-[130px] mx-auto mb-4'></img>
+                    <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-text text-4xl text-center'>Streaks</p>
                 </div>
                 
