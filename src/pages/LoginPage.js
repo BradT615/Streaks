@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import GoTrue from 'gotrue-js';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
@@ -18,6 +18,12 @@ function LoginPage() {
         APIUrl: 'https://bradt615streaks.netlify.app/.netlify/identity',
         setCookie: true,
     });
+
+    useEffect(() => {
+        if (auth.currentUser()) {
+            navigate('/');
+        }
+    }, [navigate]);
 
     const togglePasswordVisibility = () => {
         if (inputType === 'password') {
@@ -39,7 +45,7 @@ function LoginPage() {
             const response = await auth.login(username, password);
             if (response) {
                 // Handle successful login
-                navigate('/dashboard'); // or your desired route
+                navigate('/');
             }
         } catch (error) {
             // Handle login error
