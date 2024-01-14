@@ -1,25 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Header from '../components/Header';
 import Main from '../components/Main';
 import Calendar from '../components/Calendar';
 import Notes from '../components/Notes';
 
-const MainPage = () => {
-    const [visitorData, setVisitorData] = useState(null);
-
-    useEffect(() => {
-    fetch(`/.netlify/functions/initialize`)
-        .then(response => response.json())
-        .then(data => {
-            setVisitorData(data);
-            localStorage.setItem('visitorUUID', data.uuid);
-        });
-    }, []);
-
-    if (!visitorData) {
-        return <div>Loading...</div>;
-    }
-
+function MainPage() {
     return (
         <div className='flex flex-col h-screen w-screen bg-custom-bg'>
             <Header />
