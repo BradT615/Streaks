@@ -1,29 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import GoTrue from 'gotrue-js';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import { CiUser, CiLock } from "react-icons/ci";
+import { CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
 import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 
 function LoginPage() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [inputType, setInputType] = useState('password');
     const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
     const [rememberMe, setRememberMe] = useState(false);
-    const navigate = useNavigate();
-
-    const auth = new GoTrue({
-        APIUrl: 'https://bradt615streaks.netlify.app/.netlify/identity',
-        setCookie: true,
-    });
-
-    useEffect(() => {
-        if (auth.currentUser()) {
-            navigate('/');
-        }
-    }, [navigate]);
 
     const togglePasswordVisibility = () => {
         if (inputType === 'password') {
@@ -39,23 +26,8 @@ function LoginPage() {
         setRememberMe(!rememberMe);
     };
 
-    const handleLogin = async (event) => {
-        event.preventDefault();
-        try {
-            const response = await auth.login(username, password);
-            if (response) {
-                // Handle successful login
-                navigate('/');
-            }
-        } catch (error) {
-            // Handle login error
-            console.error('Login Error:', error);
-        }
-    };
-    
-
     return (
-        <form onSubmit={handleLogin} className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
+        <form className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
             <div className='flex flex-col gap-4 justify-around items-center m-auto py-8 w-full max-w-lg'>
                 <div className='no-select'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
@@ -64,12 +36,12 @@ function LoginPage() {
                 
                 <div className='flex flex-col items-center w-full pb-16'>
                     <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-3/4 min-w-60'>
-                        <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             className='bg-custom-bg text-custom-text p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full'
-                            type='text'
+                            type='Email'
                             placeholder='Username'
                             required
                         />

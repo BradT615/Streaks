@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import netlifyIdentity from 'netlify-identity-widget';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -7,10 +6,6 @@ import EmailVerificationPage from './pages/EmailVerificationPage';
 import MainPage from './pages/MainPage';
 
 function App() {
-  useEffect(() => {
-    netlifyIdentity.init();
-  }, []);
-
   return (
     <Router>
       <Routes>
