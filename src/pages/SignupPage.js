@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
@@ -7,9 +10,30 @@ import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 function SignupPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showModal, setShowModal] = useState(false);
     const [inputType, setInputType] = useState('password');
     const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
     const [rememberMe, setRememberMe] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleSignup = (e) => {
+        e.preventDefault(); 
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            setShowModal(true);
+        })
+        .catch((error) => {
+            // Handle errors here
+        });
+    };
+
+    const handleRedirect = () => {
+        navigate("/");
+        setShowModal(false);
+    };
 
     const togglePasswordVisibility = () => {
         if (inputType === 'password') {
@@ -27,13 +51,22 @@ function SignupPage() {
 
     return (
         <div className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
+            {showModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h2>Signup successful!</h2>
+                        <p>You can now log in.</p>
+                        <button onClick={handleRedirect}>Go to Login</button>
+                    </div>
+                </div>
+            )}
             <div className='flex flex-col gap-4 justify-around items-center m-auto py-8 w-full max-w-lg'>
                 <div className='no-select mb-12'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-text text-4xl text-center'>Streaks</p>
                 </div>
                 
-                <form className='flex flex-col items-center w-full'>
+                <form onSubmit={handleSignup} className='flex flex-col items-center w-full'>
                     <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-3/4 min-w-60'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input className='bg-custom-bg text-custom-text p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='email' placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} required />
