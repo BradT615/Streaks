@@ -11,6 +11,7 @@ function MainPage() {
             <div className='flex-grow text-custom-text'>
                 <div className='flex justify-center h-[95%] max-w-screen-2xl mx-auto p-6 text-center gap-4 text-3xl'>
                     <div className='border-[1px] border-custom-hover w-full sm:w-1/2 rounded-lg'>
+                        <h1>TEST DEPLOY</h1>
                     <Main />
                     </div>
                     <div className='flex flex-col w-1/2 max-sm:hidden gap-4'>
