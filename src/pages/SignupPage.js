@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import logo from '../assets/logo.png';
-import { CiMail, CiUser, CiLock } from "react-icons/ci";
+import { CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
 import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 
