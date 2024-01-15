@@ -11,6 +11,8 @@ function SignupPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const [inputType, setInputType] = useState('password');
     const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
     const [rememberMe, setRememberMe] = useState(false);
@@ -22,17 +24,22 @@ function SignupPage() {
 
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            const user = userCredential.user;
+            // const user = userCredential.user;
             setShowModal(true);
         })
         .catch((error) => {
-            // Handle errors here
+            setErrorMessage(error.message);
+            setShowErrorModal(true);
         });
     };
 
     const handleRedirect = () => {
         navigate("/");
         setShowModal(false);
+    };
+
+    const handleCloseErrorModal = () => {
+        setShowErrorModal(false);
     };
 
     const togglePasswordVisibility = () => {
@@ -60,6 +67,15 @@ function SignupPage() {
                     </div>
                 </div>
             )}
+            {showErrorModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                    <h2>Signup failed</h2>
+                    <p>{errorMessage}</p>
+                    <button onClick={handleCloseErrorModal}>Close</button>
+                    </div>
+                </div>
+                )}
             <div className='flex flex-col gap-4 justify-around items-center m-auto py-8 w-full max-w-lg'>
                 <div className='no-select mb-12'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
