@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { auth } from './firebaseConfig';
 import { EmailPrefixProvider } from './contexts/EmailPrefixProvider';
