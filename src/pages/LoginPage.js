@@ -1,16 +1,58 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { getAuth, setPersistence, signInWithEmailAndPassword, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../firebaseConfig";
+import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
-import { PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
+import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
 import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showErrorModal, setShowErrorModal] = useState(false);
     const [inputType, setInputType] = useState('password');
     const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
     const [rememberMe, setRememberMe] = useState(false);
+
+    const navigate = useNavigate();
+
+    const auth = getAuth();
+
+    const handleLogin = (e) => {
+        e.preventDefault(); 
+    
+        const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+    
+        setPersistence(auth, persistence)
+            .then(() => {
+                return signInWithEmailAndPassword(auth, email, password);
+            })
+            .then((userCredential) => {
+                setEmail('');
+                setPassword('');
+                setTimeout(() => {
+                    navigate("/");
+                }, 0);
+            })
+            .catch(() => {
+                setShowErrorModal(true);
+            });
+    }
+
+    const handleForgotPassword = () => {
+        if (email) {
+            sendPasswordResetEmail(auth, email)
+                .then(() => {
+                    alert('Password reset email sent!');
+                })
+                .catch((error) => {
+                    alert('Error sending password reset email.');
+                });
+        } else {
+            alert('Please enter your email address.');
+        }
+    };
 
     const togglePasswordVisibility = () => {
         if (inputType === 'password') {
@@ -27,14 +69,14 @@ function LoginPage() {
     };
 
     return (
-        <form className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
+        <form onSubmit={handleLogin} className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
             <div className='flex flex-col gap-4 justify-around items-center m-auto py-8 w-full max-w-lg'>
                 <div className='no-select'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-text text-4xl text-center'>Streaks</p>
                 </div>
                 
-                <div className='flex flex-col items-center w-full pb-16'>
+                <div className='flex flex-col items-center w-full pb-3'>
                     <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-3/4 min-w-60'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
@@ -42,7 +84,7 @@ function LoginPage() {
                             onChange={(e) => setEmail(e.target.value)}
                             className='bg-custom-bg text-custom-text p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='Email'
-                            placeholder='Username'
+                            placeholder='Email'
                             required
                         />
                     </div>
@@ -70,7 +112,10 @@ function LoginPage() {
                             }
                             <p className='text-sm sm:text-lg font-thin text-custom-text group-hover/nested:text-custom-hover'>Remember Me</p>
                         </div>
-                        <p className='text-sm sm:text-lg font-thin text-custom-text mt-2 no-select hover:text-custom-hover'>Forgot Password?</p>
+                        <p className='text-sm sm:text-lg font-thin text-custom-text mt-2 no-select hover:text-custom-hover' onClick={handleForgotPassword}>Forgot Password?</p>
+                    </div>
+                    <div className={`text-[20px] text-red-400 mt-3  ${showErrorModal ? 'visible' : 'invisible'}`}>
+                        <p>Invalid Email or Password.</p>
                     </div>
                 </div>
                 <div className='font-thin text-sm sm:text-lg flex flex-col'>
