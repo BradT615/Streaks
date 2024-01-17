@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { EmailPrefixContext } from '../contexts/EmailPrefixContext';
 import { getAuth, setPersistence, signInWithEmailAndPassword, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "firebase/auth";
-import { auth } from "../firebaseConfig";
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
@@ -17,6 +17,8 @@ function LoginPage() {
     const [errorMessage, setErrorMessage] = useState('No error message');
     const [messageClassName, setMessageClassName] = useState('text-red-400');
 
+    const { setEmailPrefix } = useContext(EmailPrefixContext);
+
     const navigate = useNavigate();
 
     const auth = getAuth();
@@ -24,6 +26,9 @@ function LoginPage() {
     const handleLogin = (e) => {
         e.preventDefault(); 
     
+        let emailPrefix = email.split('@')[0];
+        setEmailPrefix(emailPrefix);
+
         const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
     
         setPersistence(auth, persistence)

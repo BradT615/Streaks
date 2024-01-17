@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { auth } from './firebaseConfig';
+import { EmailPrefixProvider } from './contexts/EmailPrefixProvider';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
@@ -24,14 +25,16 @@ function App() {
   }, []);
   
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/email-verification" element={<EmailVerificationPage />} />
-        <Route path="/" element={<MainPage />} />
-      </Routes>
-    </Router>
+    <EmailPrefixProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/email-verification" element={<EmailVerificationPage />} />
+          <Route path="/" element={<MainPage />} />
+        </Routes>
+      </Router>
+    </EmailPrefixProvider>
   );
 }
 
