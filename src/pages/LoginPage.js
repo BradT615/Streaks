@@ -14,6 +14,8 @@ function LoginPage() {
     const [inputType, setInputType] = useState('password');
     const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
     const [rememberMe, setRememberMe] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('No error message');
+    const [messageClassName, setMessageClassName] = useState('text-red-400');
 
     const navigate = useNavigate();
 
@@ -36,7 +38,10 @@ function LoginPage() {
                 }, 0);
             })
             .catch(() => {
+                setErrorMessage('Invalid Email or Password.');
+                setMessageClassName('text-red-400');
                 setShowErrorModal(true);
+                handleButtonClick();
             });
     }
 
@@ -44,13 +49,32 @@ function LoginPage() {
         if (email) {
             sendPasswordResetEmail(auth, email)
                 .then(() => {
-                    alert('Password reset email sent!');
+                    setErrorMessage('Password reset Email sent!');
+                    setMessageClassName('text-green-400');
+                    setShowErrorModal(true);
                 })
                 .catch((error) => {
-                    alert('Error sending password reset email.');
+                    setErrorMessage('Error sending Password reset Email.');
+                    setMessageClassName('text-red-400');
+                    setShowErrorModal(true);
+                    handleButtonClick();
                 });
         } else {
-            alert('Please enter your email address.');
+            setErrorMessage('Please enter your Email address.');
+            setMessageClassName('text-red-400');
+            setShowErrorModal(true);
+            handleButtonClick();
+        }
+    };
+
+    const handleButtonClick = () => {
+        const element = document.querySelector('#error-message');
+        if (element) {
+            element.classList.remove('animate-shake');
+            // Use the result of element.offsetWidth in a way that can't be optimized away
+            const offsetWidth = element.offsetWidth;
+            console.log(offsetWidth);
+            element.classList.add('animate-shake');
         }
     };
 
@@ -114,8 +138,8 @@ function LoginPage() {
                         </div>
                         <p className='text-sm sm:text-lg font-thin text-custom-text mt-2 no-select hover:text-custom-hover' onClick={handleForgotPassword}>Forgot Password?</p>
                     </div>
-                    <div className={`text-[20px] text-red-400 mt-3  ${showErrorModal ? 'visible' : 'invisible'}`}>
-                        <p>Invalid Email or Password.</p>
+                    <div id="error-message" className={`text-[20px] ${messageClassName} mt-3 ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
+                        <p>{errorMessage}</p>
                     </div>
                 </div>
                 <div className='font-thin text-sm sm:text-lg flex flex-col'>
