@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { EmailPrefixContext } from '../contexts/EmailPrefixContext';
 import { Link } from 'react-router-dom';
-import { CiUser } from "react-icons/ci";
 import logo from '../assets/logo.png';
 
 function Header() {
     const { emailPrefix } = useContext(EmailPrefixContext);
+    const [isLoggedIn] = useState(false);
 
     return (
         <header className='flex justify-between items-center font-medium mx-[2vw] mt-2 md:mt-6'>
@@ -16,15 +16,23 @@ function Header() {
                 </div>
             </Link>
 
-            <Link to='/login'>
-                <div className="group flex gap-1 justify-center items-center bg-[#192737] mt-1 p-2 pr-4 rounded-full">
-                    <CiUser className='w-6 h-6 sm:w-8 sm:h-8 rounded-full'/>
-                    <button className='text-md sm:text-lg text-custom-text group-hover:text-custom-hover'>
-                        {emailPrefix ? emailPrefix : 'Log In'}
-                    </button>
-                </div>
-            </Link>
-            
+            {isLoggedIn ? (
+                <Link to='/profile'>
+                    <div className="bg-[#192737] p-2 px-4 rounded-full text-custom-text hover:text-custom-hover">
+                        <button className='text-md sm:text-lg'>
+                            {emailPrefix}
+                        </button>
+                    </div>
+                </Link>
+                ) : (
+                <Link to='/login'>
+                    <div className="bg-[#192737] p-2 px-4 rounded-full text-custom-text hover:text-custom-hover">
+                        <button className='text-md sm:text-lg'>
+                            Log In
+                        </button>
+                    </div>
+                </Link>
+            )}
         </header>
     );
 };
