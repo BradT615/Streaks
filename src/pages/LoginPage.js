@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import { EmailPrefixContext } from '../contexts/EmailPrefixContext';
+import React, { useState } from 'react';
 import { getAuth, setPersistence, signInWithEmailAndPassword, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
@@ -17,7 +16,6 @@ function LoginPage() {
     const [errorMessage, setErrorMessage] = useState('No error message');
     const [messageClassName, setMessageClassName] = useState('text-red-400');
 
-    const { setEmailPrefix } = useContext(EmailPrefixContext);
 
     const navigate = useNavigate();
 
@@ -25,9 +23,6 @@ function LoginPage() {
 
     const handleLogin = (e) => {
         e.preventDefault(); 
-    
-        let emailPrefix = email.split('@')[0];
-        setEmailPrefix(emailPrefix);
 
         const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
     

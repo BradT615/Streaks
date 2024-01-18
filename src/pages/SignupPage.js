@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import { EmailPrefixContext } from '../contexts/EmailPrefixContext';
+import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
@@ -18,15 +17,10 @@ function SignupPage() {
     const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
     const [rememberMe, setRememberMe] = useState(false);
 
-    const { setEmailPrefix } = useContext(EmailPrefixContext);
-
     const navigate = useNavigate();
 
     const handleSignup = (e) => {
         e.preventDefault();
-
-        let emailPrefix = email.split('@')[0];
-        setEmailPrefix(emailPrefix);
 
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
