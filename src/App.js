@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { auth } from './firebaseConfig';
-import { EmailPrefixProvider } from './contexts/EmailPrefixProvider';
+import { onAuthStateChanged } from "firebase/auth";
+import { v4 as uuidv4 } from 'uuid';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
@@ -9,23 +10,34 @@ import MainPage from './pages/MainPage';
 
 
 function App() {
+  const [userType, setUserType] = useState(null);
+
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
         // User is signed in.
-        console.log('User is signed in');
+        setUserType('user');
       } else {
         // No user is signed in.
-        console.log('No user is signed in');
+        const guestId = sessionStorage.getItem('guestId');
+        if (guestId) {
+          setUserType('guest');
+        } else {
+          const newGuestId = uuidv4();
+          sessionStorage.setItem('guestId', newGuestId);
+          setUserType('new guest');
+        }
       }
     });
-
-    // Cleanup subscription on unmount
+    // Cleanup
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    console.log('userType: ', userType);
+  }, [userType]);
   
   return (
-    <EmailPrefixProvider>
       <Router>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -34,7 +46,6 @@ function App() {
           <Route path="/" element={<MainPage />} />
         </Routes>
       </Router>
-    </EmailPrefixProvider>
   );
 }
 

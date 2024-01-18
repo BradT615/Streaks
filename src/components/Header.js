@@ -1,10 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { EmailPrefixContext } from '../contexts/EmailPrefixContext';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 function Header() {
-    const { emailPrefix } = useContext(EmailPrefixContext);
     const [isLoggedIn] = useState(false);
 
     return (
@@ -20,7 +18,7 @@ function Header() {
                 <Link to='/profile'>
                     <div className="bg-[#192737] p-2 px-4 rounded-full text-custom-text hover:text-custom-hover">
                         <button className='text-md sm:text-lg'>
-                            {emailPrefix}
+                            Logged In
                         </button>
                     </div>
                 </Link>

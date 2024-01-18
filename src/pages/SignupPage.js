@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { EmailPrefixContext } from '../contexts/EmailPrefixContext';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
@@ -31,6 +31,14 @@ function SignupPage() {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // const user = userCredential.user;
+                const user = userCredential.user;
+                // Create a new document in the 'users' collection
+                const userRef = db.doc('users/' + user.uid);
+                userRef.set({
+                    habits: ['habit1', 'habit2', 'habit3'],
+                    email: email,
+                    password: password,
+                });
                 setShowModal(true);
             })
             .catch((error) => {
@@ -82,8 +90,8 @@ function SignupPage() {
                     </div>
                 </div>
             )}
-            <div className='flex flex-col gap-4 justify-around items-center m-auto py-8 w-full max-w-lg'>
-                <div className='no-select mb-12'>
+            <div className='flex flex-col gap-4 justify-around items-center m-auto pb-8 w-full max-w-lg'>
+                <div className='no-select mb-10'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-text text-4xl text-center'>Streaks</p>
                 </div>
