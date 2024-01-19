@@ -3,8 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
-function Header({ userType }) {
-    const isLoggedIn = userType === 'user';
+function Header() {
+    const isLoggedIn = true;
 
     return (
         <header className='flex justify-between items-center font-medium mx-[2vw] mt-2 md:mt-6'>
