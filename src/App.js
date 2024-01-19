@@ -8,15 +8,15 @@ import SignupPage from './pages/SignupPage';
 import EmailVerificationPage from './pages/EmailVerificationPage';
 import MainPage from './pages/MainPage';
 
-
 function App() {
   const [userType, setUserType] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, user => {
       if (user) {
-        // User is signed in.
-        setUserType('user');
+        // User is signed in, get the user's ID
+        const uid = user.uid;
+        console.log('User ID: ', uid);
       } else {
         // No user is signed in.
         const guestId = sessionStorage.getItem('guestId');
