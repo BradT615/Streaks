@@ -1,3 +1,4 @@
+// HabitStats.js
 import React, { useState } from 'react';
 import ReactCalendar from 'react-calendar';
 import './Calendar.css';
@@ -26,7 +27,7 @@ function Calendar({ habitData }) {
           onChange={onChange}
           value={value}
           tileClassName={tileClassName}
-          calendarType="US"
+          calendarType="gregory"
         />
       </div>
       <div className='border-2 rounded-lg h-full'>

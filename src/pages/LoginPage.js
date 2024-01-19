@@ -1,3 +1,4 @@
+// LoginPage.js
 import React, { useState } from 'react';
 import { getAuth, setPersistence, signInWithEmailAndPassword, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";

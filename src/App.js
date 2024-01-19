@@ -1,12 +1,13 @@
+// App.js
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { auth } from './firebaseConfig';
 import { onAuthStateChanged } from "firebase/auth";
 import { v4 as uuidv4 } from 'uuid';
+import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import EmailVerificationPage from './pages/EmailVerificationPage';
-import MainPage from './pages/MainPage';
+import AccountPage from './pages/AccountPage';
 
 function App() {
   const [userType, setUserType] = useState(null);
@@ -17,6 +18,7 @@ function App() {
         // User is signed in, get the user's ID
         const uid = user.uid;
         console.log('User ID: ', uid);
+        setUserType('user');
       } else {
         // No user is signed in.
         const guestId = sessionStorage.getItem('guestId');
@@ -42,8 +44,8 @@ function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/email-verification" element={<EmailVerificationPage />} />
-          <Route path="/" element={<MainPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/" element={<MainPage userType={userType} />} />
         </Routes>
       </Router>
   );

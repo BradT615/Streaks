@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+// Header.js
+import React from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
-function Header() {
-    const [isLoggedIn] = useState(false);
+function Header({ userType }) {
+    const isLoggedIn = userType === 'user';
 
     return (
         <header className='flex justify-between items-center font-medium mx-[2vw] mt-2 md:mt-6'>
@@ -15,10 +16,10 @@ function Header() {
             </Link>
 
             {isLoggedIn ? (
-                <Link to='/profile'>
+                <Link to='/account'>
                     <div className="bg-[#192737] p-2 px-4 rounded-full text-custom-text hover:text-custom-hover">
                         <button className='text-md sm:text-lg'>
-                            Logged In
+                            Account
                         </button>
                     </div>
                 </Link>
