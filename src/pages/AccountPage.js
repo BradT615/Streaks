@@ -1,10 +1,13 @@
 // AccountPage.js
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 import { updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
 
 
 function AccountPage() {
+  const navigate = useNavigate();
+
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,10 +33,12 @@ function AccountPage() {
 
   const signOutUser = async () => {
     await signOut(auth);
+    navigate("/");
   };
 
   const deleteAccount = async () => {
     await deleteUser(auth.currentUser);
+    navigate("/");
   };
 
   return (
