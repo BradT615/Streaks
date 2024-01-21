@@ -1,34 +1,147 @@
-// AccountPage.js
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
-import { signOut, deleteUser } from "firebase/auth";
-import Header from '../components/Header';
-
+import { updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
+import logo from '../assets/logo.png';
+import { CiMail, CiLock, CiUser } from "react-icons/ci";
+import { PiCheckLight, PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
+import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 
 function AccountPage() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const [displayName, setDisplayName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-  const signOutUser = async () => {
-    await signOut(auth);
-    navigate("/");
-  };
+    useEffect(() => {
+        if (auth.currentUser) {
+            setDisplayName(auth.currentUser.displayName || '');
+            setEmail(auth.currentUser.email || '');
+        }
+    }, []);
 
-  const deleteAccount = async () => {
-    await deleteUser(auth.currentUser);
-    navigate("/");
-  };
+    const handleDisplayNameChange = (event) => {
+        setDisplayName(event.target.value);
+    };
 
-  return (
-    <div className='flex flex-col h-screen w-screen text-custom-text text-2xl bg-custom-bg'>
-      <Header />
-      <h1 className='text-center'>Account Page</h1>
-      <div className='flex flex-col max-w-lg mx-auto gap-4 items-center mt-24'>
-        <button onClick={signOutUser}>Sign Out</button>
-        <button onClick={deleteAccount}>Delete Account</button>
-      </div>
-    </div>
-  );
+    const handleEmailChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const handlePasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        if (auth.currentUser) {
+            try {
+                await updateProfile(auth.currentUser, {
+                    displayName: displayName,
+                });
+                await updateEmail(auth.currentUser, email);
+                await updatePassword(auth.currentUser, password);
+                console.log("Profile updated successfully!");
+                // Optionally, you might want to refresh the displayName in the UI
+                setDisplayName(auth.currentUser.displayName);
+                setEmail(auth.currentUser.email);
+            } catch (error) {
+                console.error("Error updating profile: ", error);
+            }
+        } else {
+            console.log("No user is signed in.");
+        }
+    };
+
+    const signOutUser = async () => {
+        await signOut(auth);
+        navigate("/");
+    };
+
+    const deleteAccount = async () => {
+        await deleteUser(auth.currentUser);
+        navigate("/");
+    };
+
+    return (
+        <div className="h-screen w-full bg-custom-bg flex flex-col font-medium text-custom-text">
+            <Link to='/'>
+                <div className="group flex items-center no-select mx-[2vw] mt-3 md:mt-6">
+                    <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
+                    <h1 className='text-gradient text-2xl sm:text-3xl'>Streaks</h1>
+                </div>
+            </Link>
+            
+            <div className='flex flex-col gap-4 justify-between sm:text-xl w-full max-w-xl h-full m-auto px-4 py-[15vh]'>
+                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl'>My account</h1>
+
+                <div className='flex max-[320px]:flex-col gap-6 pt-4 justify-around w-full items-center mx-auto'>
+                    <div className='h-28 w-28 sm:h-36 sm:w-36'>
+                        {auth.currentUser?.photoURL ? (
+                            <img src={auth.currentUser?.photoURL} alt='Profile' className=' mx-auto rounded-full border-2'></img>
+                        ) : (
+                            <CiUser className='h-full w-full p-6 sm:p-10 rounded-full border-[1px] border-custom-text' />
+                        )}
+                    </div>
+                    <div className='flex flex-col justify-center gap-4'>
+                        <button className='border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 w-full'>
+                            Upload Image
+                        </button>
+                        <button className='border-[1px] border-red-200 text-red-200 hover:border-red-400  hover:text-red-400 rounded-lg p-2 w-full'>
+                            Remove Image
+                        </button>
+                    </div>
+                </div>
+
+                <div className='flex flex-col items-center'>
+
+                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
+                        <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <input
+                            value={displayName}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            type='text'
+                            placeholder='New Username'
+                        />
+                    </div>
+
+                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 w-10/12 min-w-60'>
+                        <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <input
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            type='Email'
+                            placeholder='New Email'
+                        />
+                    </div>
+
+                    <div className='group flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative w-10/12 min-w-60'>
+                        <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <input
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            type={password}
+                            placeholder='Password'
+                        />
+                    </div>
+
+                    <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-2xl font-medium mt-6 py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
+                        Update account
+                    </button>
+
+                </div>
+            </div>
+            <div className='flex flex-col gap-4 pb-12'>
+                <button onClick={signOutUser} className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover w-fit mx-auto text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
+                    Sign Out
+                </button>
+                <button onClick={deleteAccount} className='text-red-300 hover:text-red-400 font-thin text-lg sm:text-xl p-1'>Delete Account</button>
+            </div>
+        </div>
+    );
 }
 
 export default AccountPage;

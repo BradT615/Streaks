@@ -1,0 +1,6 @@
+{
+    "editor.detectIndentation": false,
+    "editor.accessibilityPageSize": 20,
+    "editor.fontSize": 14,
+    "workbench.editor.empty.hint": "text"
+}
