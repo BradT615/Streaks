@@ -1,17 +1,11 @@
 // Header.js
-import React, { useEffect, useState } from 'react';
-import { auth } from '../firebaseConfig';
+import React, { useContext } from 'react';
+import UserContext from '../contexts/UserContext';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
-function Header({ isLoggedIn}) {
-    const [displayName, setDisplayName] = useState('');
-
-    useEffect(() => {
-      if (auth.currentUser) {
-        setDisplayName(auth.currentUser.displayName);
-      }
-    }, []);
+function Header() {
+    const { user } = useContext(UserContext);
 
     return (
         <header className='flex justify-between items-center font-medium mx-[2vw] mt-2 md:mt-6'>
@@ -22,11 +16,11 @@ function Header({ isLoggedIn}) {
                 </div>
             </Link>
 
-            {isLoggedIn ? (
+            {user ? (
                 <Link to='/account'>
                     <div className="bg-[#192737] p-2 px-4 rounded-full text-custom-text hover:text-custom-hover">
                         <button className='text-md sm:text-lg'>
-                            { displayName }
+                            { user.displayName }
                         </button>
                     </div>
                 </Link>

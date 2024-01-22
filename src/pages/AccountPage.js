@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from 'react';
+// AccountPage.js
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../firebaseConfig';
 import { updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
+import UserContext from '../contexts/UserContext';
 
 function AccountPage() {
     const navigate = useNavigate();
+    const { user } = useContext(UserContext);
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     useEffect(() => {
-        if (auth.currentUser) {
-            setDisplayName(auth.currentUser.displayName || '');
-            setEmail(auth.currentUser.email || '');
+        if (user) {
+            setDisplayName(user.displayName || '');
+            setEmail(user.email || '');
         }
-    }, []);
-
-    const handleDisplayNameChange = (event) => {
-        setDisplayName(event.target.value);
-    };
-
-    const handleEmailChange = (event) => {
-        setEmail(event.target.value);
-    };
-
-    const handlePasswordChange = (event) => {
-        setPassword(event.target.value);
-    };
+    }, [user]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -89,7 +80,7 @@ function AccountPage() {
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={displayName}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={(e) => setDisplayName(e.target.value)} // Corrected here
                             className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='text'
                             placeholder='New Username'
@@ -118,13 +109,13 @@ function AccountPage() {
                         />
                     </div>
 
-                    <button type="submit" className="border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8">
+                    <button type="submit" onClick={handleSubmit} className="border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8 mb-12">
                         Save
                     </button>
 
                 </div>
             </div>
-            <div className='flex flex-col gap-4 mt-4 pb-12'>
+            <div className='flex flex-col gap-4 mt-4 pb-4'>
                 <button onClick={signOutUser} className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover w-fit mx-auto text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                     Sign Out
                 </button>
