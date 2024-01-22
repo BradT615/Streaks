@@ -4,8 +4,6 @@ import { auth } from '../firebaseConfig';
 import { updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
-import { PiCheckLight, PiEyeLight, PiEyeSlashLight } from "react-icons/pi";
-import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 
 function AccountPage() {
     const navigate = useNavigate();
@@ -64,7 +62,7 @@ function AccountPage() {
     };
 
     return (
-        <div className="h-screen w-full bg-custom-bg flex flex-col font-medium text-custom-text">
+        <div className="bg-custom-bg flex flex-col h-screen font-medium text-custom-text">
             <Link to='/'>
                 <div className="group flex items-center no-select mx-[2vw] mt-3 md:mt-6">
                     <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
@@ -72,28 +70,20 @@ function AccountPage() {
                 </div>
             </Link>
             
-            <div className='flex flex-col gap-4 justify-between sm:text-xl w-full max-w-xl h-full m-auto px-4 py-[15vh]'>
-                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl'>My account</h1>
+            <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl h-full m-auto px-4'>
+                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-12'>My account</h1>
 
-                <div className='flex max-[320px]:flex-col gap-6 pt-4 justify-around w-full items-center mx-auto'>
-                    <div className='h-28 w-28 sm:h-36 sm:w-36'>
+                <div className='flex max-[320px]:flex-col gap-6 mb-8 justify-around w-full items-center'>
+                    <div className='h-36 w-36'>
                         {auth.currentUser?.photoURL ? (
                             <img src={auth.currentUser?.photoURL} alt='Profile' className=' mx-auto rounded-full border-2'></img>
                         ) : (
-                            <CiUser className='h-full w-full p-6 sm:p-10 rounded-full border-[1px] border-custom-text' />
+                            <CiUser className='h-full w-full p-10 rounded-full border-[1px] border-custom-text' />
                         )}
-                    </div>
-                    <div className='flex flex-col justify-center gap-4'>
-                        <button className='border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 w-full'>
-                            Upload Image
-                        </button>
-                        <button className='border-[1px] border-red-200 text-red-200 hover:border-red-400  hover:text-red-400 rounded-lg p-2 w-full'>
-                            Remove Image
-                        </button>
                     </div>
                 </div>
 
-                <div className='flex flex-col items-center'>
+                <div className='flex flex-col items-center gap-6'>
 
                     <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
@@ -106,7 +96,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 w-10/12 min-w-60'>
+                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
@@ -117,7 +107,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative w-10/12 min-w-60'>
+                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
                         <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
@@ -128,17 +118,17 @@ function AccountPage() {
                         />
                     </div>
 
-                    <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-2xl font-medium mt-6 py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
-                        Update account
+                    <button type="submit" className="border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8">
+                        Save
                     </button>
 
                 </div>
             </div>
-            <div className='flex flex-col gap-4 pb-12'>
+            <div className='flex flex-col gap-4 mt-4 pb-12'>
                 <button onClick={signOutUser} className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover w-fit mx-auto text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                     Sign Out
                 </button>
-                <button onClick={deleteAccount} className='text-red-300 hover:text-red-400 font-thin text-lg sm:text-xl p-1'>Delete Account</button>
+                <button onClick={deleteAccount} className='text-red-200 hover:text-red-300 font-thin text-lg sm:text-xl p-1'>Delete Account</button>
             </div>
         </div>
     );
