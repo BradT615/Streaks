@@ -13,6 +13,9 @@ function AccountPage() {
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [showErrorModal, setShowErrorModal] = useState(false);
+    const [messageClassName, setMessageClassName] = useState('');
 
     useEffect(() => {
         if (user) {
@@ -23,22 +26,30 @@ function AccountPage() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (auth.currentUser) {
-            try {
-                await updateProfile(auth.currentUser, {
-                    displayName: displayName,
-                });
+        try {
+            if (auth.currentUser) {
+                await updateProfile(auth.currentUser, { displayName });
                 await updateEmail(auth.currentUser, email);
                 await updatePassword(auth.currentUser, password);
-                console.log("Profile updated successfully!");
-                // Optionally, you might want to refresh the displayName in the UI
-                setDisplayName(auth.currentUser.displayName);
-                setEmail(auth.currentUser.email);
-            } catch (error) {
-                console.error("Error updating profile: ", error);
+                setErrorMessage('Profile updated successfully!');
+                setMessageClassName('text-green-400');
+                setShowErrorModal(true);
+            } else {
+                throw new Error('No user is signed in.');
             }
-        } else {
-            console.log("No user is signed in.");
+        } catch (error) {
+            const simplifiedErrorMessage = error.message.split(': ')[1].split(' (')[0];
+            setErrorMessage(simplifiedErrorMessage);
+            setMessageClassName('text-red-400');
+            setShowErrorModal(true);
+    
+            const element = document.querySelector('#error-message');
+            if (element) {
+                element.classList.remove('animate-shake');
+                const offsetWidth = element.offsetWidth;
+                console.log(offsetWidth);
+                element.classList.add('animate-shake');
+            }
         }
     };
 
@@ -62,7 +73,7 @@ function AccountPage() {
             </Link>
             
             <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl h-full m-auto px-4'>
-                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-12'>My account</h1>
+                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-16'>My account</h1>
 
                 <div className='flex max-[320px]:flex-col gap-6 mb-8 justify-around w-full items-center'>
                     <div className='h-36 w-36'>
@@ -109,10 +120,12 @@ function AccountPage() {
                         />
                     </div>
 
-                    <button type="submit" onClick={handleSubmit} className="border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8 mb-12">
+                    <button type="submit" onClick={handleSubmit} className="border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8">
                         Save
                     </button>
-
+                    <div id="error-message" className={`text-[20px] text-center ${messageClassName} ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
+                        <p>{errorMessage}</p>
+                    </div>
                 </div>
             </div>
             <div className='flex flex-col gap-4 mt-4 pb-4'>
