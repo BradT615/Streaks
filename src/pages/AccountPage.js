@@ -119,10 +119,6 @@ function AccountPage() {
             <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl h-full m-auto px-4'>
                 <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-16'>Edit Profile</h1>
 
-
-
-
-
                 <div className='flex max-[320px]:flex-col gap-6 mb-8 justify-around w-full items-center'>
                     <div className='h-36 w-36 relative group' onClick={() => fileInputRef.current.click()}>
                         {profilePicUrl ? (
@@ -134,10 +130,6 @@ function AccountPage() {
                     </div>
                     <input type="file" ref={fileInputRef} onChange={onFileChange} style={{ display: 'none' }} />
                 </div>
-
-
-
-                
 
                 <div className='flex flex-col items-center gap-6'>
 
