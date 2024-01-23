@@ -1,15 +1,18 @@
 // AccountPage.js
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { auth } from '../firebaseConfig';
+import { auth, storage } from '../firebaseConfig';
 import { updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import UserContext from '../contexts/UserContext';
 import logo from '../assets/logo.png';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
-import UserContext from '../contexts/UserContext';
+import { FiEdit2 } from "react-icons/fi";
 
 function AccountPage() {
     const navigate = useNavigate();
     const { user } = useContext(UserContext);
+    const [profilePicUrl, setProfilePicUrl] = useState(auth.currentUser?.photoURL);
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,8 +24,50 @@ function AccountPage() {
         if (user) {
             setDisplayName(user.displayName || '');
             setEmail(user.email || '');
+            setProfilePicUrl(user.photoURL || '');
         }
     }, [user]);
+
+    const fileInputRef = useRef();
+    
+    const onFileChange = (event) => {
+      onFileUpload(event.target.files[0]);
+    };
+    
+    const onFileUpload = async (file) => {
+        if (!file) {
+            console.log("No file selected!");
+            return;
+        }
+    
+        const storageRef = ref(storage, `profilePictures/${auth.currentUser.uid}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+    
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                console.error("Error uploading file:", error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+                    console.log('File available at', downloadURL);
+                
+                    updateProfile(auth.currentUser, {
+                    photoURL: downloadURL
+                    }).then(() => {
+                    console.log("Profile picture updated");
+                    setProfilePicUrl(downloadURL); // Update the profile picture URL in the state
+                    }).catch((error) => {
+                    console.error("Error updating profile picture:", error);
+                    });
+                });
+            }
+        );
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -71,19 +116,28 @@ function AccountPage() {
                     <h1 className='text-gradient text-2xl sm:text-3xl'>Streaks</h1>
                 </div>
             </Link>
-            
             <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl h-full m-auto px-4'>
-                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-16'>My account</h1>
+                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-16'>Edit Profile</h1>
+
+
+
+
 
                 <div className='flex max-[320px]:flex-col gap-6 mb-8 justify-around w-full items-center'>
-                    <div className='h-36 w-36'>
-                        {auth.currentUser?.photoURL ? (
-                            <img src={auth.currentUser?.photoURL} alt='Profile' className=' mx-auto rounded-full border-2'></img>
+                    <div className='h-36 w-36 relative group' onClick={() => fileInputRef.current.click()}>
+                        {profilePicUrl ? (
+                            <img src={profilePicUrl} alt='Profile' className='mx-auto h-36 w-36 object-cover rounded-full border-2 group-hover:opacity-50 transition-opacity'></img>
                         ) : (
-                            <CiUser className='h-full w-full p-10 rounded-full border-[1px] border-custom-text' />
+                            <CiUser className='h-full w-full p-10 rounded-full border-[1px] border-custom-text group-hover:opacity-50 transition-opacity' />
                         )}
+                        <FiEdit2 className='absolute inset-0 m-auto h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none' />
                     </div>
+                    <input type="file" ref={fileInputRef} onChange={onFileChange} style={{ display: 'none' }} />
                 </div>
+
+
+
+                
 
                 <div className='flex flex-col items-center gap-6'>
 
@@ -91,7 +145,7 @@ function AccountPage() {
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={displayName}
-                            onChange={(e) => setDisplayName(e.target.value)} // Corrected here
+                            onChange={(e) => setDisplayName(e.target.value)}
                             className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='text'
                             placeholder='New Username'
@@ -116,21 +170,23 @@ function AccountPage() {
                             onChange={(e) => setPassword(e.target.value)}
                             className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type={password}
-                            placeholder='Password'
+                            placeholder='New Password'
                         />
                     </div>
 
-                    <button type="submit" onClick={handleSubmit} className="border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8">
-                        Save
+                    <button type="submit" onClick={handleSubmit} className={`border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8`}>
+                        Update
                     </button>
-                    <div id="error-message" className={`text-[20px] text-center ${messageClassName} ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
-                        <p>{errorMessage}</p>
+                    <div className='flex justify-center'>
+                        <div id="error-message" className={`absolute text-[20px] text-center ${messageClassName} ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
+                            <p>{errorMessage}</p>
+                        </div>
                     </div>
                 </div>
             </div>
             <div className='flex flex-col gap-4 mt-4 pb-4'>
                 <button onClick={signOutUser} className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover w-fit mx-auto text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
-                    Sign Out
+                    Log Out
                 </button>
                 <button onClick={deleteAccount} className='text-red-200 hover:text-red-300 font-thin text-lg sm:text-xl p-1'>Delete Account</button>
             </div>
