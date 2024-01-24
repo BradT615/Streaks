@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebaseConfig";
+import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
@@ -20,31 +21,71 @@ function SignupPage() {
 
     const navigate = useNavigate();
 
+    const getCustomErrorMessage = (errorCode) => {
+        switch (errorCode) {
+            case 'auth/invalid-email':
+                return 'Invalid Email';
+            case 'auth/user-disabled':
+                return 'User Disabled';
+            case 'auth/user-not-found':
+                return 'User Not Found';
+            case 'auth/wrong-password':
+                return 'Wrong Password';
+            case 'auth/email-already-in-use':
+                return 'Email Already in Use';
+            case 'auth/operation-not-allowed':
+                return 'Operation Not Allowed';
+            case 'auth/weak-password':
+                return 'Weak Password';
+            default:
+                return 'An error occurred';
+        }
+    };
+
     const handleSignup = (e) => {
         e.preventDefault();
-
+    
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                // const user = userCredential.user;
                 const user = userCredential.user;
-                // Create a new document in the 'users' collection
-                const userRef = db.doc('users/' + user.uid);
-                userRef.set({
-                    habits: ['habit1', 'habit2', 'habit3'],
-                    email: email,
-                    password: password,
+                // Get the guest document
+                const guestRef = doc(db, 'guests/' + user.uid);
+                getDoc(guestRef).then((doc) => {
+                    if (doc.exists()) {
+                        // Move the guest data to the 'users' collection
+                        const userRef = doc(db, 'users/' + user.uid);
+                        setDoc(userRef, doc.data()).then(() => {
+                            // Delete the guest document
+                            deleteDoc(guestRef).then(() => {
+                                console.log("Guest successfully deleted!");
+                                setShowModal(true);
+                            }).catch((error) => {
+                                console.error("Error removing guest: ", error);
+                                setErrorMessage(getCustomErrorMessage(error.code));
+                                setShowErrorModal(true);
+                            });
+                        });
+                    } else {
+                        console.log("No such document!");
+                        setErrorMessage("No such document!");
+                        setShowErrorModal(true);
+                    }
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                    setErrorMessage(getCustomErrorMessage(error.code));
+                    setShowErrorModal(true);
                 });
-                setShowModal(true);
             })
             .catch((error) => {
-                setErrorMessage(error.message);
+                console.error(error);
+                setErrorMessage(getCustomErrorMessage(error.code));
                 setShowErrorModal(true);
             });
     };
 
     const handleRedirect = () => {
-        navigate("/");
         setShowModal(false);
+        navigate("/");
     };
 
     const handleCloseErrorModal = () => {
@@ -67,24 +108,6 @@ function SignupPage() {
 
     return (
         <div className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
-            {showModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h2>Signup successful!</h2>
-                        <p>You can now log in.</p>
-                        <button onClick={handleRedirect}>Go to Login</button>
-                    </div>
-                </div>
-            )}
-            {showErrorModal && (
-                <div className="modal">
-                    <div className="modal-content">
-                    <h2>Signup failed</h2>
-                    <p>{errorMessage}</p>
-                    <button onClick={handleCloseErrorModal}>Close</button>
-                    </div>
-                </div>
-            )}
             <div className='flex flex-col gap-4 justify-around items-center m-auto pb-8 w-full max-w-lg'>
                 <div className='no-select mb-10'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
@@ -119,6 +142,11 @@ function SignupPage() {
                             and 
                             <span className='font-medium hover:text-custom-hover'> Privacy Policy</span>.
                             </p> 
+                        </div>
+                    </div>
+                    <div className='flex justify-center'>
+                        <div id="error-message" className={`absolute text-[20px] text-red-400 text-center ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
+                            <p>{errorMessage}</p>
                         </div>
                     </div>
                     <div className='font-thin text-sm sm:text-lg flex flex-col mt-12'>

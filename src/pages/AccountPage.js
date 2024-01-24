@@ -59,8 +59,8 @@ function AccountPage() {
                     updateProfile(auth.currentUser, {
                     photoURL: downloadURL
                     }).then(() => {
-                    console.log("Profile picture updated");
-                    setProfilePicUrl(downloadURL); // Update the profile picture URL in the state
+                        console.log("Profile picture updated");
+                        setProfilePicUrl(downloadURL);
                     }).catch((error) => {
                     console.error("Error updating profile picture:", error);
                     });

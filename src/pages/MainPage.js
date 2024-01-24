@@ -1,15 +1,19 @@
 // MainPage.js
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../components/Header';
 import HabitsList from '../components/HabitsList';
 import HabitStats from '../components/HabitStats';
+import UserContext from '../contexts/UserContext';
 
 function MainPage() {
+    const { user, guestUUID } = useContext(UserContext);
 
     const habitData = {
         '2022-01-01': { didHabit: true, notes: 'Great start to the year!' },
         '2022-01-02': { didHabit: false, notes: 'Missed a day.' },
     };
+
+    console.log(user ? `User ID: ${user.uid}` : `Guest UUID: ${guestUUID}`);
 
     return (
         <div className='flex flex-col h-screen w-screen bg-custom-bg'>
