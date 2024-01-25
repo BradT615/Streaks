@@ -48,17 +48,21 @@ function SignupPage() {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                // Get the guest document
-                const guestRef = doc(db, 'guests/' + user.uid);
-                getDoc(guestRef).then((doc) => {
-                    if (doc.exists()) {
+                const guestId = sessionStorage.getItem('guestUUID');
+    
+                const guestRef = doc(db, 'guests', guestId);
+                getDoc(guestRef).then((docSnapshot) => {
+                    if (docSnapshot.exists()) {
                         // Move the guest data to the 'users' collection
-                        const userRef = doc(db, 'users/' + user.uid);
-                        setDoc(userRef, doc.data()).then(() => {
+                        const userRef = doc(db, 'users', user.uid);
+                        setDoc(userRef, docSnapshot.data()).then(() => {
                             // Delete the guest document
                             deleteDoc(guestRef).then(() => {
                                 console.log("Guest successfully deleted!");
-                                setShowModal(true);
+                                // Delete the guest ID from session storage
+                                sessionStorage.removeItem('guestUUID');
+                                // Redirect the user to the login page
+                                navigate('/login');
                             }).catch((error) => {
                                 console.error("Error removing guest: ", error);
                                 setErrorMessage(getCustomErrorMessage(error.code));
@@ -81,15 +85,6 @@ function SignupPage() {
                 setErrorMessage(getCustomErrorMessage(error.code));
                 setShowErrorModal(true);
             });
-    };
-
-    const handleRedirect = () => {
-        setShowModal(false);
-        navigate("/");
-    };
-
-    const handleCloseErrorModal = () => {
-        setShowErrorModal(false);
     };
 
     const togglePasswordVisibility = () => {
