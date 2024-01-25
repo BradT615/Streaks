@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import Header from '../components/Header';
 import HabitsList from '../components/HabitsList';
 import HabitStats from '../components/HabitStats';
-import UserContext from '../contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
 
 function MainPage() {
     const { user, guestUUID } = useContext(UserContext);

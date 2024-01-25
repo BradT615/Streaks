@@ -1,41 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { auth } from '../firebaseConfig';
+import React, { createContext, useState, useEffect } from 'react';
+import { auth, db } from '../firebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
+import { doc, setDoc } from 'firebase/firestore';
 
-const UserContext = React.createContext({
-  user: null,
-  setUser: () => {},
-  guestUUID: null,
-  setGuestUUID: () => {},
-});
+const UserContext = createContext();
 
-export const UserProvider = ({ children }) => {
+function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [guestUUID, setGuestUUID] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        setUser(user);
+    auth.onAuthStateChanged(async (authUser) => {
+      if (authUser) {
+        setUser(authUser);
       } else {
+        // User is signed out
         let uuid = sessionStorage.getItem('guestUUID');
         if (!uuid) {
+          // No UUID found
           uuid = uuidv4();
           sessionStorage.setItem('guestUUID', uuid);
+  
+          // Create a new document in the guests collection
+          const guestRef = doc(db, 'guests/' + uuid);
+          await setDoc(guestRef, {});
         }
         setGuestUUID(uuid);
       }
     });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser, guestUUID, setGuestUUID }}>
+    <UserContext.Provider value={{ user, guestUUID }}>
       {children}
     </UserContext.Provider>
   );
-};
+}
 
-export default UserContext;
+export { UserContext, UserProvider };

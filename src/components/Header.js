@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import UserContext from '../contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { CiUser } from "react-icons/ci";

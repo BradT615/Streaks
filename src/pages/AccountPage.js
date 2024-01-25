@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { auth, storage } from '../firebaseConfig';
 import { updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import UserContext from '../contexts/UserContext';
+import { UserContext } from '../contexts/UserContext';
 import logo from '../assets/logo.png';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
 import { FiEdit2 } from "react-icons/fi";
