@@ -12,7 +12,6 @@ import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 function SignupPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [showModal, setShowModal] = useState(false);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [inputType, setInputType] = useState('password');
