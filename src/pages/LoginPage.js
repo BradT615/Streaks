@@ -19,7 +19,6 @@ function LoginPage() {
 
 
     const navigate = useNavigate();
-
     const auth = getAuth();
 
     const handleLogin = (e) => {
@@ -34,6 +33,7 @@ function LoginPage() {
             .then((userCredential) => {
                 setEmail('');
                 setPassword('');
+                sessionStorage.removeItem('guestUUID');
                 setTimeout(() => {
                     navigate("/");
                 }, 0);
@@ -72,7 +72,6 @@ function LoginPage() {
         const element = document.querySelector('#error-message');
         if (element) {
             element.classList.remove('animate-shake');
-            // Use the result of element.offsetWidth in a way that can't be optimized away
             const offsetWidth = element.offsetWidth;
             console.log(offsetWidth);
             element.classList.add('animate-shake');
