@@ -94,14 +94,17 @@ function AccountPage() {
             setErrorMessage(simplifiedErrorMessage);
             setMessageClassName('text-red-400');
             setShowErrorModal(true);
-    
-            const element = document.querySelector('#error-message');
-            if (element) {
-                element.classList.remove('animate-shake');
-                const offsetWidth = element.offsetWidth;
-                console.log(offsetWidth);
-                element.classList.add('animate-shake');
-            }
+            handleButtonClick();
+        }
+    };
+
+    const handleButtonClick = () => {
+        const element = document.querySelector('#error-message');
+        if (element) {
+            element.classList.remove('animate-shake');
+            const offsetWidth = element.offsetWidth;
+            console.log(offsetWidth);
+            element.classList.add('animate-shake');
         }
     };
 
@@ -173,12 +176,12 @@ function AccountPage() {
                                 <h3 className="text-lg my-3" id="modal-title">
                                     Are you sure you want to delete your account?
                                 </h3>
-                                <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative w-10/12 min-w-60'>
-                                    <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                                <div className='group flex pb-[1px] border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative w-10/12 min-w-60'>
+                                    <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full self-center min-w-6 sm:w-8'/>
                                     <input
                                         value={authPassword}
                                         onChange={(e) => setAuthPassword(e.target.value)}
-                                        className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                                        className='bg-custom-bg text-custom-text p-2 pr-8 sm:text-lg hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                                         type={authInputType}
                                         placeholder='Confirm password'
                                     />
@@ -216,7 +219,7 @@ function AccountPage() {
 
                 <div className='flex flex-col items-center gap-6'>
 
-                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
+                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={displayName}
@@ -227,7 +230,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
+                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
@@ -238,7 +241,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative w-10/12 min-w-60'>
+                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative pb-[1px] w-10/12 min-w-60'>
                         <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
