@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { auth, storage } from '../firebaseConfig';
-import { updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
+import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { UserContext } from '../contexts/UserContext';
 import logo from '../assets/logo.png';
@@ -19,6 +19,9 @@ function AccountPage() {
     const [password, setPassword] = useState('');
     const [inputType, setInputType] = useState('password');
     const [icon, setIcon] = useState(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
+    const [authPassword, setAuthPassword] = useState('');
+    const [authInputType, setAuthInputType] = useState('password');
+    const [authIcon, setAuthIcon] = useState(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
     const [errorMessage, setErrorMessage] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -111,6 +114,15 @@ function AccountPage() {
             setIcon(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
         }
     };
+    const toggleAuthPasswordVisibility = () => {
+        if (authInputType === 'password') {
+            setAuthInputType('text');
+            setAuthIcon(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
+        } else {
+            setAuthInputType('password');
+            setAuthIcon(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
+        }
+    };
 
     const signOutUser = async () => {
         await signOut(auth);
@@ -120,9 +132,27 @@ function AccountPage() {
     const deleteAccount = () => {
         setShowDeleteModal(true);
     };
+
     const confirmDeleteAccount = async () => {
-        await deleteUser(auth.currentUser);
-        navigate("/");
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const credential = EmailAuthProvider.credential(user.email, authPassword);
+
+        // Reauthenticate the user
+        try {
+            await reauthenticateWithCredential(user, credential);
+        } catch (error) {
+            console.error("Error reauthenticating user", error);
+            return;
+        }
+
+        // Delete the user
+        try {
+            await deleteUser(user);
+            navigate("/");
+        } catch (error) {
+            console.error("Error deleting user", error);
+        }
     };
 
     return (
@@ -139,10 +169,23 @@ function AccountPage() {
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
                         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
                         <div className="inline-block align-bottom rounded-lg text-center text-custom-text overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                            <div className="bg-custom-bg px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                <h3 className="text-lg my-3 text-balance" id="modal-title">
+                            <div className="flex flex-col items-center bg-custom-bg px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <h3 className="text-lg my-3" id="modal-title">
                                     Are you sure you want to delete your account?
                                 </h3>
+                                <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative w-10/12 min-w-60'>
+                                    <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                                    <input
+                                        value={authPassword}
+                                        onChange={(e) => setAuthPassword(e.target.value)}
+                                        className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                                        type={authInputType}
+                                        placeholder='Confirm password'
+                                    />
+                                    <button onClick={toggleAuthPasswordVisibility} type="button" className="absolute inset-y-0 right-0 pr-2 flex items-center text-xl sm:text-2xl leading-5 outline-none group-focus-within:text-custom-hover">
+                                        {authIcon}
+                                    </button>
+                                </div>
                             </div>
                             <div className="bg-custom-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                 <button type="button" className="w-full inline-flex justify-center rounded-md border-[1px] border-red-200 hover:border-red-300 shadow-sm px-4 py-2 text-red-200 hover:text-red-300  focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-red-300 sm:ml-3 sm:w-auto sm:text-sm" onClick={confirmDeleteAccount}>
