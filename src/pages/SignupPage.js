@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
@@ -103,13 +103,13 @@ function SignupPage() {
     return (
         <div className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
             <div className='flex flex-col gap-4 justify-around items-center m-auto pb-8 w-full max-w-lg'>
-                <div className='no-select mb-10'>
+                <Link to='/' className='no-select mb-10'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-text text-4xl text-center'>Streaks</p>
-                </div>
+                </Link>
                 
                 <form onSubmit={handleSignup} className='flex flex-col items-center w-full'>
-                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
+                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-3/4 pb-[1px] min-w-60'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input className='bg-custom-bg text-custom-text p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='email' placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} required />
                     </div>

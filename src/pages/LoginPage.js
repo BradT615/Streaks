@@ -95,10 +95,10 @@ function LoginPage() {
     return (
         <form onSubmit={handleLogin} className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
             <div className='flex flex-col gap-4 justify-around items-center m-auto py-8 w-full max-w-lg'>
-                <div className='no-select'>
+                <Link to='/' className='no-select'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-text text-4xl text-center'>Streaks</p>
-                </div>
+                </Link>
                 
                 <div className='flex flex-col items-center w-full pb-3'>
                     <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
