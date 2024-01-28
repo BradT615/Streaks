@@ -12,7 +12,7 @@ function LoginPage() {
     const [password, setPassword] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [inputType, setInputType] = useState('password');
-    const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
+    const [icon, setIcon] = useState(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
     const [rememberMe, setRememberMe] = useState(false);
     const [errorMessage, setErrorMessage] = useState('No error message');
     const [messageClassName, setMessageClassName] = useState('text-red-400');
@@ -81,10 +81,10 @@ function LoginPage() {
     const togglePasswordVisibility = () => {
         if (inputType === 'password') {
             setInputType('text');
-            setIcon(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
+            setIcon(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
         } else {
             setInputType('password');
-            setIcon(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
+            setIcon(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
         }
     };
 
@@ -122,7 +122,7 @@ function LoginPage() {
                             type={inputType}
                             placeholder='Password'
                         />
-                        <button onClick={togglePasswordVisibility} type="button" className="absolute inset-y-0 right-0 pr-2 flex items-center text-lg sm:text-xl leading-5 outline-none group-focus-within:text-custom-hover">
+                        <button onClick={togglePasswordVisibility} type="button" className="absolute inset-y-0 right-0 pr-2 flex items-center text-xl sm:text-2xl leading-5 outline-none group-focus-within:text-custom-hover">
                             {icon}
                         </button>
                     </div>

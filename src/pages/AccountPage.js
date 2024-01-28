@@ -7,6 +7,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { UserContext } from '../contexts/UserContext';
 import logo from '../assets/logo.png';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
+import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
 import { FiEdit2 } from "react-icons/fi";
 
 function AccountPage() {
@@ -16,8 +17,11 @@ function AccountPage() {
     const [displayName, setDisplayName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [inputType, setInputType] = useState('password');
+    const [icon, setIcon] = useState(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
     const [errorMessage, setErrorMessage] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [messageClassName, setMessageClassName] = useState('');
 
     useEffect(() => {
@@ -98,12 +102,25 @@ function AccountPage() {
         }
     };
 
+    const togglePasswordVisibility = () => {
+        if (inputType === 'password') {
+            setInputType('text');
+            setIcon(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
+        } else {
+            setInputType('password');
+            setIcon(<PiEyeSlashLight className="text-custom-text hover:text-custom-hover" />);
+        }
+    };
+
     const signOutUser = async () => {
         await signOut(auth);
         navigate("/");
     };
 
-    const deleteAccount = async () => {
+    const deleteAccount = () => {
+        setShowDeleteModal(true);
+    };
+    const confirmDeleteAccount = async () => {
         await deleteUser(auth.currentUser);
         navigate("/");
     };
@@ -116,6 +133,33 @@ function AccountPage() {
                     <h1 className='text-gradient text-2xl sm:text-3xl'>Streaks</h1>
                 </div>
             </Link>
+            {showDeleteModal && (
+                <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                        <div className="inline-block align-bottom bg-red-400 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <div className="sm:flex sm:items-start">
+                                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                        <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                            Are you sure you want to delete your account?
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" onClick={confirmDeleteAccount}>
+                                    Delete
+                                </button>
+                                <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm" onClick={() => setShowDeleteModal(false)}>
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl h-full m-auto px-4'>
                 <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-16'>Edit Profile</h1>
 
@@ -133,7 +177,7 @@ function AccountPage() {
 
                 <div className='flex flex-col items-center gap-6'>
 
-                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
+                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={displayName}
@@ -144,7 +188,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
+                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
@@ -155,15 +199,18 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-10/12 min-w-60'>
+                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative w-10/12 min-w-60'>
                         <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
-                            type={password}
+                            type={inputType}
                             placeholder='New Password'
                         />
+                        <button onClick={togglePasswordVisibility} type="button" className="absolute inset-y-0 right-0 pr-2 flex items-center text-xl sm:text-2xl leading-5 outline-none group-focus-within:text-custom-hover">
+                            {icon}
+                        </button>
                     </div>
 
                     <button type="submit" onClick={handleSubmit} className={`border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8`}>
