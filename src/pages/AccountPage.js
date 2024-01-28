@@ -138,21 +138,17 @@ function AccountPage() {
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
                         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                        <div className="inline-block align-bottom bg-red-400 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                <div className="sm:flex sm:items-start">
-                                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                            Are you sure you want to delete your account?
-                                        </h3>
-                                    </div>
-                                </div>
+                        <div className="inline-block align-bottom rounded-lg text-center text-custom-text overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            <div className="bg-custom-bg px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                                <h3 className="text-lg my-3 text-balance" id="modal-title">
+                                    Are you sure you want to delete your account?
+                                </h3>
                             </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button type="button" className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm" onClick={confirmDeleteAccount}>
+                            <div className="bg-custom-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                <button type="button" className="w-full inline-flex justify-center rounded-md border-[1px] border-red-200 hover:border-red-300 shadow-sm px-4 py-2 text-red-200 hover:text-red-300  focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-red-300 sm:ml-3 sm:w-auto sm:text-sm" onClick={confirmDeleteAccount}>
                                     Delete
                                 </button>
-                                <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm" onClick={() => setShowDeleteModal(false)}>
+                                <button type="button" className="mt-3 w-full inline-flex justify-center rounded-md border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover shadow-sm px-4 py-2 focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-custom-hover sm:mt-0 sm:w-auto sm:text-sm" onClick={() => setShowDeleteModal(false)}>
                                     Cancel
                                 </button>
                             </div>
@@ -213,7 +209,7 @@ function AccountPage() {
                         </button>
                     </div>
 
-                    <button type="submit" onClick={handleSubmit} className={`border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover rounded-lg p-2 px-8`}>
+                    <button type="submit" onClick={handleSubmit} className={`border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover active:outline-none active:ring-1 active:ring-offset-1 active:ring-custom-hover rounded-lg p-2 px-8`}>
                         Update
                     </button>
                     <div className='flex justify-center'>
