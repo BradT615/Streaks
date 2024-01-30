@@ -8,7 +8,7 @@ function Header() {
     const { user } = useContext(UserContext);
 
     return (
-        <header className='flex justify-between items-center font-medium mx-[2vw] mt-2 md:mt-6'>
+        <header className='flex justify-between items-center font-medium mx-[2vw] mt-4 md:mt-6'>
             <Link to='/'>
                 <div className="group flex items-center no-select">
                     <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
@@ -18,7 +18,7 @@ function Header() {
 
             {user ? (
                 <Link to='/account'>
-                    <button className="flex gap-2 items-center bg-[#192737] p-1 pr-4 rounded-full text-custom-text hover:text-custom-hover">
+                    <button className="flex gap-2 items-center bg-[#192737] p-1 -m-1 pr-4 rounded-full text-custom-text hover:text-custom-hover">
                         <div>
                             {user.photoURL ? (
                                 <img src={user.photoURL} alt="Profile" className="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full" />

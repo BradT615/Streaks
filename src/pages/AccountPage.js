@@ -161,7 +161,7 @@ function AccountPage() {
     return (
         <div className="bg-custom-bg flex flex-col h-screen font-medium text-custom-text">
             <Link to='/'>
-                <div className="group flex items-center no-select mx-[2vw] mt-3 md:mt-6">
+                <div className="group flex items-center no-select mx-[2vw] mt-4 md:mt-6">
                     <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
                     <h1 className='text-gradient text-2xl sm:text-3xl'>Streaks</h1>
                 </div>
