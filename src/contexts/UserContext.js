@@ -15,6 +15,7 @@ function UserProvider({ children }) {
         setUser(authUser);
       } else {
         // User is signed out
+        setUser(null);
         let uuid = sessionStorage.getItem('guestUUID');
         if (!uuid) {
           // No UUID found
