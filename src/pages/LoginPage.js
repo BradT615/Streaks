@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { getAuth, setPersistence, signInWithEmailAndPassword, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
+import { db } from "../firebaseConfig";
+import { doc, deleteDoc } from "firebase/firestore";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
@@ -23,7 +25,7 @@ function LoginPage() {
 
     const handleLogin = (e) => {
         e.preventDefault(); 
-
+    
         const persistence = rememberMe ? browserLocalPersistence : browserSessionPersistence;
     
         setPersistence(auth, persistence)
@@ -31,9 +33,25 @@ function LoginPage() {
                 return signInWithEmailAndPassword(auth, email, password);
             })
             .then((userCredential) => {
+                // Get the guest ID from session storage
+                const guestId = sessionStorage.getItem('guestUUID');
+                // If a guest ID exists
+                if (guestId) {
+                    // Get a reference to the guest document
+                    const guestRef = doc(db, 'guests', guestId);
+                    // Delete the guest document
+                    deleteDoc(guestRef).then(() => {
+                        console.log("Guest successfully deleted!");
+                        // Remove the guest ID from session storage
+                        sessionStorage.removeItem('guestUUID');
+                    }).catch((error) => {
+                        console.error("Error removing guest: ", error);
+                        setErrorMessage(getCustomErrorMessage(error.code));
+                        setShowErrorModal(true);
+                    });
+                }
                 setEmail('');
                 setPassword('');
-                sessionStorage.removeItem('guestUUID');
                 setTimeout(() => {
                     navigate("/");
                 }, 0);
