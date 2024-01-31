@@ -121,23 +121,6 @@ function SignupPage() {
                             {icon}
                         </button>
                     </div>
-                    <div className='flex justify-between p-2 max-w-full'>
-                        <div className='group/nested cursor-pointer pt-1 h-fit no-select' onClick={toggleRememberMe}>
-                            {rememberMe 
-                                ? <FaCheckSquare className="text-custom-text pr-2 group-hover/nested:text-custom-hover h-4"/> 
-                                : <FaRegSquare className="text-custom-text pr-2 group-hover/nested:text-custom-hover h-4"/>
-                            }                    
-                        </div>
-                        <div>
-                            <p className='text-base font-thin text-custom-text text-center'>
-                            I accept the 
-                            <span className='font-medium hover:text-custom-hover'> Terms of Service </span>
-                            <br className='min-[470px]:hidden'/>
-                            and 
-                            <span className='font-medium hover:text-custom-hover'> Privacy Policy</span>.
-                            </p> 
-                        </div>
-                    </div>
                     <div className='flex justify-center'>
                         <div id="error-message" className={`absolute text-[20px] text-red-400 text-center ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
                             <p>{errorMessage}</p>
