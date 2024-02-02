@@ -3,6 +3,7 @@ import { auth, db } from '../firebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
 import { doc, setDoc } from 'firebase/firestore';
 
+
 const UserContext = createContext();
 
 function UserProvider({ children }) {
