@@ -10,6 +10,8 @@ function HabitsList({ setActiveHabit }) {
     const [items, setItems] = useState([]);
     const [newItem, setNewItem] = useState('');
     const [currentHabit, setCurrentHabit] = useState(null);
+    const [highlightedItem, setHighlightedItem] = useState(null);
+
 
 
     // Fetch habits from Firestore
@@ -60,13 +62,19 @@ function HabitsList({ setActiveHabit }) {
 
     const handleAddItem = () => {
         if (newItem.trim() !== '') {
-            const updatedItems = [...items, newItem];
-            setItems(updatedItems);
-            storeHabits(updatedItems);
-            setNewItem('');
-            setCurrentHabit(newItem);
+            if (items.includes(newItem)) {
+                setHighlightedItem(newItem);
+                setTimeout(() => setHighlightedItem(null), 400);
+            } else {
+                const updatedItems = [...items, newItem];
+                setItems(updatedItems);
+                storeHabits(updatedItems);
+                setNewItem('');
+                setCurrentHabit(newItem);
+            }
         }
     };
+    
     
     const handleRemoveItem = (itemToRemove) => {
         const updatedItems = items.filter(item => item !== itemToRemove);
@@ -104,7 +112,7 @@ function HabitsList({ setActiveHabit }) {
                             >
                                 <li 
                                     onClick={() => handleItemClick(item)}
-                                    className={`cursor-pointer my-1 w-fit mx-auto p-2 px-4 rounded-lg no-select ${item === currentHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'}`}
+                                    className={`cursor-pointer my-1 w-fit mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === currentHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
                                 >
                                     {item}
                                 </li>
