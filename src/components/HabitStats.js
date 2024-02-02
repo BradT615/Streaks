@@ -1,12 +1,14 @@
-// HabitStats.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactCalendar from 'react-calendar';
+import { db } from '../firebaseConfig';
+import { collection, doc, getDocs, query, orderBy } from "firebase/firestore";
 import './Calendar.css';
 
-function Calendar({ habitData }) {
+function HabitsStats({ user, guestUUID, habitName }) {
   const [value, onChange] = useState(new Date());
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
+  const [habitData, setHabitData] = useState({});
 
   const handleAddItem = () => {
     setItems([...items, newItem]);
@@ -19,6 +21,28 @@ function Calendar({ habitData }) {
       return 'habit-day';
     }
   };
+
+  // Fetch dates from Firestore
+  const fetchDates = async () => {
+    let datesCollection;
+    if (user) {
+        datesCollection = collection(db, 'users', user.uid, 'habits', habitName, 'dates');
+    } else if (guestUUID) {
+        datesCollection = collection(db, 'guests', guestUUID, 'habits', habitName, 'dates');
+    }
+
+    if (datesCollection) {
+        const datesQuery = query(datesCollection, orderBy('date'));
+        const datesSnapshot = await getDocs(datesQuery);
+        const dates = datesSnapshot.docs.map(doc => doc.data());
+        setHabitData(dates.reduce((acc, date) => ({ ...acc, [date.date]: date }), {}));
+    }
+  };
+
+  // Fetch dates when component mounts or habitName changes
+  useEffect(() => {
+    fetchDates();
+  }, [user, guestUUID, habitName]);
 
   return (
     <div className='flex flex-col w-1/2 h-full max-md:hidden gap-4'>
@@ -46,4 +70,4 @@ function Calendar({ habitData }) {
   );
 }
 
-export default Calendar;
+export default HabitsStats;

@@ -7,7 +7,6 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
-import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
 
 function SignupPage() {
     const [email, setEmail] = useState('');
