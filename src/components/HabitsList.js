@@ -5,11 +5,10 @@ import { db } from '../firebaseConfig';
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import { CiCircleRemove } from "react-icons/ci";
 
-function HabitsList({ setActiveHabit }) {
+function HabitsList({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);
     const [items, setItems] = useState([]);
     const [newItem, setNewItem] = useState('');
-    const [currentHabit, setCurrentHabit] = useState(null);
     const [highlightedItem, setHighlightedItem] = useState(null);
 
 
@@ -29,7 +28,7 @@ function HabitsList({ setActiveHabit }) {
             habits.sort((a, b) => a.order - b.order);
             const habitNames = habits.map(habit => habit.name);
             setItems(habitNames);
-            setCurrentHabit(habitNames[0]);
+            setActiveHabit(habitNames[0]);
         }
     };
 
@@ -70,23 +69,22 @@ function HabitsList({ setActiveHabit }) {
                 setItems(updatedItems);
                 storeHabits(updatedItems);
                 setNewItem('');
-                setCurrentHabit(newItem);
+                setActiveHabit(newItem);
             }
         }
     };
-    
-    
+
     const handleRemoveItem = (itemToRemove) => {
         const updatedItems = items.filter(item => item !== itemToRemove);
         setItems(updatedItems);
         storeHabits(updatedItems);
-        if (currentHabit === itemToRemove) {
-            setCurrentHabit(updatedItems[0]);
+        if (activeHabit === itemToRemove) {
+            setActiveHabit(updatedItems[0]);
         }
     };
 
     const handleItemClick = (item) => {
-        setCurrentHabit(item);
+        setActiveHabit(item);
     };
 
     // Fetch habits when component mounts
@@ -112,7 +110,7 @@ function HabitsList({ setActiveHabit }) {
                             >
                                 <li 
                                     onClick={() => handleItemClick(item)}
-                                    className={`cursor-pointer my-1 w-fit mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === currentHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
+                                    className={`cursor-pointer my-1 w-fit mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
                                 >
                                     {item}
                                 </li>
