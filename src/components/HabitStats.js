@@ -8,7 +8,6 @@ import { collection, doc, getDocs, query, orderBy, addDoc, setDoc, onSnapshot } 
 function HabitsStats({ activeHabit }) {
     const { user, guestUUID } = useContext(UserContext);
     const [value, onChange] = useState(new Date());
-    const [items, setItems] = useState([]);
     const [habitData, setHabitData] = useState({});
     const [currentDate, setCurrentDate] = useState(null);
     const [notes, setNotes] = useState('');
@@ -30,7 +29,7 @@ function HabitsStats({ activeHabit }) {
 
     const tileClassName = ({ date, view }) => {
         // Add class to dates with habit data
-        if (view === 'month' && habitData[date.toISOString().split('T')[0]]) {
+        if (activeHabit && view === 'month' && habitData[date.toISOString().split('T')[0]]) {
             return 'habit-day';
         }
     };
@@ -71,25 +70,26 @@ function HabitsStats({ activeHabit }) {
     }, [user, guestUUID, activeHabit]);
     
     useEffect(() => {
-        if (currentDate) {
+        if (currentDate && activeHabit) {
             let dateDocRef;
             if (user) {
                 dateDocRef = doc(db, 'users', user.uid, 'habits', activeHabit, 'dates', currentDate.toISOString().split('T')[0]);
-            } else {
+            } else if (guestUUID) {
                 dateDocRef = doc(db, 'guests', guestUUID, 'habits', activeHabit, 'dates', currentDate.toISOString().split('T')[0]);
             }
     
-            const unsubscribe = onSnapshot(dateDocRef, (doc) => {
-                if (doc.exists()) {
-                    const data = doc.data();
-                    setNotes(data.notes || '');
-                } else {
-                    // If the document for the new date doesn't exist, clear the notes
-                    setNotes('');
-                }
-            });
+            if (dateDocRef) {
+                const unsubscribe = onSnapshot(dateDocRef, (doc) => {
+                    if (doc.exists()) {
+                        const data = doc.data();
+                        setNotes(data.notes || '');
+                    } else {
+                        setNotes('');
+                    }
+                });
     
-            return unsubscribe;
+                return unsubscribe;
+            }
         }
     }, [user, guestUUID, activeHabit, currentDate]);
 
