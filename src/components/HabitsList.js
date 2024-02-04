@@ -10,6 +10,8 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     const [items, setItems] = useState([]);
     const [newItem, setNewItem] = useState('');
     const [highlightedItem, setHighlightedItem] = useState(null);
+    const [editingHabit, setEditingHabit] = useState(null);
+    const [editedHabitName, setEditedHabitName] = useState('');
 
 
 
@@ -83,6 +85,19 @@ function HabitsList({ activeHabit, setActiveHabit }) {
         }
     };
 
+    const handleEditHabit = (habit) => {
+        setEditingHabit(habit);
+        setEditedHabitName(habit);
+    };
+
+    const handleSaveEdit = async () => {
+        const updatedItems = items.map(item => item === editingHabit ? editedHabitName : item);
+        setItems(updatedItems);
+        await storeHabits(updatedItems);
+        setEditingHabit(null);
+    };
+    
+
     const handleItemClick = (item) => {
         setActiveHabit(item);
     };
@@ -104,20 +119,28 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                     </div>
                     <ul>
                         {items.map((item, index) => (
-                            <div 
-                                key={index} 
-                                className='relative group'
-                            >
-                                <li 
-                                    onClick={() => handleItemClick(item)}
-                                    className={`cursor-pointer my-1 w-fit mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
-                                >
-                                    {item}
-                                </li>
-                                <CiCircleRemove
-                                    onClick={() => handleRemoveItem(item)}
-                                    className='absolute right-20 text-4xl top-0 mt-2 mr-2 text-red-400 hover:text-red-500 opacity-0 group-hover:opacity-100'
-                                />
+                            <div key={index} className='relative group'>
+                                {editingHabit === item ? (
+                                    <input
+                                        value={editedHabitName}
+                                        onChange={e => setEditedHabitName(e.target.value)}
+                                        onKeyDown={e => e.key === 'Enter' && handleSaveEdit()}
+                                    />
+                                ) : (
+                                    <li 
+                                        onClick={() => handleItemClick(item)}
+                                        className={`cursor-pointer my-1 w-fit mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
+                                    >
+                                        {item}
+                                    </li>
+                                )}
+                                <div className='absolute right-20 text-4xl flex items-center justify-center gap-4 top-0 mt-2 mr-2 opacity-0 group-hover:opacity-100'>
+                                    <button onClick={() => handleEditHabit(item)} className='hover:text-custom-hover'>Edit</button>
+                                    <CiCircleRemove
+                                        onClick={() => handleRemoveItem(item)}
+                                        className='text-red-400 hover:text-red-500'
+                                    />
+                                </div>
                             </div>
                         ))}
                     </ul>
