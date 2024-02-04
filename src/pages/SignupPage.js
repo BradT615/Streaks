@@ -15,7 +15,6 @@ function SignupPage() {
     const [errorMessage, setErrorMessage] = useState('');
     const [inputType, setInputType] = useState('password');
     const [icon, setIcon] = useState(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
-    const [rememberMe, setRememberMe] = useState(false);
 
     const navigate = useNavigate();
 
@@ -50,7 +49,7 @@ function SignupPage() {
     
                 const guestRef = doc(db, 'guests', guestId);
                 getDoc(guestRef).then((docSnapshot) => {
-                    if (docSnapshot.exists()) {
+                    if (docSnapshot.exists()) {                  
                         // Move the guest data to the 'users' collection
                         const userRef = doc(db, 'users', user.uid);
                         setDoc(userRef, docSnapshot.data()).then(() => {
@@ -93,10 +92,6 @@ function SignupPage() {
             setInputType('password');
             setIcon(<PiEyeLight className="text-custom-text hover:text-custom-hover" />);
         }
-    };
-
-    const toggleRememberMe = () => {
-        setRememberMe(!rememberMe);
     };
 
     return (

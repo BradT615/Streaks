@@ -1,5 +1,5 @@
 // HabitsList.js
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { db } from '../firebaseConfig';
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
@@ -16,7 +16,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
 
 
     // Fetch habits from Firestore
-    const fetchHabits = async () => {
+    const fetchHabits = useCallback(async () => {
         let habitsRef;
         if (user) {
             habitsRef = collection(db, 'users', user.uid, 'habits');
@@ -32,7 +32,11 @@ function HabitsList({ activeHabit, setActiveHabit }) {
             setItems(habitNames);
             setActiveHabit(habitNames[0]);
         }
-    };
+    }, [user, guestUUID, setActiveHabit]);
+
+    useEffect(() => {
+        fetchHabits();
+    }, [fetchHabits]);
 
     // Store habits in Firestore
     const storeHabits = async (habits) => {
@@ -101,11 +105,6 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     const handleItemClick = (item) => {
         setActiveHabit(item);
     };
-
-    // Fetch habits when component mounts
-    useEffect(() => {
-        fetchHabits();
-    }, [user, guestUUID]);
 
     return (
         <div className={`border-[1px] border-custom-hover w-full rounded-lg p-4 ${activeHabit ? 'md:w-1/2' : ''}`}>

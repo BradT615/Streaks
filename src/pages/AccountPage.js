@@ -1,9 +1,10 @@
 // AccountPage.js
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { auth, storage } from '../firebaseConfig';
+import { auth, db, storage } from '../firebaseConfig';
 import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, deleteDoc } from "firebase/firestore";
 import { UserContext } from '../contexts/UserContext';
 import logo from '../assets/logo.png';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
@@ -140,7 +141,7 @@ function AccountPage() {
         const auth = getAuth();
         const user = auth.currentUser;
         const credential = EmailAuthProvider.credential(user.email, authPassword);
-
+    
         // Reauthenticate the user
         try {
             await reauthenticateWithCredential(user, credential);
@@ -148,7 +149,16 @@ function AccountPage() {
             console.error("Error reauthenticating user", error);
             return;
         }
-
+    
+        // Get a reference to the user document
+        const userRef = doc(db, 'users', user.uid);
+        // Delete the user document
+        deleteDoc(userRef).then(() => {
+            console.log("User document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing user document: ", error);
+        });
+    
         // Delete the user
         try {
             await deleteUser(user);

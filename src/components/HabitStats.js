@@ -1,9 +1,9 @@
 // HabitsStats.js
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import ReactCalendar from 'react-calendar';
 import { db } from '../firebaseConfig';
-import { collection, doc, getDocs, query, orderBy, addDoc, setDoc, onSnapshot } from "firebase/firestore";import './Calendar.css';
+import { collection, doc, getDocs, query, orderBy, setDoc, onSnapshot } from "firebase/firestore";import './Calendar.css';
 
 function HabitsStats({ activeHabit }) {
     const { user, guestUUID } = useContext(UserContext);
@@ -29,13 +29,16 @@ function HabitsStats({ activeHabit }) {
 
     const tileClassName = ({ date, view }) => {
         // Add class to dates with habit data
-        if (activeHabit && view === 'month' && habitData[date.toISOString().split('T')[0]]) {
-            return 'habit-day';
+        if (activeHabit && view === 'month') {
+            const dateKey = date.toISOString().split('T')[0];
+            if (habitData[dateKey]) {
+                return habitData[dateKey].success ? 'success-day bg-green-300' : 'habit-day bg-yellow-300';
+            }
         }
     };
 
     // Fetch dates from Firestore
-    const fetchDates = async () => {
+    const fetchDates = useCallback(() => {
         if (!activeHabit) return;
         let datesCollection;
         if (user) {
@@ -43,14 +46,27 @@ function HabitsStats({ activeHabit }) {
         } else if (guestUUID) {
             datesCollection = collection(db, 'guests', guestUUID, 'habits', activeHabit, 'dates');
         }
-    
+
         if (datesCollection) {
             const datesQuery = query(datesCollection, orderBy('date'));
-            const datesSnapshot = await getDocs(datesQuery);
-            const dates = datesSnapshot.docs.map(doc => doc.data());
-            setHabitData(dates.reduce((acc, date) => ({ ...acc, [date.date]: date }), {}));
+            const unsubscribe = onSnapshot(datesQuery, (snapshot) => {
+                const dates = snapshot.docs.map(doc => ({...doc.data(), date: doc.id}));
+                setHabitData(dates.reduce((acc, date) => ({ ...acc, [date.date]: date }), {}));
+            });
+
+            // Clean up the subscription on unmount
+            return () => unsubscribe();
         }
-    };
+    }, [user, guestUUID, activeHabit]);
+
+    useEffect(() => {
+        const unsubscribe = fetchDates();
+        return () => {
+            if (unsubscribe) {
+                unsubscribe();
+            }
+        };
+    }, [fetchDates]);
 
     const submitNotes = async () => {
         if (!activeHabit || !currentDate) return;
@@ -64,10 +80,6 @@ function HabitsStats({ activeHabit }) {
             await setDoc(dateDocRef, { date: currentDate, notes: notes }, { merge: true });
         }
     };
-
-    useEffect(() => {
-        fetchDates();
-    }, [user, guestUUID, activeHabit]);
     
     useEffect(() => {
         if (currentDate && activeHabit) {
@@ -92,8 +104,6 @@ function HabitsStats({ activeHabit }) {
             }
         }
     }, [user, guestUUID, activeHabit, currentDate]);
-
-    console.log('Active Habit: ', activeHabit, 'Current Date: ', currentDate, 'Notes: ', notes);
     
     return (
         <div className='flex flex-col w-1/2 h-full max-md:hidden gap-4'>
