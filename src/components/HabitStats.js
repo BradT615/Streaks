@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import ReactCalendar from 'react-calendar';
 import { db } from '../firebaseConfig';
-import { collection, doc, getDocs, query, orderBy, setDoc, onSnapshot } from "firebase/firestore";import './Calendar.css';
+import { collection, doc, query, orderBy, setDoc, onSnapshot } from "firebase/firestore";import './Calendar.css';
 
 function HabitsStats({ activeHabit }) {
     const { user, guestUUID } = useContext(UserContext);

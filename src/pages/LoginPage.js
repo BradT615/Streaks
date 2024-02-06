@@ -23,6 +23,27 @@ function LoginPage() {
     const navigate = useNavigate();
     const auth = getAuth();
 
+    const getCustomErrorMessage = (errorCode) => {
+        switch (errorCode) {
+            case 'auth/invalid-email':
+                return 'Invalid Email';
+            case 'auth/user-disabled':
+                return 'User Disabled';
+            case 'auth/user-not-found':
+                return 'User Not Found';
+            case 'auth/wrong-password':
+                return 'Wrong Password';
+            case 'auth/email-already-in-use':
+                return 'Email Already in Use';
+            case 'auth/operation-not-allowed':
+                return 'Operation Not Allowed';
+            case 'auth/weak-password':
+                return 'Weak Password';
+            default:
+                return 'An error occurred';
+        }
+    };
+
     const handleLogin = (e) => {
         e.preventDefault(); 
     
