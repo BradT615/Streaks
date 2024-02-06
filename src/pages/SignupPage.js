@@ -1,6 +1,6 @@
 // SignupPage.js
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
@@ -50,22 +50,30 @@ function SignupPage() {
                 const guestRef = doc(db, 'guests', guestId);
                 getDoc(guestRef).then((docSnapshot) => {
                     if (docSnapshot.exists()) {                  
-                        // Move the guest data to the 'users' collection
+                        // Create the user document
                         const userRef = doc(db, 'users', user.uid);
-                        setDoc(userRef, docSnapshot.data()).then(() => {
-                            // Delete the guest document
-                            deleteDoc(guestRef).then(() => {
-                                console.log("Guest successfully deleted!");
-                                // Delete the guest ID from session storage
-                                sessionStorage.removeItem('guestUUID');
-                                // Redirect the user to the login page
-                                navigate('/login');
+                        setDoc(userRef, {})
+                            .then(() => {
+                                deleteDoc(guestRef).then(() => {
+                                    console.log("Guest successfully deleted!");
+                                    sessionStorage.removeItem('guestUUID');
+                                    signOut(auth).then(() => {
+                                        navigate('/login');
+                                    }).catch((error) => {
+                                        console.error("Error signing out: ", error);
+                                        setErrorMessage(getCustomErrorMessage(error.code));
+                                        setShowErrorModal(true);
+                                    });
+                                }).catch((error) => {
+                                    console.error("Error removing guest: ", error);
+                                    setErrorMessage(getCustomErrorMessage(error.code));
+                                    setShowErrorModal(true);
+                                });
                             }).catch((error) => {
-                                console.error("Error removing guest: ", error);
+                                console.error("Error creating user document: ", error);
                                 setErrorMessage(getCustomErrorMessage(error.code));
                                 setShowErrorModal(true);
                             });
-                        });
                     } else {
                         console.log("No such document!");
                         setErrorMessage("No such document!");
