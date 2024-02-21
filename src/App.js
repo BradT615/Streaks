@@ -6,6 +6,8 @@ import MainPage from './pages/MainPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import AccountPage from './pages/AccountPage';
+import ProtectedWrapper from './components/ProtectedWrapper';
+import UserWrapper from './components/UserWrapper';
 
 function App() {
   return (
@@ -13,9 +15,9 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/account" element={<AccountPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/account" element={<ProtectedWrapper><AccountPage /></ProtectedWrapper>} />
+          <Route path="/login" element={<UserWrapper><LoginPage /></UserWrapper>} />
+          <Route path="/signup" element={<UserWrapper><SignupPage /></UserWrapper>} />
         </Routes>
       </Router>
     </UserProvider>

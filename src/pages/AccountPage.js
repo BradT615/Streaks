@@ -212,7 +212,7 @@ function AccountPage() {
                     </div>
                 </div>
             )}
-            <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl m-auto px-4 pb-12 pt-4 rounded-lg shadow-lg bg-custom-light'>
+            <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl m-auto h-full my-8 px-4 pb-12 pt-4 rounded-lg shadow-lg bg-custom-light'>
                 <div className='w-fit ml-auto hover:text-custom-hover'>
                     <button type="submit" onClick={handleSubmit} className={`w-fit rounded-lg`}>
                         <FiCheck className='text-5xl'/>
