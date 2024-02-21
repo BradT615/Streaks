@@ -16,6 +16,26 @@ code {
     monospace;
 }
 
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+    -webkit-box-shadow: 0 0 0 30px #1a1d24 inset !important;
+    color: white !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:active {
+    -webkit-text-fill-color: #afb9c9 !important;
+    -webkit-box-shadow: 0 0 0 30px #1a1d24 inset !important;
+}
+
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #deeaff !important;
+    -webkit-box-shadow: 0 0 0 30px #1a1d24 inset !important;
+}
+
 .no-select {
   -webkit-user-select: none;  /* Safari */
   -moz-user-select: none;     /* Firefox */

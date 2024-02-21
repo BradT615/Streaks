@@ -116,7 +116,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                         <input className='bg-[#486898] mr-4' value={newItem} onChange={e => setNewItem(e.target.value)} />
                         <button onClick={handleAddItem} className='hover:text-custom-hover'>Add Item</button>
                     </div>
-                    <ul>
+                    <ul className=''>
                         {items.map((item, index) => (
                             <div key={index} className='relative group'>
                                 {editingHabit === item ? (
@@ -128,7 +128,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                 ) : (
                                     <li 
                                         onClick={() => handleItemClick(item)}
-                                        className={`cursor-pointer my-1 w-fit mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
+                                        className={`cursor-pointer my-1 bg-gray-400 w-full mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
                                     >
                                         {item}
                                     </li>

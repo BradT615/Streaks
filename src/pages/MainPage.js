@@ -11,7 +11,7 @@ function MainPage() {
         <div className='flex flex-col h-screen w-screen bg-custom-bg'>
             <Header />
             <div className='flex-grow text-custom-text mx-auto h-[95%]'>
-                <div className='flex justify-center max-w-screen-2xl h-full p-6 text-center gap-4 text-3xl'>
+                <div className='flex justify-center max-w-screen-xl h-full p-6 text-center gap-4 text-3xl'>
                     <HabitsList activeHabit={activeHabit} setActiveHabit={setActiveHabit} />
                     {activeHabit && <HabitStats activeHabit={activeHabit} />}
                 </div>

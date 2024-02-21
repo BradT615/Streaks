@@ -133,21 +133,22 @@ function LoginPage() {
 
     return (
         <form onSubmit={handleLogin} className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
-            <div className='flex flex-col gap-4 justify-around items-center m-auto py-8 w-full max-w-lg'>
+            <div className='flex flex-col gap-4 justify-around items-center m-auto py-12 w-full max-w-lg rounded-lg shadow-lg bg-custom-light'>
                 <Link to='/' className='no-select'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
-                    <p className='text-custom-text text-4xl text-center'>Streaks</p>
+                    <p className='text-custom-hover text-4xl text-center'>Streaks</p>
                 </Link>
                 
-                <div className='flex flex-col items-center w-full pb-3'>
+                <div className='flex flex-col items-center w-full pb-3 font-medium'>
                     <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
-                        <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <CiMail className='text-[#9ea0a2] group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className='bg-custom-bg text-custom-text p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-custom-light text-[#9ea0a2] p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='Email'
                             placeholder='Email'
+                            autocomplete="username"
                             required
                         />
                     </div>
@@ -157,9 +158,10 @@ function LoginPage() {
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className='bg-custom-bg text-custom-text group-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full'
+                            className='bg-custom-light text-custom-text group-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full'
                             type={inputType}
                             placeholder='Password'
+                            autocomplete="current-password"
                         />
                         <button onClick={togglePasswordVisibility} type="button" className="absolute inset-y-0 right-0 pr-2 flex items-center text-xl sm:text-2xl leading-5 outline-none group-focus-within:text-custom-hover">
                             {icon}

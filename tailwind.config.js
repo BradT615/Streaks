@@ -6,11 +6,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'custom-bg': '#24344c',
+        'custom-bg': '#13151b',
+        'custom-light': '#1a1d24',
         'custom-green': '#36c0ae',
         'custom-blue': '#00b8d1',
-        'custom-text': '#afb9c9',
-        'custom-hover': '#deeaff',
+        'custom-text': '#9ea0a2',
+        'custom-hover': '#fbfbfb',
       },
       keyframes: {
         shake: {

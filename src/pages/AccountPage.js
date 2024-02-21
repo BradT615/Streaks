@@ -9,7 +9,7 @@ import { UserContext } from '../contexts/UserContext';
 import logo from '../assets/logo.png';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
-import { FiEdit2 } from "react-icons/fi";
+import { FiEdit2, FiCheck } from "react-icons/fi";
 
 function AccountPage() {
     const navigate = useNavigate();
@@ -212,7 +212,13 @@ function AccountPage() {
                     </div>
                 </div>
             )}
-            <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl h-full m-auto px-4'>
+            <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl m-auto px-4 pb-12 pt-4 rounded-lg shadow-lg bg-custom-light'>
+                <div className='w-fit ml-auto hover:text-custom-hover'>
+                    <button type="submit" onClick={handleSubmit} className={`w-fit rounded-lg`}>
+                        <FiCheck className='text-5xl'/>
+                    </button>
+                </div>
+                
                 <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-16'>Edit Profile</h1>
 
                 <div className='flex max-[320px]:flex-col gap-6 mb-8 justify-around w-full items-center'>
@@ -234,7 +240,7 @@ function AccountPage() {
                         <input
                             value={displayName}
                             onChange={(e) => setDisplayName(e.target.value)}
-                            className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-custom-light text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='text'
                             placeholder='New Username'
                         />
@@ -245,7 +251,7 @@ function AccountPage() {
                         <input
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-custom-light text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='Email'
                             placeholder='New Email'
                         />
@@ -256,7 +262,7 @@ function AccountPage() {
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className='bg-custom-bg text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-custom-light text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type={inputType}
                             placeholder='New Password'
                         />
@@ -264,22 +270,18 @@ function AccountPage() {
                             {icon}
                         </button>
                     </div>
-
-                    <button type="submit" onClick={handleSubmit} className={`border-[1px] border-custom-text hover:border-custom-hover hover:text-custom-hover active:outline-none active:ring-1 active:ring-offset-1 active:ring-custom-hover rounded-lg p-2 px-8`}>
-                        Update
-                    </button>
                     <div className='flex justify-center'>
                         <div id="error-message" className={`absolute text-[20px] text-center ${messageClassName} ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
                             <p>{errorMessage}</p>
                         </div>
                     </div>
+                    <div className='flex flex-col gap-4 mt-4 pb-4'>
+                        <button onClick={signOutUser} className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover w-fit mx-auto text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
+                            Log Out
+                        </button>
+                        <button onClick={deleteAccount} className='text-red-200 hover:text-red-300 font-thin text-lg sm:text-xl p-1'>Delete Account</button>
+                    </div>
                 </div>
-            </div>
-            <div className='flex flex-col gap-4 mt-4 pb-4'>
-                <button onClick={signOutUser} className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover w-fit mx-auto text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
-                    Log Out
-                </button>
-                <button onClick={deleteAccount} className='text-red-200 hover:text-red-300 font-thin text-lg sm:text-xl p-1'>Delete Account</button>
             </div>
         </div>
     );
