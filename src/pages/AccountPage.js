@@ -169,13 +169,7 @@ function AccountPage() {
     };
 
     return (
-        <div className="bg-custom-bg flex flex-col h-screen font-medium text-custom-text">
-            <Link to='/'>
-                <div className="group flex items-center no-select mx-[2vw] mt-4 md:mt-6">
-                    <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
-                    <h1 className='text-gradient text-2xl sm:text-3xl'>Streaks</h1>
-                </div>
-            </Link>
+        <div className="flex flex-col justify-center h-screen font-medium text-custom-text">
             {showDeleteModal && (
                 <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -212,7 +206,7 @@ function AccountPage() {
                     </div>
                 </div>
             )}
-            <div className='flex flex-col justify-center sm:text-xl w-full max-w-xl m-auto h-full my-8 px-4 pb-12 pt-4 rounded-lg shadow-lg bg-custom-light'>
+            <div className='flex flex-col justify-center sm:text-xl w-full max-w-lg m-auto my-8 px-4 pb-12 pt-4 rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
                 <div className='w-fit ml-auto hover:text-custom-hover'>
                     <button type="submit" onClick={handleSubmit} className={`w-fit rounded-lg`}>
                         <FiCheck className='text-5xl'/>
@@ -235,34 +229,34 @@ function AccountPage() {
 
                 <div className='flex flex-col items-center gap-6'>
 
-                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={displayName}
                             onChange={(e) => setDisplayName(e.target.value)}
-                            className='bg-custom-light text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-transparent text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='text'
                             placeholder='New Username'
                         />
                     </div>
 
-                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className='bg-custom-light text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-transparent text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='Email'
                             placeholder='New Email'
                         />
                     </div>
 
-                    <div className='group flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative pb-[1px] w-10/12 min-w-60'>
                         <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className='bg-custom-light text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-transparent text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type={inputType}
                             placeholder='New Password'
                         />

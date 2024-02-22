@@ -8,7 +8,7 @@ function MainPage() {
     const [activeHabit, setActiveHabit] = useState(null);
 
     return (
-        <div className='flex flex-col h-screen w-screen bg-custom-bg'>
+        <div className='flex flex-col h-screen w-screen'>
             <Header />
             <div className='flex-grow text-custom-text mx-auto h-[95%]'>
                 <div className='flex justify-center max-w-screen-xl h-full p-6 text-center gap-4 text-3xl'>

@@ -132,20 +132,20 @@ function LoginPage() {
     };
 
     return (
-        <form onSubmit={handleLogin} className="h-screen w-full bg-custom-bg flex flex-col text-2xl">
-            <div className='flex flex-col gap-4 justify-around items-center m-auto py-12 w-full max-w-lg rounded-lg shadow-lg bg-custom-light'>
+        <form onSubmit={handleLogin} className="h-screen w-full flex flex-col text-2xl">
+            <div className='flex flex-col gap-4 justify-around items-center m-auto py-12 w-full max-w-lg rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
                 <Link to='/' className='no-select'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-hover text-4xl text-center'>Streaks</p>
                 </Link>
                 
                 <div className='flex flex-col items-center w-full pb-3 font-medium'>
-                    <div className='group flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
+                    <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
                         <CiMail className='text-[#9ea0a2] group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className='bg-custom-light text-[#9ea0a2] p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-transparent text-[#9ea0a2] p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='Email'
                             placeholder='Email'
                             autocomplete="username"
@@ -153,12 +153,12 @@ function LoginPage() {
                         />
                     </div>
 
-                    <div className='group flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60'>
+                    <div className='group bg-transparent flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60'>
                         <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className='bg-custom-light text-custom-text group-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full'
+                            className='bg-transparent text-custom-text group-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full'
                             type={inputType}
                             placeholder='Password'
                             autocomplete="current-password"
@@ -189,7 +189,7 @@ function LoginPage() {
                     </button>
                     <div className='flex gap-1 w-full justify-center text-custom-text mt-2'>
                         <p>Don't have an account?</p>
-                        <Link to='/signup' className='font-medium hover:text-custom-hover no-select'>Sign Up</Link>
+                        <Link to='/signup' className='font-medium text-[#c3c5c8] hover:text-custom-hover no-select'>Sign Up</Link>
                     </div>
                     <div className='flex items-center w-full justify-center text-custom-text -mt-2 no-select'>
                         <div className='flex-1 border-t border-custom-text'></div>

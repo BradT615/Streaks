@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
@@ -16,7 +16,7 @@ code {
     monospace;
 }
 
-input:-webkit-autofill,
+/* input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active  {
@@ -34,22 +34,22 @@ input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
     -webkit-text-fill-color: #deeaff !important;
     -webkit-box-shadow: 0 0 0 30px #1a1d24 inset !important;
-}
+} */
 
 .no-select {
-  -webkit-user-select: none;  /* Safari */
-  -moz-user-select: none;     /* Firefox */
-  -ms-user-select: none;      /* IE10+/Edge */
-  user-select: none;          /* Standard syntax */
+    -webkit-user-select: none;  /* Safari */
+    -moz-user-select: none;     /* Firefox */
+    -ms-user-select: none;      /* IE10+/Edge */
+    user-select: none;          /* Standard syntax */
 }
 
 .group:hover input::placeholder {
-  color: #deeaff; /* Change this color to the highlight color you want */
+    color: #deeaff;
 }
 
 .text-gradient {
-  background: linear-gradient(to right, #36c0ae, #00b8d1);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent; /* Makes the text take the color of the background */
+    background: linear-gradient(to right, #36c0ae, #00b8d1);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }

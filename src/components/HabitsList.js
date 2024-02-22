@@ -107,14 +107,14 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     return (
-        <div className={`border-[1px] border-custom-hover w-full rounded-lg p-4 ${activeHabit ? 'md:w-1/2' : ''}`}>
+        <div className={`bg-custom-light border-[1px] border-custom-hover w-full rounded-lg p-4 ${activeHabit ? 'md:w-1/2' : ''}`}>
             <h1>TEST DEPLOY</h1>
             <div className='mt-2 flex flex-col justify-center'>
                 <h1 className='font-medium border-b-[1px] mb-4 w-fit max-sm:border-custom-text max-sm:hover:border-custom-hover max-sm:hover:text-custom-hover no-select self-center'>Habits</h1>
                 <div className='flex flex-col w-full justify-center gap-4'>
-                    <div>
-                        <input className='bg-[#486898] mr-4' value={newItem} onChange={e => setNewItem(e.target.value)} />
-                        <button onClick={handleAddItem} className='hover:text-custom-hover'>Add Item</button>
+                    <div className='flex gap-4 items-center justify-center'>
+                        <input className='h-full p-1' value={newItem} onChange={e => setNewItem(e.target.value)} />
+                        <button onClick={handleAddItem} className='hover:text-custom-hover border-2 rounded-lg p-2 px-4'>Add Item</button>
                     </div>
                     <ul className=''>
                         {items.map((item, index) => (
@@ -128,7 +128,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                 ) : (
                                     <li 
                                         onClick={() => handleItemClick(item)}
-                                        className={`cursor-pointer my-1 bg-gray-400 w-full mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
+                                        className={`cursor-pointer my-1  w-full mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
                                     >
                                         {item}
                                     </li>
