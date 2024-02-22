@@ -1,12 +1,11 @@
 // AccountPage.js
 import React, { useContext, useEffect, useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { auth, db, storage } from '../firebaseConfig';
 import { getAuth, EmailAuthProvider, reauthenticateWithCredential, updateProfile, updateEmail, updatePassword, signOut, deleteUser } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, deleteDoc } from "firebase/firestore";
 import { UserContext } from '../contexts/UserContext';
-import logo from '../assets/logo.png';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
 import { FiEdit2, FiCheck } from "react-icons/fi";
