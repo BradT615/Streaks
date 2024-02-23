@@ -132,7 +132,7 @@ function LoginPage() {
     };
 
     return (
-        <form onSubmit={handleLogin} className="h-screen w-full flex flex-col text-2xl">
+        <form onSubmit={handleLogin} className="w-full m-8 flex flex-col text-2xl">
             <div className='flex flex-col gap-4 justify-around items-center m-auto py-12 w-full max-w-lg rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
                 <Link to='/' className='no-select'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
