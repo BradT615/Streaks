@@ -108,7 +108,7 @@ function HabitsStats({ activeHabit }) {
     
     return (
         <div className='flex flex-col w-1/2 h-full max-md:hidden gap-4'>
-            <div className='border-2 rounded-lg bg-custom-light p-4'>
+            <div className='border-2 rounded-lg p-4'>
                 <ReactCalendar
                 onChange={date => { onChange(date); setCurrentDate(date); }}
                 value={value}
@@ -121,7 +121,7 @@ function HabitsStats({ activeHabit }) {
                 className='bg-green-600 text-white rounded-lg p-2 hover:bg-green-500'
             >
                     Set Success</button>
-            <div className='border-2 rounded-lg h-full bg-custom-light p-4'>
+            <div className='border-2 rounded-lg h-full p-4'>
                 <h1 className='font-medium border-b-[1px] mb-4 w-fit max-sm:border-custom-text max-sm:hover:border-custom-hover max-sm:hover:text-custom-hover no-select self-center'>Notes</h1>
                 <div className='flex flex-col w-full justify-center gap-4'>
                     <div>
