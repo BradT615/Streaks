@@ -137,8 +137,8 @@ function LoginPage() {
     };
 
     return (
-        <form onSubmit={handleLogin} className="card w-full max-w-lg m-8 flex flex-col rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md text-2xl text-custom-text">
-            <div className='flex flex-col gap-4 justify-around items-center m-auto pb-12 w-full max-w-lg'>
+        <form onSubmit={handleLogin} className="card w-full max-w-lg m-4 flex flex-col rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md text-2xl text-custom-text">
+            <div className='flex flex-col gap-2 justify-around items-center m-auto pb-12 w-full max-w-lg'>
                 <div className='flex justify-start w-full pl-4 pt-4 text-4xl'>
                     <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
                         <GoArrowLeft className='hover:text-custom-hover'/>
@@ -149,7 +149,7 @@ function LoginPage() {
                     <p className='text-custom-hover text-4xl text-center'>Streaks</p>
                 </Link>
                 
-                <div className='flex flex-col items-center w-full pb-3 font-medium'>
+                <div className='flex flex-col items-center w-full font-medium'>
                     <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
                         <CiMail className='text-[#9ea0a2] group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
@@ -197,9 +197,9 @@ function LoginPage() {
                     <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-2xl font-medium py-2 mx-6 hover:mx-2 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                         Log In
                     </button>
-                    <div className='flex gap-2 w-full justify-center mt-2'>
-                        <p>Don't have an account?</p>
-                        <Link to='/signup' className='font-medium text-[#c3c5c8] hover:text-custom-hover no-select'>Sign Up</Link>
+                    <div className='flex w-full justify-center mt-2'>
+                        <p className='p-1'>Don't have an account?</p>
+                        <Link to='/signup' className='font-medium text-[#c3c5c8] hover:text-custom-hoverno-select p-1'>Sign Up</Link>
                     </div>
                     <div className='flex items-center w-full justify-center -mt-2 no-select'>
                         <div className='flex-1 border-t border-custom-text'></div>
