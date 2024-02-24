@@ -1,6 +1,6 @@
 // SignupPage.js
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
