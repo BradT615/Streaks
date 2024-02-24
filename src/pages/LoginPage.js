@@ -8,6 +8,7 @@ import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
 import { FaRegSquare, FaCheckSquare } from 'react-icons/fa';
+import { GoArrowLeft } from "react-icons/go";
 
 function LoginPage() {
     const [email, setEmail] = useState('');
@@ -127,13 +128,22 @@ function LoginPage() {
         }
     };
 
+    const handleBack = () => {
+        navigate("/");
+    }
+
     const toggleRememberMe = () => {
         setRememberMe(!rememberMe);
     };
 
     return (
         <form onSubmit={handleLogin} className="w-full m-8 flex flex-col text-2xl">
-            <div className='flex flex-col gap-4 justify-around items-center m-auto py-12 w-full max-w-lg rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
+            <div className='flex flex-col gap-4 justify-around items-center m-auto pb-12 w-full max-w-lg rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
+                <div className='flex justify-start w-full pl-4 pt-4 text-4xl text-custom-text'>
+                    <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
+                        <GoArrowLeft className='hover:text-custom-hover'/>
+                    </button>
+                </div>
                 <Link to='/' className='no-select'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-hover text-4xl text-center'>Streaks</p>

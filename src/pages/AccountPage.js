@@ -9,6 +9,7 @@ import { UserContext } from '../contexts/UserContext';
 import { CiMail, CiLock, CiUser } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
 import { FiEdit2, FiCheck } from "react-icons/fi";
+import { GoArrowLeft } from "react-icons/go";
 
 function AccountPage() {
     const navigate = useNavigate();
@@ -76,6 +77,7 @@ function AccountPage() {
         );
     };
 
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
@@ -132,6 +134,10 @@ function AccountPage() {
         navigate("/");
     };
 
+    const handleBack = () => {
+        navigate("/");
+    }
+
     const deleteAccount = () => {
         setShowDeleteModal(true);
     };
@@ -168,18 +174,18 @@ function AccountPage() {
     };
 
     return (
-        <div className="flex flex-col justify-center h-screen font-medium text-custom-text">
+        <div className="flex flex-col justify-center w-full max-w-lg font-medium text-custom-text">
             {showDeleteModal && (
                 <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 transition-opacity" aria-hidden="true"></div>
                         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
                         <div className="inline-block align-bottom rounded-lg text-center text-custom-text overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                            <div className="flex flex-col items-center bg-custom-bg px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                            <div className="flex flex-col items-center bg-custom-light bg-opacity-85 backdrop-blur-md px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <h3 className="text-lg my-3" id="modal-title">
                                     Are you sure you want to delete your account?
                                 </h3>
-                                <div className='group flex pb-[1px] border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative w-10/12 min-w-60'>
+                                <div className='group flex items pb-[1px] border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative w-10/12 min-w-60'>
                                     <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full self-center min-w-6 sm:w-8'/>
                                     <input
                                         value={authPassword}
@@ -193,7 +199,7 @@ function AccountPage() {
                                     </button>
                                 </div>
                             </div>
-                            <div className="bg-custom-bg px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                            <div className="bg-custom-light bg-opacity-85 backdrop-blur-md px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                 <button type="button" className="w-full inline-flex justify-center rounded-md border-[1px] border-red-200 hover:border-red-300 shadow-sm px-4 py-2 text-red-200 hover:text-red-300  focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-red-300 sm:ml-3 sm:w-auto sm:text-sm" onClick={confirmDeleteAccount}>
                                     Delete
                                 </button>
@@ -206,9 +212,12 @@ function AccountPage() {
                 </div>
             )}
             <div className='flex flex-col justify-center sm:text-xl w-full max-w-lg m-auto my-8 px-4 pb-12 pt-4 rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
-                <div className='w-fit ml-auto hover:text-custom-hover'>
+                <div className='flex justify-between text-4xl'>
+                    <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
+                        <GoArrowLeft className='hover:text-custom-hover'/>
+                    </button>
                     <button type="submit" onClick={handleSubmit} className={`w-fit rounded-lg`}>
-                        <FiCheck className='text-5xl'/>
+                        <FiCheck className='hover:text-custom-hover'/>
                     </button>
                 </div>
                 

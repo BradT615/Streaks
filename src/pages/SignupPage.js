@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
 import { CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
+import { GoArrowLeft } from "react-icons/go";
 
 function SignupPage() {
     const [email, setEmail] = useState('');
@@ -92,6 +93,10 @@ function SignupPage() {
             });
     };
 
+    const handleBack = () => {
+        navigate("/login");
+    }
+
     const togglePasswordVisibility = () => {
         if (inputType === 'password') {
             setInputType('text');
@@ -104,7 +109,12 @@ function SignupPage() {
 
     return (
         <div className="flex flex-col max-w-lg w-full m-8 text-2xl">
-            <div className='flex flex-col gap-4 justify-around items-center m-auto py-16 w-full rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
+            <div className='flex flex-col gap-4 justify-around items-center m-auto pb-16 w-full rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
+                <div className='flex justify-start w-full pl-4 pt-4 text-4xl text-custom-text'>
+                    <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
+                        <GoArrowLeft className='hover:text-custom-hover'/>
+                    </button>
+                </div>
                 <Link to='/' className='no-select mb-10'>
                     <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
                     <p className='text-custom-hover text-4xl text-center'>Streaks</p>
