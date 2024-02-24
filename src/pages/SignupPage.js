@@ -1,15 +1,16 @@
 // SignupPage.js
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile, signOut } from "firebase/auth";
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import logo from '../assets/logo.png';
-import { CiMail, CiLock } from "react-icons/ci";
+import { CiUser, CiMail, CiLock } from "react-icons/ci";
 import { PiEyeLight , PiEyeSlashLight } from "react-icons/pi";
 import { GoArrowLeft } from "react-icons/go";
 
 function SignupPage() {
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showErrorModal, setShowErrorModal] = useState(false);
@@ -46,45 +47,51 @@ function SignupPage() {
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                const guestId = sessionStorage.getItem('guestUUID');
     
-                const guestRef = doc(db, 'guests', guestId);
-                getDoc(guestRef).then((docSnapshot) => {
-                    if (docSnapshot.exists()) {                  
-                        // Create the user document
-                        const userRef = doc(db, 'users', user.uid);
-                        setDoc(userRef, {})
-                            .then(() => {
-                                deleteDoc(guestRef).then(() => {
-                                    console.log("Guest successfully deleted!");
-                                    sessionStorage.removeItem('guestUUID');
-                                    signOut(auth).then(() => {
-                                        navigate('/login');
+                // Set the user's display name
+                updateProfile(user, { displayName: name })
+                    .then(() => {
+                        console.log("User's display name updated successfully");
+                    })
+                    .catch((error) => {
+                        console.error("Error updating user's display name: ", error);
+                        setErrorMessage(getCustomErrorMessage(error.code));
+                        setShowErrorModal(true);
+                    });
+    
+                    const guestId = sessionStorage.getItem('guestUUID');
+                    const guestRef = doc(db, 'guests', guestId);
+    
+                    getDoc(guestRef).then((docSnapshot) => {
+                        if (docSnapshot.exists()) {                  
+                            // Create the user document
+                            const userRef = doc(db, 'users', user.uid);
+                            setDoc(userRef, {})
+                                .then(() => {
+                                    deleteDoc(guestRef).then(() => {
+                                        console.log("Guest successfully deleted!");
+                                        sessionStorage.removeItem('guestUUID');
+                                        navigate('/');
                                     }).catch((error) => {
-                                        console.error("Error signing out: ", error);
+                                        console.error("Error removing guest: ", error);
                                         setErrorMessage(getCustomErrorMessage(error.code));
                                         setShowErrorModal(true);
                                     });
                                 }).catch((error) => {
-                                    console.error("Error removing guest: ", error);
+                                    console.error("Error creating user document: ", error);
                                     setErrorMessage(getCustomErrorMessage(error.code));
                                     setShowErrorModal(true);
                                 });
-                            }).catch((error) => {
-                                console.error("Error creating user document: ", error);
-                                setErrorMessage(getCustomErrorMessage(error.code));
-                                setShowErrorModal(true);
-                            });
-                    } else {
-                        console.log("No such document!");
-                        setErrorMessage("No such document!");
+                        } else {
+                            console.log("No such document!");
+                            setErrorMessage("No such document!");
+                            setShowErrorModal(true);
+                        }
+                    }).catch((error) => {
+                        console.log("Error getting document:", error);
+                        setErrorMessage(getCustomErrorMessage(error.code));
                         setShowErrorModal(true);
-                    }
-                }).catch((error) => {
-                    console.log("Error getting document:", error);
-                    setErrorMessage(getCustomErrorMessage(error.code));
-                    setShowErrorModal(true);
-                });
+                    });
             })
             .catch((error) => {
                 console.error(error);
@@ -115,15 +122,19 @@ function SignupPage() {
                         <GoArrowLeft className='hover:text-custom-hover'/>
                     </button>
                 </div>
-                <Link to='/' className='no-select mb-10'>
-                    <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
+                <Link to='/' className='no-select mb-6'>
+                    <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-2'></img>
                     <p className='text-custom-hover text-4xl text-center'>Streaks</p>
                 </Link>
                 
                 <form onSubmit={handleSignup} className='flex flex-col items-center w-full font-medium'>
                     <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-3/4 pb-[1px] min-w-60 items-center'>
+                        <CiUser className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <input className='bg-transparentappearance-none p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='text' placeholder='Name' value={name} onChange={e => setName(e.target.value)} required autoComplete="name" />
+                    </div>
+                    <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 w-3/4 pb-[1px] min-w-60 items-center'>
                         <CiMail className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
-                        <input className='bg-transparentappearance-none p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='email' placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} required />
+                        <input className='bg-transparentappearance-none p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='email' placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
                     </div>
     
                     <div className='group bg-transparent flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60 items-center'>
@@ -140,7 +151,7 @@ function SignupPage() {
                     </div>
                     <div className='font-thin text-sm sm:text-lg flex flex-col mt-12'>
                         <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
-                            Sign Up
+                            Create Account
                         </button>
                     </div>
                 </form>

@@ -18,7 +18,7 @@ function Header() {
 
             {user ? (
                 <Link to='/account'>
-                    <button className="flex gap-2 items-center bg-[#192737] p-1 -m-1 pr-4 rounded-full text-custom-text hover:text-custom-hover">
+                    <button className="flex items-center gap-2 p-3 -m-1 rounded-full text-custom-text hover:text-custom-hover bg-custom-light bg-opacity-85 backdrop-blur-md">
                         <div>
                             {user.photoURL ? (
                                 <img src={user.photoURL} alt="Profile" className="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-full" />
@@ -27,7 +27,7 @@ function Header() {
                             )}
                         </div>
                         <div className='text-lg sm:text-xl'>
-                            { user.displayName || user.email.split('@')[0] }
+                            { user.displayName }
                         </div>
                     </button>
                 </Link>

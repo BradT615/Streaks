@@ -237,7 +237,7 @@ function AccountPage() {
 
                 <div className='flex flex-col items-center gap-6'>
 
-                    <div className='group bg-transparent flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={displayName}
@@ -248,7 +248,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group bg-transparent flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
@@ -259,7 +259,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group bg-transparent flex border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative pb-[1px] w-10/12 min-w-60'>
                         <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}

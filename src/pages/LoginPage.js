@@ -140,17 +140,17 @@ function LoginPage() {
         <form onSubmit={handleLogin} className="card w-full max-w-lg m-4 flex flex-col rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md text-2xl text-custom-text">
             <div className='flex flex-col gap-2 justify-around items-center m-auto pb-12 w-full max-w-lg'>
                 <div className='flex justify-start w-full pl-4 pt-4 text-4xl'>
-                    <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
+                    <button type="button" onClick={handleBack} className={`w-fit rounded-lg`}>
                         <GoArrowLeft className='hover:text-custom-hover'/>
                     </button>
                 </div>
                 <Link to='/' className='no-select'>
-                    <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-4'></img>
+                    <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-2'></img>
                     <p className='text-custom-hover text-4xl text-center'>Streaks</p>
                 </Link>
                 
                 <div className='flex flex-col items-center w-full font-medium'>
-                    <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
+                    <div className='group bg-transparent flex items-center username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
                         <CiMail className='text-[#9ea0a2] group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
@@ -158,12 +158,12 @@ function LoginPage() {
                             className='bg-transparent text-[#9ea0a2] p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='Email'
                             placeholder='Email'
-                            autocomplete="username"
+                            autoComplete="username"
                             required
                         />
                     </div>
 
-                    <div className='group bg-transparent flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60'>
+                    <div className='group bg-transparent flex items-center password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60'>
                         <CiLock className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
@@ -171,7 +171,7 @@ function LoginPage() {
                             className='bg-transparentgroup-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full'
                             type={inputType}
                             placeholder='Password'
-                            autocomplete="current-password"
+                            autoComplete="current-password"
                         />
                         <button onClick={togglePasswordVisibility} type="button" className="absolute inset-y-0 right-0 pr-2 flex items-center text-xl sm:text-2xl leading-5 outline-none group-focus-within:text-custom-hover">
                             {icon}
