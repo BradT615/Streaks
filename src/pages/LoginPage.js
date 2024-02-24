@@ -137,9 +137,9 @@ function LoginPage() {
     };
 
     return (
-        <form onSubmit={handleLogin} className="w-full m-8 flex flex-col text-2xl">
-            <div className='flex flex-col gap-4 justify-around items-center m-auto pb-12 w-full max-w-lg rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
-                <div className='flex justify-start w-full pl-4 pt-4 text-4xl text-custom-text'>
+        <form onSubmit={handleLogin} className="card w-full max-w-lg m-8 flex flex-col rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md text-2xl text-custom-text">
+            <div className='flex flex-col gap-4 justify-around items-center m-auto pb-12 w-full max-w-lg'>
+                <div className='flex justify-start w-full pl-4 pt-4 text-4xl'>
                     <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
                         <GoArrowLeft className='hover:text-custom-hover'/>
                     </button>
@@ -164,11 +164,11 @@ function LoginPage() {
                     </div>
 
                     <div className='group bg-transparent flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60'>
-                        <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <CiLock className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className='bg-transparent text-custom-text group-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full'
+                            className='bg-transparentgroup-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full'
                             type={inputType}
                             placeholder='Password'
                             autocomplete="current-password"
@@ -182,12 +182,12 @@ function LoginPage() {
                     <div className='flex justify-around w-full sm:px-2'>
                         <div className='group/nested flex items-center mt-2 cursor-pointer no-select' onClick={toggleRememberMe}>
                             {rememberMe 
-                                ? <FaCheckSquare className="text-custom-text pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/> 
-                                : <FaRegSquare className="text-custom-text pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/>
+                                ? <FaCheckSquare className="pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/> 
+                                : <FaRegSquare className="pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/>
                             }
-                            <p className='text-sm sm:text-lg font-thin text-custom-text group-hover/nested:text-custom-hover'>Remember Me</p>
+                            <p className='text-sm sm:text-lg font-thin group-hover/nested:text-custom-hover'>Remember Me</p>
                         </div>
-                        <p className='text-sm sm:text-lg font-thin text-custom-text mt-2 no-select hover:text-custom-hover' onClick={handleForgotPassword}>Forgot Password?</p>
+                        <p className='text-sm sm:text-lg font-thin mt-2 no-select hover:text-custom-hover' onClick={handleForgotPassword}>Forgot Password?</p>
                     </div>
                     <div id="error-message" className={`text-[20px] ${messageClassName} mt-3 ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
                         <p>{errorMessage}</p>
@@ -197,17 +197,17 @@ function LoginPage() {
                     <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-2xl font-medium py-2 mx-6 hover:mx-2 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                         Log In
                     </button>
-                    <div className='flex gap-1 w-full justify-center text-custom-text mt-2'>
+                    <div className='flex gap-2 w-full justify-center mt-2'>
                         <p>Don't have an account?</p>
                         <Link to='/signup' className='font-medium text-[#c3c5c8] hover:text-custom-hover no-select'>Sign Up</Link>
                     </div>
-                    <div className='flex items-center w-full justify-center text-custom-text -mt-2 no-select'>
+                    <div className='flex items-center w-full justify-center -mt-2 no-select'>
                         <div className='flex-1 border-t border-custom-text'></div>
                         <p className='px-1 pb-1'>or</p>
                         <div className='flex-1 border-t border-custom-text'></div>
                     </div>
                     <div className='flex justify-center'>
-                        <Link to='/' className='text-custom-text hover:text-custom-hover -mt-3'>Continue as Guest</Link>
+                        <Link to='/' className='hover:text-custom-hover -mt-3'>Continue as Guest</Link>
                     </div>
                 </div>
             </div>

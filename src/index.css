@@ -53,3 +53,7 @@ input:-webkit-autofill:focus {
     background-clip: text;
     color: transparent;
 }
+
+.card {
+    box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.5);
+}

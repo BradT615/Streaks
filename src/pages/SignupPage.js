@@ -108,9 +108,9 @@ function SignupPage() {
     };
 
     return (
-        <div className="flex flex-col max-w-lg w-full m-8 text-2xl">
-            <div className='flex flex-col gap-4 justify-around items-center m-auto pb-16 w-full rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
-                <div className='flex justify-start w-full pl-4 pt-4 text-4xl text-custom-text'>
+        <div className="card flex flex-col max-w-lg w-full m-8 text-2xl text-custom-text rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-sm">
+            <div className='flex flex-col gap-4 justify-around items-center m-auto pb-16 w-full'>
+                <div className='flex justify-start w-full pl-4 pt-4 text-4xl'>
                     <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
                         <GoArrowLeft className='hover:text-custom-hover'/>
                     </button>
@@ -122,13 +122,13 @@ function SignupPage() {
                 
                 <form onSubmit={handleSignup} className='flex flex-col items-center w-full font-medium'>
                     <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-3/4 pb-[1px] min-w-60 items-center'>
-                        <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
-                        <input className='bg-transparent text-custom-text appearance-none p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='email' placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} required />
+                        <CiMail className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <input className='bg-transparentappearance-none p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='email' placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} required />
                     </div>
     
                     <div className='group bg-transparent flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60 items-center'>
-                        <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
-                        <input className='bg-transparent text-custom-text group-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full' type={inputType} placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} required />
+                        <CiLock className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
+                        <input className='bg-transparent group-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full' type={inputType} placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} required />
                         <button onClick={togglePasswordVisibility} type="button" className="absolute inset-y-0 right-0 pr-2 flex items-center text-lg sm:text-xl leading-5 outline-none group-focus-within:text-custom-hover">
                             {icon}
                         </button>
