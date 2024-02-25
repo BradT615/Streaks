@@ -107,7 +107,7 @@ function HabitsStats({ activeHabit }) {
     }, [user, guestUUID, activeHabit, currentDate]);
     
     return (
-        <div className='flex flex-col w-1/2 h-full max-md:hidden gap-4'>
+        <div className='flex flex-col w-1/2 h-full max-lg:hidden gap-4'>
             <div className='border-2 rounded-lg p-4'>
                 <ReactCalendar
                 onChange={date => { onChange(date); setCurrentDate(date); }}

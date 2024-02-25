@@ -8,7 +8,7 @@ function Header() {
     const { user } = useContext(UserContext);
 
     return (
-        <header className='flex justify-between items-center font-medium mx-[2vw] mt-4 md:mt-6 '>
+        <header className='fixed top-0 w-full z-50 flex justify-between items-center font-medium px-[2vw] mt-4 md:mt-6 '>
             <Link to='/'>
                 <div className="group flex items-center no-select">
                     <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
