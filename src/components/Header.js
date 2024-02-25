@@ -8,7 +8,7 @@ function Header() {
     const { user } = useContext(UserContext);
 
     return (
-        <header className='flex justify-between items-center font-medium mx-[2vw] mt-4 md:mt-6'>
+        <header className='flex justify-between items-center font-medium mx-[2vw] mt-4 md:mt-6 '>
             <Link to='/'>
                 <div className="group flex items-center no-select">
                     <img src={logo} alt="Logo" className="w-8 h-8 sm:w-10 sm:h-10" />
@@ -33,7 +33,7 @@ function Header() {
                 </Link>
                 ) : (
                 <Link to='/login'>
-                    <button className="flex gap-2 items-center bg-[#192737] p-2 pl-2 pr-4 rounded-full text-custom-text hover:text-custom-hover">
+                    <button className="flex gap-2 items-center p-2 pl-2 pr-4 rounded-full text-custom-text hover:text-custom-hover bg-custom-light bg-opacity-85 backdrop-blur-md">
                         <div>
                             <CiUser className="w-6 h-6 sm:w-8 sm:h-8 rounded-full" />
                         </div>
