@@ -145,12 +145,12 @@ function LoginPage() {
                     </button>
                 </div>
                 <Link to='/' className='no-select'>
-                    <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-2'></img>
-                    <p className='text-custom-hover text-4xl text-center'>Streaks</p>
+                    <img src={logo} alt='Logo' className='w-16 sm:w-[130px] mx-auto mb-2'></img>
+                    <p className='text-custom-hover text-2xl sm:text-4xl text-center'>Streaks</p>
                 </Link>
                 
                 <div className='flex flex-col items-center w-full font-medium'>
-                    <div className='group bg-transparent flex items-center username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-3/4 min-w-60'>
+                    <div className='group bg-transparent flex items-center username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-4/5 sm:w-3/4'>
                         <CiMail className='text-[#9ea0a2] group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
@@ -163,7 +163,7 @@ function LoginPage() {
                         />
                     </div>
 
-                    <div className='group bg-transparent flex items-center password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60'>
+                    <div className='group bg-transparent flex items-center password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-4/5 sm:w-3/4'>
                         <CiLock className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
@@ -182,8 +182,8 @@ function LoginPage() {
                     <div className='flex justify-around w-full sm:px-2'>
                         <div className='group/nested flex items-center mt-2 cursor-pointer no-select' onClick={toggleRememberMe}>
                             {rememberMe 
-                                ? <FaCheckSquare className="pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/> 
-                                : <FaRegSquare className="pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/>
+                                ? <FaCheckSquare className="sm:pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/> 
+                                : <FaRegSquare className="sm:pr-1 group-hover/nested:text-custom-hover h-3 sm:h-4"/>
                             }
                             <p className='text-sm sm:text-lg font-thin group-hover/nested:text-custom-hover'>Remember Me</p>
                         </div>
@@ -194,14 +194,14 @@ function LoginPage() {
                     </div>
                 </div>
                 <div className='font-thin text-sm sm:text-lg flex flex-col'>
-                    <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-2xl font-medium py-2 mx-6 hover:mx-2 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
+                    <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-xl sm:text-2xl font-medium py-1 mx-12 sm:py-2 sm:mx-6 hover:mx-2 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                         Log In
                     </button>
                     <div className='flex w-full justify-center mt-2'>
                         <p className='p-1'>Don't have an account?</p>
                         <Link to='/signup' className='font-medium text-[#c3c5c8] hover:text-custom-hoverno-select p-1'>Sign Up</Link>
                     </div>
-                    <div className='flex items-center w-full justify-center -mt-2 no-select'>
+                    <div className='flex items-center w-11/12 sm:w-full mx-auto -mt-2 no-select'>
                         <div className='flex-1 border-t border-custom-text'></div>
                         <p className='px-1 pb-1'>or</p>
                         <div className='flex-1 border-t border-custom-text'></div>

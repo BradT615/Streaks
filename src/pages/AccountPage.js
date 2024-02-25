@@ -174,7 +174,7 @@ function AccountPage() {
     };
 
     return (
-        <div className="flex flex-col justify-center w-full max-w-lg font-medium text-custom-text">
+        <div className="flex flex-col justify-center w-full max-w-lg m-4 font-medium text-custom-text rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md">
             {showDeleteModal && (
                 <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -211,8 +211,8 @@ function AccountPage() {
                     </div>
                 </div>
             )}
-            <div className='flex flex-col justify-center sm:text-xl w-full max-w-lg m-auto my-8 px-4 pb-12 pt-4 rounded-lg shadow-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
-                <div className='flex justify-between text-4xl'>
+            <div className='flex flex-col justify-center sm:text-xl w-full max-w-lg pb-12 pt-4'>
+                <div className='flex justify-between text-4xl px-4'>
                     <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
                         <GoArrowLeft className='hover:text-custom-hover'/>
                     </button>
@@ -221,9 +221,9 @@ function AccountPage() {
                     </button>
                 </div>
                 
-                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl mb-16'>Edit Profile</h1>
+                <h1 className='text-center text-custom-hover font-semibold text-2xl sm:text-4xl'>Edit Profile</h1>
 
-                <div className='flex max-[320px]:flex-col gap-6 mb-8 justify-around w-full items-center'>
+                <div className='flex max-[320px]:flex-col gap-6 my-8 justify-around w-full items-center'>
                     <div className='h-36 w-36 relative group' onClick={() => fileInputRef.current.click()}>
                         {profilePicUrl ? (
                             <img src={profilePicUrl} alt='Profile' className='mx-auto h-36 w-36 object-cover rounded-full border-2 group-hover:opacity-50 transition-opacity'></img>
@@ -237,34 +237,34 @@ function AccountPage() {
 
                 <div className='flex flex-col items-center gap-6'>
 
-                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 sm:w-3/4'>
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={displayName}
                             onChange={(e) => setDisplayName(e.target.value)}
-                            className='bg-transparent text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-transparent text-custom-text p-2 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='text'
                             placeholder='New Username'
                         />
                     </div>
 
-                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 sm:w-3/4'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            className='bg-transparent text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-transparent text-custom-text p-2 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type='Email'
                             placeholder='New Email'
                         />
                     </div>
 
-                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative pb-[1px] w-10/12 min-w-60'>
+                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative pb-[1px] w-10/12 sm:w-3/4'>
                         <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className='bg-transparent text-custom-text p-2 pr-8 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
+                            className='bg-transparent text-custom-text p-2 hover:text-custom-hover focus:text-custom-hover outline-none w-full'
                             type={inputType}
                             placeholder='New Password'
                         />
@@ -277,7 +277,7 @@ function AccountPage() {
                             <p>{errorMessage}</p>
                         </div>
                     </div>
-                    <div className='flex flex-col gap-4 mt-4 pb-4'>
+                    <div className='flex flex-col gap-1'>
                         <button onClick={signOutUser} className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover w-fit mx-auto text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                             Log Out
                         </button>

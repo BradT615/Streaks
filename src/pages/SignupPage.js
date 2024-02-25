@@ -122,22 +122,22 @@ function SignupPage() {
                         <GoArrowLeft className='hover:text-custom-hover'/>
                     </button>
                 </div>
-                <Link to='/' className='no-select mb-6'>
-                    <img src={logo} alt='Logo' className='w-[130px] mx-auto mb-2'></img>
-                    <p className='text-custom-hover text-4xl text-center'>Streaks</p>
+                <Link to='/' className='no-select sm:mb-6'>
+                    <img src={logo} alt='Logo' className='w-16 sm:w-[130px] mx-auto mb-2'></img>
+                    <p className='text-custom-hover text-2xl sm:text-4xl text-center'>Streaks</p>
                 </Link>
                 
-                <form onSubmit={handleSignup} className='flex flex-col items-center w-full font-medium'>
-                    <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-3/4 pb-[1px] min-w-60 items-center'>
+                <form onSubmit={handleSignup} className='flex flex-col items-center w-full'>
+                    <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover w-4/5 sm:w-3/4 pb-[1px] items-center'>
                         <CiUser className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input className='bg-transparentappearance-none p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='text' placeholder='Name' value={name} onChange={e => setName(e.target.value)} required autoComplete="name" />
                     </div>
-                    <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 w-3/4 pb-[1px] min-w-60 items-center'>
+                    <div className='group bg-transparent flex username-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-2 sm:mt-6 w-4/5 sm:w-3/4 pb-[1px] items-center'>
                         <CiMail className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input className='bg-transparentappearance-none p-2 pr-8 text-xl hover:text-custom-hover focus:text-custom-hover outline-none w-full' type='email' placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" />
                     </div>
     
-                    <div className='group bg-transparent flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 relative pb-[1px] w-3/4 min-w-60 items-center'>
+                    <div className='group bg-transparent flex password-div border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-2 sm:mt-6 relative w-4/5 sm:w-3/4 pb-[1px] items-center'>
                         <CiLock className='group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input className='bg-transparent group-hover:text-custom-hover focus:text-custom-hover p-2 pr-8 text-xl outline-none w-full' type={inputType} placeholder='Password' value={password} onChange={e => setPassword(e.target.value)} required />
                         <button onClick={togglePasswordVisibility} type="button" className="absolute inset-y-0 right-0 pr-2 flex items-center text-lg sm:text-xl leading-5 outline-none group-focus-within:text-custom-hover">
@@ -150,7 +150,7 @@ function SignupPage() {
                         </div>
                     </div>
                     <div className='font-thin text-sm sm:text-lg flex flex-col mt-12'>
-                        <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
+                        <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-xl sm:text-2xl font-medium py-1 sm:py-2 px-4 sm:px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                             Create Account
                         </button>
                     </div>
