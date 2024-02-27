@@ -137,8 +137,8 @@ function LoginPage() {
     };
 
     return (
-        <form onSubmit={handleLogin} className="card w-full max-w-lg m-4 flex flex-col rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md text-2xl text-custom-text">
-            <div className='flex flex-col gap-2 justify-around items-center m-auto pb-12 w-full max-w-lg'>
+        <form onSubmit={handleLogin} className="card w-full max-w-sm sm:max-w-lg m-4 flex flex-col rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md text-2xl text-custom-text">
+            <div className='flex flex-col gap-2 justify-around items-center m-auto pb-12 w-full'>
                 <div className='flex justify-start w-full pl-4 pt-4 text-4xl'>
                     <button type="button" onClick={handleBack} className={`w-fit rounded-lg`}>
                         <GoArrowLeft className='hover:text-custom-hover'/>

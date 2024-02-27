@@ -115,7 +115,7 @@ function SignupPage() {
     };
 
     return (
-        <div className="card flex flex-col max-w-lg w-full m-4 text-2xl text-custom-text rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-sm">
+        <div className="card flex flex-col max-w-sm sm:max-w-lg w-full m-4 text-2xl text-custom-text rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-sm">
             <div className='flex flex-col gap-4 justify-around items-center m-auto pb-16 w-full'>
                 <div className='flex justify-start w-full pl-4 pt-4 text-4xl'>
                     <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
