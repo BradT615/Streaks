@@ -174,14 +174,14 @@ function AccountPage() {
     };
 
     return (
-        <div className="flex flex-col justify-center w-full max-w-lg m-4 font-medium text-custom-text rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md">
+        <div className="flex flex-col justify-center w-full max-w-lg m-4 font-medium text-custom-text">
             {showDeleteModal && (
                 <div className="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 transition-opacity" aria-hidden="true"></div>
                         <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                        <div className="inline-block align-bottom rounded-lg text-center text-custom-text overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                            <div className="flex flex-col items-center bg-custom-light bg-opacity-85 backdrop-blur-md px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div className="inline-block align-bottom rounded-lg text-center text-custom-text overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-md sm:w-full">
+                            <div className="flex flex-col items-center bg-custom-light px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <h3 className="text-lg my-3" id="modal-title">
                                     Are you sure you want to delete your account?
                                 </h3>
@@ -199,7 +199,7 @@ function AccountPage() {
                                     </button>
                                 </div>
                             </div>
-                            <div className="bg-custom-light bg-opacity-85 backdrop-blur-md px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                            <div className="bg-custom-light px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                                 <button type="button" className="w-full inline-flex justify-center rounded-md border-[1px] border-red-200 hover:border-red-300 shadow-sm px-4 py-2 text-red-200 hover:text-red-300  focus:outline-none focus:ring-1 focus:ring-offset-1 focus:ring-red-300 sm:ml-3 sm:w-auto sm:text-sm" onClick={confirmDeleteAccount}>
                                     Delete
                                 </button>
@@ -211,7 +211,7 @@ function AccountPage() {
                     </div>
                 </div>
             )}
-            <div className='flex flex-col justify-center sm:text-xl w-full max-w-lg pb-12 pt-4'>
+            <div className='flex flex-col justify-center sm:text-xl w-full max-w-lg pb-12 pt-4 rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
                 <div className='flex justify-between text-4xl px-4'>
                     <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
                         <GoArrowLeft className='hover:text-custom-hover'/>
@@ -232,7 +232,7 @@ function AccountPage() {
                         )}
                         <FiEdit2 className='absolute inset-0 m-auto h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none' />
                     </div>
-                    <input type="file" ref={fileInputRef} onChange={onFileChange} style={{ display: 'none' }} />
+                    <input type="file" ref={fileInputRef} onChange={onFileChange} accept="image/*" style={{ display: 'none' }} />
                 </div>
 
                 <div className='flex flex-col items-center'>
