@@ -235,7 +235,7 @@ function AccountPage() {
                     <input type="file" ref={fileInputRef} onChange={onFileChange} style={{ display: 'none' }} />
                 </div>
 
-                <div className='flex flex-col items-center gap-6'>
+                <div className='flex flex-col items-center'>
 
                     <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 sm:w-3/4'>
                         <CiUser className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
@@ -248,7 +248,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover pb-[1px] w-10/12 sm:w-3/4'>
+                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover mt-6 pb-[1px] w-10/12 sm:w-3/4'>
                         <CiMail className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={email}
@@ -259,7 +259,7 @@ function AccountPage() {
                         />
                     </div>
 
-                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative pb-[1px] w-10/12 sm:w-3/4'>
+                    <div className='group bg-transparent flex items-center border-b-[1px] border-custom-text hover:border-custom-hover focus-within:border-custom-hover relative mt-6 pb-[1px] w-10/12 sm:w-3/4'>
                         <CiLock className='text-custom-text group-hover:text-custom-hover group-focus-within:text-custom-hover h-full min-w-6 sm:w-8'/>
                         <input
                             value={password}
@@ -272,12 +272,12 @@ function AccountPage() {
                             {icon}
                         </button>
                     </div>
-                    <div className='flex justify-center'>
-                        <div id="error-message" className={`absolute text-[20px] text-center ${messageClassName} ${showErrorModal ? 'visible animate-shake' : 'invisible'}`}>
+                    <div className='flex justify-center mt-4'>
+                        <div id="error-message" className={`absolute text-[20px] text-center ${messageClassName} ${showErrorModal ? 'visible' + (messageClassName !== 'text-green-400' ? ' animate-shake' : '') : 'invisible'}`}>
                             <p>{errorMessage}</p>
                         </div>
                     </div>
-                    <div className='flex flex-col gap-1'>
+                    <div className='flex flex-col gap-1 mt-12'>
                         <button onClick={signOutUser} className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover w-fit mx-auto text-2xl font-medium py-2 px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                             Log Out
                         </button>
