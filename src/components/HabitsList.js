@@ -108,17 +108,17 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     return (
-        <div className={`border-[1px] border-custom-hover w-full p-4 rounded-lg ${activeHabit ? 'lg:w-1/2' : ''}`}>
-            <div className='mt-2 flex flex-col justify-center'>
-                <h1 className='font-medium border-b-[1px] mb-4 w-fit max-sm:border-custom-text max-sm:hover:border-custom-hover max-sm:hover:text-custom-hover no-select self-center'>Habits</h1>
+        <div className={`w-full px-4 ${activeHabit ? 'lg:w-1/3' : ''}`}>
+            <div className='flex flex-col justify-center'>
+                <h1 className='font-medium mb-4 w-fit max-sm:hover:text-custom-hover no-select'>Habits</h1>
                 <div className='flex flex-col w-full justify-center gap-4'>
                     <div className='flex gap-4 items-center justify-center'>
                         <input className='h-full p-1 w-full border-2' value={newItem} onChange={e => setNewItem(e.target.value)} />
                         <FiCheck className=' cursor-pointer' onClick={handleAddItem} />
                     </div>
-                    <ul className=''>
+                    <ul>
                         {items.map((item, index) => (
-                            <div key={index} className='relative group'>
+                            <div key={index} className='relative group text-left'>
                                 {editingHabit === item ? (
                                     <input
                                         value={editedHabitName}
@@ -128,12 +128,12 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                 ) : (
                                     <li 
                                         onClick={() => handleItemClick(item)}
-                                        className={`cursor-pointer my-1  w-full mx-auto p-2 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
+                                        className={`cursor-pointer my-3 bg-[#353b4a] w-full mx-auto p-3 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
                                     >
                                         {item}
                                     </li>
                                 )}
-                                <div className='absolute right-20 text-4xl flex items-center justify-center gap-4 top-0 mt-2 mr-2 opacity-0 group-hover:opacity-100'>
+                                <div className='absolute right-0 text-4xl flex items-center justify-center gap-4 top-0 mt-2 mr-2 opacity-0 group-hover:opacity-100'>
                                     <button onClick={() => handleEditHabit(item)} className='hover:text-custom-hover'>Edit</button>
                                     <CiCircleRemove
                                         onClick={() => handleRemoveItem(item)}
