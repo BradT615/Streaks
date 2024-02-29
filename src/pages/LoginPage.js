@@ -194,7 +194,7 @@ function LoginPage() {
                     </div>
                 </div>
                 <div className='font-thin text-sm sm:text-lg flex flex-col'>
-                    <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-xl sm:text-2xl font-medium py-1 mx-12 sm:py-2 sm:mx-6 hover:mx-2 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
+                    <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-xl sm:text-2xl font-medium py-1 mx-8 hover:mx-6 sm:py-2 sm:mx-6 sm:hover:mx-2 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                         Log In
                     </button>
                     <div className='flex w-full justify-center mt-2'>

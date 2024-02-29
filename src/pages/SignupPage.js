@@ -150,7 +150,7 @@ function SignupPage() {
                         </div>
                     </div>
                     <div className='font-thin text-sm sm:text-lg flex flex-col mt-12'>
-                        <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-xl sm:text-2xl font-medium py-1 sm:py-2 px-4 sm:px-8 hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
+                        <button type="submit" className="bg-gradient-to-r from-custom-green to-custom-blue text-custom-hover text-xl sm:text-2xl font-medium py-2 px-4 hover:px-8 sm:py-2 sm:px-8 sm:hover:px-12 rounded-full shadow-lg no-select transition-all duration-200 ease-out">
                             Create Account
                         </button>
                     </div>
