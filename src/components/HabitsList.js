@@ -108,7 +108,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     return (
-        <div className={`w-full px-4 ${activeHabit ? 'lg:w-1/3' : ''}`}>
+        <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} `}>
             <div className='flex flex-col justify-center'>
                 <h1 className='font-medium mb-4 w-fit max-sm:hover:text-custom-hover no-select'>Habits</h1>
                 <div className='flex flex-col w-full justify-center gap-4'>

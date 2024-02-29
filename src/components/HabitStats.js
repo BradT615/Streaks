@@ -4,6 +4,7 @@ import { UserContext } from '../contexts/UserContext';
 import ReactCalendar from 'react-calendar';
 import { db } from '../firebaseConfig';
 import { collection, doc, query, orderBy, setDoc, onSnapshot } from "firebase/firestore";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import './Calendar.css';
 
 function HabitsStats({ activeHabit }) {
@@ -33,7 +34,7 @@ function HabitsStats({ activeHabit }) {
         if (activeHabit && view === 'month') {
             const dateKey = date.toISOString().split('T')[0];
             if (habitData[dateKey]) {
-                return habitData[dateKey].success ? 'success-day bg-green-300' : 'habit-day bg-yellow-300';
+                return habitData[dateKey].success ? 'success-day' : 'habit-day';
             }
         }
     };
@@ -108,20 +109,32 @@ function HabitsStats({ activeHabit }) {
     
     return (
         <div className='flex flex-col w-2/3 h-full max-lg:hidden gap-4'>
-            <div className='border-2 rounded-lg p-4'>
+            <div>
                 <ReactCalendar
-                onChange={date => { onChange(date); setCurrentDate(date); }}
-                value={value}
-                tileClassName={tileClassName}
-                calendarType="gregory"
-            />
+                    onChange={date => { onChange(date); setCurrentDate(date); }}
+                    value={value}
+                    tileClassName={tileClassName}
+                    calendarType="gregory"
+                    maxDetail="month"
+                    next2Label={null}
+                    prev2Label={null}
+                    nextLabel={<IoIosArrowForward />}
+                    prevLabel={<IoIosArrowBack />}
+                    tileContent={({ date, view }) => {
+                        if (view === 'month') {
+                            const dateKey = date.toISOString().split('T')[0];
+                            return habitData[dateKey] && habitData[dateKey].notes ? <div className="dot" /> : null;
+                        }
+                        return null;
+                    }}
+                />
             </div>
             <button 
                 onClick={() => addDate(currentDate, true, notes)}
                 className='bg-green-600 text-white rounded-lg p-2 hover:bg-green-500'
             >
                     Set Success</button>
-            <div className='border-2 rounded-lg h-full p-4'>
+            <div className='p-4'>
                 <h1 className='font-medium border-b-[1px] mb-4 w-fit max-sm:border-custom-text max-sm:hover:border-custom-hover max-sm:hover:text-custom-hover no-select self-center'>Notes</h1>
                 <div className='flex flex-col w-full justify-center gap-4'>
                     <div>
