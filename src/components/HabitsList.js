@@ -108,9 +108,9 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     return (
-        <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} `}>
+        <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} border-2 rounded-lg`}>
             <div className='flex flex-col justify-center'>
-                <h1 className='font-medium mb-4 w-fit max-sm:hover:text-custom-hover no-select'>Habits</h1>
+                <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select'>Habits</h1>
                 <div className='flex flex-col w-full justify-center gap-4'>
                     <div className='flex gap-4 items-center justify-center'>
                         <input className='h-full p-1 w-full border-2' value={newItem} onChange={e => setNewItem(e.target.value)} />

@@ -1,19 +1,47 @@
 .react-calendar {
     width: 100%;
-    background-color: #fff;
+    background-color: #8897bc;
     color: #1a1d24;
     border-radius: 8px;
-    margin-bottom: 4px;
-    border: 1px solid red;
-    height: 300px;
+    font-size: smaller;
 }
 .react-calendar__navigation {
     display: flex;
-    width: 50%;
-    min-width: 44px;
+    align-items: center; /* Ensures vertical alignment is centered for all items */
+    justify-content: space-between; /* Distributes space evenly between and around items */
+    text-align: center;
+    width: 100%;
     background: none;
     margin: auto;
     padding: 8px;
+}
+
+.react-calendar__navigation__label {
+    flex: 1; /* Allows the label to grow and fill the available space */
+    font-size: 1.2em;
+    border-radius: 8px;
+    display: flex;
+    align-items: center; /* Centers content vertically inside the label */
+    justify-content: center; /* Centers content horizontally inside the label */
+}
+
+.react-calendar__navigation__label:hover {
+    background: #00bcff;
+}
+
+.react-calendar__navigation__arrow {
+    flex: 0 0 25%; /* Do not grow, do not shrink, initial basis at 25% */
+    display: flex;
+    justify-content: center; /* This will center the arrow icons inside the arrow containers */
+    align-items: center; /* Vertically center in case of any height adjustments */
+    padding: 4px 12px;
+    color: #1a1d24;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer; /* Indicates clickable items */
+}
+.react-calendar__navigation__arrow:hover {
+    background: #00bcff;
 }
 
 abbr[title] {
@@ -21,15 +49,19 @@ abbr[title] {
 }
 
 .react-calendar__tile {
-    position: relative;
+    padding: 4%;
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: calc(100% / 7); /* divide by number of columns */
-    height: calc(100% / 6); /* divide by number of rows */
     border-radius: 6px;
+    overflow: hidden;
 }
+.react-calendar__tile > * {
+    position: absolute;
+}
+
 
 .react-calendar__tile:hover {
     background: #00bcff;
@@ -47,7 +79,7 @@ abbr[title] {
 
 .dot {
     position: absolute;
-    bottom: 3px;
+    bottom: 10%;
     height: 5px;
     width: 5px;
     background-color: #13151b;
