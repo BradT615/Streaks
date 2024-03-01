@@ -108,8 +108,8 @@ function HabitsStats({ activeHabit }) {
     }, [user, guestUUID, activeHabit, currentDate]);
     
     return (
-        <div className='flex flex-col w-2/3 h-full max-lg:hidden gap-4'>
-            <div>
+        <div className='flex flex-col justify-between w-2/3 h-full max-lg:hidden gap-4'>
+            <div className='border-2 flex-1'>
                 <ReactCalendar
                     onChange={date => { onChange(date); setCurrentDate(date); }}
                     value={value}
@@ -128,13 +128,9 @@ function HabitsStats({ activeHabit }) {
                         return null;
                     }}
                 />
+                <button onClick={() => addDate(currentDate, true, notes)} className='bg-green-600 text-white rounded-lg p-2 mt-2 w-full hover:bg-green-500'>Set Success</button>
             </div>
-            <button 
-                onClick={() => addDate(currentDate, true, notes)}
-                className='bg-green-600 text-white rounded-lg p-2 hover:bg-green-500'
-            >
-                    Set Success</button>
-            <div className='p-4'>
+            <div className='p-4 border-2'>
                 <h1 className='font-medium border-b-[1px] mb-4 w-fit max-sm:border-custom-text max-sm:hover:border-custom-hover max-sm:hover:text-custom-hover no-select self-center'>Notes</h1>
                 <div className='flex flex-col w-full justify-center gap-4'>
                     <div>

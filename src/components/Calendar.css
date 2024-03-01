@@ -1,13 +1,11 @@
-.react-calendar { 
-    display: flex;
-    flex-direction: column;
+.react-calendar {
     width: 100%;
     background-color: #fff;
     color: #1a1d24;
     border-radius: 8px;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-    font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.125em;
+    margin-bottom: 4px;
+    border: 1px solid red;
+    height: 300px;
 }
 .react-calendar__navigation {
     display: flex;
@@ -28,10 +26,9 @@ abbr[title] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    max-width: 100%;
-    /* background: none; */
+    width: calc(100% / 7); /* divide by number of columns */
+    height: calc(100% / 6); /* divide by number of rows */
     border-radius: 6px;
-    padding: 6px;
 }
 
 .react-calendar__tile:hover {
