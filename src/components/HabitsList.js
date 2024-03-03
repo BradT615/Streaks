@@ -1,21 +1,20 @@
 // HabitsList.js
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useContext, useRef } from 'react';
 import { UserContext } from '../contexts/UserContext';
 import { db } from '../firebaseConfig';
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import { CiCircleRemove } from "react-icons/ci";
-import { FiCheck } from "react-icons/fi";
-// FiEdit, FiTrash, FiPlusCircle
+import { FiCheck, FiPlusCircle } from "react-icons/fi";
+// FiEdit, FiTrash
 
 function HabitsList({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);
     const [items, setItems] = useState([]);
-    const [newItem, setNewItem] = useState('');
     const [highlightedItem, setHighlightedItem] = useState(null);
     const [editingHabit, setEditingHabit] = useState(null);
     const [editedHabitName, setEditedHabitName] = useState('');
-
-
+    const [newItemAdded, setNewItemAdded] = useState(false);
+    const inputRef = useRef(null);
 
     // Fetch habits from Firestore
     const fetchHabits = useCallback(async () => {
@@ -39,7 +38,6 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     useEffect(() => {
         fetchHabits();
     }, [fetchHabits]);
-
     // Store habits in Firestore
     const storeHabits = async (habits) => {
         let habitsRef;
@@ -68,20 +66,27 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     const handleAddItem = () => {
-        if (newItem.trim() !== '') {
-            if (items.includes(newItem)) {
-                setHighlightedItem(newItem);
-                setTimeout(() => setHighlightedItem(null), 400);
-            } else {
-                const updatedItems = [...items, newItem];
-                setItems(updatedItems);
-                storeHabits(updatedItems);
-                setNewItem('');
-                setActiveHabit(newItem);
-            }
+        if (!items.includes('')) {
+            const updatedItems = [...items, ''];
+            setItems(updatedItems);
+            setEditingHabit(items.length);
+            setNewItemAdded(true);
+            setEditedHabitName('');
         }
     };
 
+    useEffect(() => {
+        if ((editingHabit !== null || newItemAdded) && inputRef.current) {
+            inputRef.current.focus();
+            setNewItemAdded(false);
+        }
+    }, [editingHabit, newItemAdded]);
+
+    const handleEditHabit = (habit) => {
+        const index = items.indexOf(habit);
+        setEditingHabit(index);
+        setEditedHabitName(habit);
+    };
     const handleRemoveItem = (itemToRemove) => {
         const updatedItems = items.filter(item => item !== itemToRemove);
         setItems(updatedItems);
@@ -90,17 +95,20 @@ function HabitsList({ activeHabit, setActiveHabit }) {
             setActiveHabit(updatedItems[0]);
         }
     };
-
-    const handleEditHabit = (habit) => {
-        setEditingHabit(habit);
-        setEditedHabitName(habit);
-    };
-
     const handleSaveEdit = async () => {
-        const updatedItems = items.map(item => item === editingHabit ? editedHabitName : item);
-        setItems(updatedItems);
-        await storeHabits(updatedItems);
-        setEditingHabit(null);
+        if (editedHabitName.trim() !== '') {
+            if (items.includes(editedHabitName)) {
+                setHighlightedItem(editedHabitName);
+                setTimeout(() => setHighlightedItem(null), 400);
+            } else {
+                const updatedItems = items.map((item, index) => index === editingHabit ? editedHabitName : item);
+                setItems(updatedItems);
+                await storeHabits(updatedItems);
+                setEditingHabit(null);
+                setActiveHabit(editedHabitName);
+                setEditedHabitName('');
+            }
+        }
     };
     
 
@@ -109,27 +117,26 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     return (
-        <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} border-2 rounded-lg`}>
+        <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} border-2 rounded-lg relative`}>
             <div className='flex flex-col justify-center'>
                 <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select'>Habits</h1>
                 <div className='flex flex-col w-full justify-center gap-4'>
-                    <div className='flex gap-4 items-center justify-center'>
-                        <input className='h-full p-1 w-full border-2' value={newItem} onChange={e => setNewItem(e.target.value)} />
-                        <FiCheck className=' cursor-pointer' onClick={handleAddItem} />
-                    </div>
                     <ul>
                         {items.map((item, index) => (
-                            <div key={index} className='relative group text-left'>
-                                {editingHabit === item ? (
+                            <div key={index} className='relative group text-left bg-custom-green bg-opacity-70 mb-4 py-4 px-2 rounded-lg card'>
+                                {editingHabit === index ? (
                                     <input
+                                        ref={inputRef}
                                         value={editedHabitName}
                                         onChange={e => setEditedHabitName(e.target.value)}
                                         onKeyDown={e => e.key === 'Enter' && handleSaveEdit()}
+                                        onBlur={handleSaveEdit}
+                                        className='border-2'
                                     />
                                 ) : (
                                     <li 
                                         onClick={() => handleItemClick(item)}
-                                        className={`cursor-pointer my-3 bg-[#353b4a] w-full mx-auto p-3 px-4 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
+                                        className={`cursor-pointer w-2/3 p-1 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
                                     >
                                         {item}
                                     </li>
@@ -145,6 +152,9 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                         ))}
                     </ul>
                 </div>
+            </div>
+            <div className='absolute bottom-0 right-0 p-4 rounded-ee-lg'>
+                <FiPlusCircle className='text-4xl cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
             </div>
         </div>
     );
