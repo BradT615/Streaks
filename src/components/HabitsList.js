@@ -5,6 +5,7 @@ import { db } from '../firebaseConfig';
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import { CiCircleRemove } from "react-icons/ci";
 import { FiCheck } from "react-icons/fi";
+// FiEdit, FiTrash, FiPlusCircle
 
 function HabitsList({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);

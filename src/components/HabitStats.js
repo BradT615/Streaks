@@ -109,9 +109,10 @@ function HabitsStats({ activeHabit }) {
     
     return (
         <div className='flex flex-col justify-between w-2/3 h-full max-lg:hidden gap-4'>
-            <div className='flex flex-col border-2'> {/* Adjusted this line */}
+            <div className='flex flex-col'>
                 <ReactCalendar
                     onChange={date => { onChange(date); setCurrentDate(date); }}
+                    className={'bg-white bg-opacity-30'}
                     value={value}
                     tileClassName={tileClassName}
                     calendarType="gregory"
