@@ -3,9 +3,7 @@ import React, { useState, useEffect, useCallback, useContext, useRef } from 'rea
 import { UserContext } from '../contexts/UserContext';
 import { db } from '../firebaseConfig';
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
-import { CiCircleRemove } from "react-icons/ci";
-import { FiCheck, FiPlusCircle } from "react-icons/fi";
-// FiEdit, FiTrash
+import { FiPlusCircle, FiEdit, FiTrash } from "react-icons/fi";
 
 function HabitsList({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);
@@ -99,21 +97,27 @@ function HabitsList({ activeHabit, setActiveHabit }) {
         if (editedHabitName.trim() !== '') {
             if (items.includes(editedHabitName)) {
                 setHighlightedItem(editedHabitName);
-                setTimeout(() => setHighlightedItem(null), 400);
+                setHighlightedItem(null);
             } else {
                 const updatedItems = items.map((item, index) => index === editingHabit ? editedHabitName : item);
                 setItems(updatedItems);
                 await storeHabits(updatedItems);
-                setEditingHabit(null);
                 setActiveHabit(editedHabitName);
                 setEditedHabitName('');
             }
+        } else {
+            const updatedItems = items.filter((item, index) => index !== editingHabit);
+            setItems(updatedItems);
+            await storeHabits(updatedItems);
         }
+        setEditingHabit(null);
     };
     
 
     const handleItemClick = (item) => {
-        setActiveHabit(item);
+        if (item !== '') {
+            setActiveHabit(item);
+        }
     };
 
     return (
@@ -123,7 +127,11 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                 <div className='flex flex-col w-full justify-center gap-4'>
                     <ul>
                         {items.map((item, index) => (
-                            <div key={index} className='relative group text-left bg-custom-green bg-opacity-70 mb-4 py-4 px-2 rounded-lg card'>
+                            <div 
+                                key={index} 
+                                className={`relative group text-left bg-white bg-opacity-30 my-5 py-4 px-2 rounded-lg card border-2 ${item === activeHabit ? 'border-custom-hover' : 'border-transparent'} hover:border-custom-hover hover:text-custom-hover`}
+                                onClick={() => handleItemClick(item)}
+                            >
                                 {editingHabit === index ? (
                                     <input
                                         ref={inputRef}
@@ -135,18 +143,14 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                     />
                                 ) : (
                                     <li 
-                                        onClick={() => handleItemClick(item)}
-                                        className={`cursor-pointer w-2/3 p-1 rounded-lg no-select transition-colors duration-200 ease-out ${item === activeHabit ? 'border-2 text-custom-hover border-custom-hover' : 'border-2 border-custom-bg hover:border-[#b1bbcc] hover:text-[#b1bbcc]'} ${item === highlightedItem ? 'text-red-500' : ''}`}
+                                        className={`cursor-pointer w-2/3 p-1 rounded-lg no-select ${item === activeHabit ? 'text-custom-hover' : ''} ${item === highlightedItem ? 'text-green-500' : ''}`}
                                     >
                                         {item}
                                     </li>
                                 )}
-                                <div className='absolute right-0 text-4xl flex items-center justify-center gap-4 top-0 mt-2 mr-2 opacity-0 group-hover:opacity-100'>
-                                    <button onClick={() => handleEditHabit(item)} className='hover:text-custom-hover'>Edit</button>
-                                    <CiCircleRemove
-                                        onClick={() => handleRemoveItem(item)}
-                                        className='text-red-400 hover:text-red-500'
-                                    />
+                                <div className='absolute right-0 text-3xl flex items-center justify-center gap-2 -top-4 bg-custom-light rounded-lg p-1 opacity-0 group-hover:opacity-100'>
+                                    <FiEdit onClick={(e) => {e.stopPropagation(); handleEditHabit(item);}} className='hover:text-custom-hover' />
+                                    <FiTrash onClick={(e) => {e.stopPropagation(); handleRemoveItem(item);}} className='text-red-400 hover:text-red-500' />
                                 </div>
                             </div>
                         ))}
