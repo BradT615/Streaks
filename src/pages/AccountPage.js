@@ -211,7 +211,7 @@ function AccountPage() {
                     </div>
                 </div>
             )}
-            <div className='flex flex-col justify-center sm:text-xl w-full max-w-lg pb-12 pt-4 rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md'>
+            <div className='flex flex-col justify-center sm:text-xl w-full max-w-lg pb-12 pt-4 rounded-lg bg-custom-light bg-opacity-85 backdrop-blur-md card'>
                 <div className='flex justify-between text-4xl px-4'>
                     <button type="submit" onClick={handleBack} className={`w-fit rounded-lg`}>
                         <GoArrowLeft className='hover:text-custom-hover'/>

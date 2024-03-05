@@ -129,7 +129,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                         {items.map((item, index) => (
                             <div 
                                 key={index} 
-                                className={`relative group text-left bg-white bg-opacity-30 my-5 py-4 px-2 rounded-lg card border-2 ${item === activeHabit ? 'border-custom-hover' : 'border-transparent'} hover:border-custom-hover hover:text-custom-hover`}
+                                className={`relative group text-left bg-white bg-opacity-30 my-5 py-4 px-2 rounded-lg border-2 ${item === activeHabit ? 'border-custom-hover card' : 'border-transparent hover:shadow-xl'} hover:border-custom-hover hover:text-custom-hover`}
                                 onClick={() => handleItemClick(item)}
                             >
                                 {editingHabit === index ? (
