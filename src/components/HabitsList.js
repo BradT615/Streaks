@@ -149,7 +149,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                     </li>
                                 )}
                                 <div className='absolute right-0 text-3xl flex items-center justify-center gap-2 -top-4 bg-custom-light rounded-lg p-1 opacity-0 group-hover:opacity-100'>
-                                    <FiEdit onClick={(e) => {e.stopPropagation(); handleEditHabit(item);}} className='hover:text-custom-hover' />
+                                    <FiEdit onClick={(e) => {e.stopPropagation(); handleEditHabit(item);}} className='text-custom-text hover:text-custom-hover' />
                                     <FiTrash onClick={(e) => {e.stopPropagation(); handleRemoveItem(item);}} className='text-red-400 hover:text-red-500' />
                                 </div>
                             </div>
