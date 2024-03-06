@@ -1,43 +1,31 @@
 .react-calendar {
-    width: 100%;;
-    color: #1a1d24;
+    width: 100%;
+    color: #9ea0a2;
     border-radius: 8px;
     font-size: smaller;
+    background-color: transparent;
 }
 .react-calendar__navigation {
     display: flex;
-    align-items: center; /* Ensures vertical alignment is centered for all items */
-    justify-content: space-between; /* Distributes space evenly between and around items */
-    text-align: center;
-    width: 100%;
-    background: none;
-    margin: auto;
-    padding: 8px;
+    width: 50%;
+    padding: 12px;
+    margin: 0 auto;
 }
 
-.react-calendar__navigation__label {
-    flex: 1; /* Allows the label to grow and fill the available space */
+.react-calendar__navigation__label { 
     font-size: 1.2em;
     border-radius: 8px;
-    display: flex;
-    align-items: center; /* Centers content vertically inside the label */
-    justify-content: center; /* Centers content horizontally inside the label */
 }
 
 .react-calendar__navigation__label:hover {
-    background: #00bcff;
+    background: #1a1d24;
 }
 
 .react-calendar__navigation__arrow {
-    flex: 0 0 25%; /* Do not grow, do not shrink, initial basis at 25% */
-    display: flex;
-    justify-content: center; /* This will center the arrow icons inside the arrow containers */
-    align-items: center; /* Vertically center in case of any height adjustments */
-    padding: 4px 12px;
-    color: #1a1d24;
+    padding: 6px;
     font-size: 1.2em;
-    border-radius: 8px;
-    cursor: pointer; /* Indicates clickable items */
+    border-radius: 40px;
+    cursor: pointer;
 }
 .react-calendar__navigation__arrow:hover {
     background: #00bcff;
@@ -48,17 +36,8 @@ abbr[title] {
 }
 
 .react-calendar__tile {
-    padding: 4%;
-    display: flex;
     position: relative;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 6px;
-    overflow: hidden;
-}
-.react-calendar__tile > * {
-    position: absolute;
+    font-size: 0.8em;
 }
 
 

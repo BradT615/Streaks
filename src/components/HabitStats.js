@@ -5,6 +5,8 @@ import ReactCalendar from 'react-calendar';
 import { db } from '../firebaseConfig';
 import { collection, doc, query, orderBy, setDoc, onSnapshot } from "firebase/firestore";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { FiPlus, FiEdit, FiCheck } from "react-icons/fi";
+import { LuUndo2 } from "react-icons/lu";
 import './Calendar.css';
 
 function HabitsStats({ activeHabit }) {
@@ -13,6 +15,9 @@ function HabitsStats({ activeHabit }) {
     const [habitData, setHabitData] = useState({});
     const [currentDate, setCurrentDate] = useState(null);
     const [notes, setNotes] = useState('');
+    const [showAddNote, setShowAddNote] = useState(false);
+    const [isEditingNotes, setIsEditingNotes] = useState(false);
+    const [initialNotes, setInitialNotes] = useState('');
 
     const addDate = async (date, success = false, notes = null) => {
         if (!activeHabit) return
@@ -82,7 +87,19 @@ function HabitsStats({ activeHabit }) {
             await setDoc(dateDocRef, { date: currentDate, notes: notes }, { merge: true });
         }
     };
-    
+    const handleEditNotes = () => {
+        setIsEditingNotes(true);
+        setInitialNotes(notes);
+    };
+    const cancelEditNotes = () => {
+        setIsEditingNotes(false);
+        setNotes(initialNotes);
+    };
+    const submitEditedNotes = () => {
+        submitNotes();
+        setIsEditingNotes(false);
+    };
+
     useEffect(() => {
         if (currentDate && activeHabit) {
             let dateDocRef;
@@ -108,11 +125,11 @@ function HabitsStats({ activeHabit }) {
     }, [user, guestUUID, activeHabit, currentDate]);
     
     return (
-        <div className='flex flex-col justify-between w-2/3 h-full max-lg:hidden gap-4'>
-            <div className='flex flex-col'>
+        <div className='flex flex-col justify-between w-2/3 h-full max-lg:hidden gap-2'>
+            <div className='flex flex-col bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
                 <ReactCalendar
                     onChange={date => { onChange(date); setCurrentDate(date); }}
-                    className={'bg-white bg-opacity-30'}
+                    className={''}
                     value={value}
                     tileClassName={tileClassName}
                     calendarType="gregory"
@@ -133,15 +150,46 @@ function HabitsStats({ activeHabit }) {
                 />
                 <button onClick={() => addDate(currentDate, true, notes)} className='bg-green-600 text-white rounded-lg p-2 mt-2 w-full hover:bg-green-500'>Set Success</button>
             </div>
-            <div className='flex-grow p-4 border-2 overflow-auto'>
-                <h1 className='font-medium border-b-[1px] mb-4 w-fit max-sm:border-custom-text max-sm:hover:border-custom-hover max-sm:hover:text-custom-hover no-select self-center'>Notes</h1>
-                <div className='flex flex-col w-full justify-center gap-4'>
-                    <div>
-                        <input type="text" value={notes} onChange={e => setNotes(e.target.value)} />
-                        <button onClick={submitNotes}>Submit Notes</button>
-                    </div>
-                    <p>{notes}</p>
+            <div className="flex-grow p-4 overflow-auto bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card relative flex flex-col">
+                <div className="absolute top-5 right-5 flex gap-2 text-4xl">
+                    {notes ? (
+                        <FiEdit onClick={handleEditNotes} />
+                    ) : (
+                        <FiPlus onClick={() => setShowAddNote(true)} />
+                    )}
                 </div>
+                <h1 className="mb-4 w-fit no-select">Notes</h1>
+                <div className="flex-grow flex flex-col">
+                    {isEditingNotes ? (
+                        <textarea
+                            className="w-full h-full p-2 rounded-lg bg-transparent border-[1px] border-custom-text focus:border-custom-hover outline-none resize-none"
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
+                        />
+                    ) : notes ? (
+                        <div className="w-full h-full p-2 rounded-lg bg-transparent border-[1px] border-custom-text">
+                            <p>{notes}</p>
+                        </div>
+                    ) : showAddNote ? (
+                        <div className="relative flex-grow flex flex-col">
+                            <textarea
+                                className="w-full h-full p-2 rounded-lg bg-transparent border-[1px] border-custom-text focus:border-custom-hover outline-none resize-none"
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                                placeholder="Add Notes"
+                            />
+                            {notes && (
+                                <FiCheck onClick={submitNotes} className="self-end mt-4 p-2 absolute bottom-2 right-3 flex items-center justify-center text-4xl hover:text-custom-hover" />
+                            )}
+                        </div>
+                    ) : null}
+                </div>
+                {isEditingNotes && (
+                    <div className='absolute flex bottom-6 right-6 text-4xl'>
+                        <LuUndo2 className="hover:text-custom-hover m-2" onClick={cancelEditNotes} />
+                        <FiCheck className="hover:text-custom-hover m-2" onClick={submitEditedNotes} />
+                    </div>
+                )}
             </div>
         </div>
     );

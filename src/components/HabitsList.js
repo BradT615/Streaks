@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useContext, useRef } from 'rea
 import { UserContext } from '../contexts/UserContext';
 import { db } from '../firebaseConfig';
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
-import { FiPlusCircle, FiEdit, FiTrash } from "react-icons/fi";
+import { FiPlus, FiEdit, FiTrash } from "react-icons/fi";
 
 function HabitsList({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);
@@ -121,15 +121,15 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     return (
-        <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} border-2 rounded-lg relative`}>
+        <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} rounded-lg relative bg-custom-light bg-opacity-85 backdrop-blur-md card`}>
             <div className='flex flex-col justify-center'>
                 <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select'>Habits</h1>
-                <div className='flex flex-col w-full justify-center gap-4'>
+                <div className='flex flex-col w-full justify-center gap-4 text-xl'>
                     <ul>
                         {items.map((item, index) => (
                             <div 
                                 key={index} 
-                                className={`relative group text-left bg-white bg-opacity-30 my-5 py-4 px-2 rounded-lg border-2 ${item === activeHabit ? 'border-custom-hover card' : 'border-transparent hover:shadow-xl'} hover:border-custom-hover hover:text-custom-hover`}
+                                className={`relative group text-left my-5 py-4 px-2 rounded-lg border-2 ${item === activeHabit ? 'border-custom-text card' : 'border-transparent hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
                                 onClick={() => handleItemClick(item)}
                             >
                                 {editingHabit === index ? (
@@ -158,7 +158,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                 </div>
             </div>
             <div className='absolute bottom-0 right-0 p-4 rounded-ee-lg'>
-                <FiPlusCircle className='text-4xl cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
+                <FiPlus className='text-4xl cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
             </div>
         </div>
     );
