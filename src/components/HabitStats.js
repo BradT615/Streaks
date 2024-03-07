@@ -124,6 +124,8 @@ function HabitsStats({ activeHabit }) {
         }
     }, [user, guestUUID, activeHabit, currentDate]);
     
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    const formattedDate = `${monthNames[currentDate.getMonth()]}, ${currentDate.getDate()}`;
     return (
         <div className='flex flex-col justify-between w-2/3 h-full max-lg:hidden gap-2'>
             <div className='flex flex-col bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
@@ -158,22 +160,22 @@ function HabitsStats({ activeHabit }) {
                         <FiPlus onClick={() => setShowAddNote(true)} />
                     )}
                 </div>
-                <h1 className="mb-4 w-fit no-select">Notes</h1>
-                <div className="flex-grow flex flex-col">
+                <h1 className="mb-4 w-fit no-select">{formattedDate} Notes</h1>
+                <div className="flex-grow flex flex-col text-left p-4 bg-transparent div-border">
                     {isEditingNotes ? (
                         <textarea
-                            className="w-full h-full p-2 rounded-lg bg-transparent border-[1px] border-custom-text focus:border-custom-hover outline-none resize-none"
+                            className="w-full h-full bg-transparent border-custom-text focus:border-custom-hover outline-none resize-none"
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                         />
                     ) : notes ? (
-                        <div className="w-full h-full p-2 rounded-lg bg-transparent border-[1px] border-custom-text">
+                        <div className="w-full h-full bg-transparent border-custom-text">
                             <p>{notes}</p>
                         </div>
                     ) : showAddNote ? (
                         <div className="relative flex-grow flex flex-col">
                             <textarea
-                                className="w-full h-full p-2 rounded-lg bg-transparent border-[1px] border-custom-text focus:border-custom-hover outline-none resize-none"
+                                className="w-full h-full bg-transparent border-custom-text focus:border-custom-hover outline-none resize-none"
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
                                 placeholder="Add Notes"

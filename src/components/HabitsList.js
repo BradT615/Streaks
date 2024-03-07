@@ -122,14 +122,14 @@ function HabitsList({ activeHabit, setActiveHabit }) {
 
     return (
         <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} rounded-lg relative bg-custom-light bg-opacity-85 backdrop-blur-md card`}>
-            <div className='flex flex-col justify-center'>
+            <div className='flex flex-col h-full'>
                 <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select'>Habits</h1>
-                <div className='flex flex-col w-full justify-center gap-4 text-xl'>
+                <div className='flex flex-col w-full p-4 gap-4 text-xl div-border h-full'>
                     <ul>
                         {items.map((item, index) => (
                             <div 
                                 key={index} 
-                                className={`relative group text-left my-5 py-4 px-2 rounded-lg border-2 ${item === activeHabit ? 'border-custom-text card' : 'border-transparent hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
+                                className={`relative group text-left mb-5 py-4 px-2 border-2 ${item === activeHabit ? 'border-custom-text card' : 'border-transparent hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
                                 onClick={() => handleItemClick(item)}
                             >
                                 {editingHabit === index ? (
@@ -157,7 +157,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                     </ul>
                 </div>
             </div>
-            <div className='absolute bottom-0 right-0 p-4 rounded-ee-lg'>
+            <div className='absolute bottom-0 right-0 p-8 rounded-ee-lg'>
                 <FiPlus className='text-4xl cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
             </div>
         </div>

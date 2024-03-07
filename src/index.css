@@ -57,3 +57,32 @@ input:-webkit-autofill:focus {
 .card {
     box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.5);
 }
+
+.div-border {
+    position: relative;
+    border: none;
+}
+
+.div-border::before,
+.div-border::after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-color: #9ea0a2;
+}
+
+.div-border::before {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+    width: 3vw;
+    height: 3vw;
+}
+
+.div-border::after {
+    right: 0;
+    bottom: 0;
+    border-width: 0 1px 1px 0;
+    width: 3vw;
+    height: 3vw;
+}
