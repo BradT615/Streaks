@@ -123,9 +123,18 @@ function HabitsStats({ activeHabit }) {
             }
         }
     }, [user, guestUUID, activeHabit, currentDate]);
+    useEffect(() => {
+        setShowAddNote(false);
+    }, [currentDate]);
     
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const formattedDate = `${monthNames[currentDate.getMonth()]}, ${currentDate.getDate()}`;
+    let formattedDate;
+    if (currentDate) {
+        formattedDate = `${monthNames[currentDate.getMonth()]}, ${currentDate.getDate()}`;
+    } else {
+        let currentDate = new Date();
+        formattedDate = `${monthNames[currentDate.getMonth()]}, ${currentDate.getDate()}`;
+    }
     return (
         <div className='flex flex-col justify-between w-2/3 h-full max-lg:hidden gap-2'>
             <div className='flex flex-col bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
@@ -153,29 +162,33 @@ function HabitsStats({ activeHabit }) {
                 <button onClick={() => addDate(currentDate, true, notes)} className='bg-green-600 text-white rounded-lg p-2 mt-2 w-full hover:bg-green-500'>Set Success</button>
             </div>
             <div className="flex-grow p-4 overflow-auto bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card relative flex flex-col">
-                <div className="absolute top-5 right-5 flex gap-2 text-4xl">
-                    {notes ? (
-                        <FiEdit onClick={handleEditNotes} />
-                    ) : (
-                        <FiPlus onClick={() => setShowAddNote(true)} />
-                    )}
+                <div className="flex justify-between w-full mb-4">
+                    <h1 className="no-select text-left w-1/3">Notes</h1>
+                    <h1 className="no-select w-1/3">{formattedDate}</h1>
+                    <div className="flex justify-end w-1/3 h-full text-4xl">
+                        {notes ? (
+                            <FiEdit onClick={handleEditNotes} />
+                        ) : (
+                            <FiPlus onClick={() => setShowAddNote(true)} />
+                        )}
+                    </div>
                 </div>
-                <h1 className="mb-4 w-fit no-select">{formattedDate} Notes</h1>
-                <div className="flex-grow flex flex-col text-left p-4 bg-transparent div-border">
+                <div className={`div-border ${isEditingNotes || showAddNote ? 'div-border-true' : 'div-border-false'} flex-grow flex flex-col text-left p-4 bg-transparent`}>
                     {isEditingNotes ? (
                         <textarea
-                            className="w-full h-full bg-transparent border-custom-text focus:border-custom-hover outline-none resize-none"
+                            className="w-full h-full bg-transparent outline-none resize-none textarea-editable"
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
+                            disabled={!isEditingNotes}
                         />
                     ) : notes ? (
-                        <div className="w-full h-full bg-transparent border-custom-text">
+                        <div className="w-full h-full bg-transparent">
                             <p>{notes}</p>
                         </div>
                     ) : showAddNote ? (
                         <div className="relative flex-grow flex flex-col">
                             <textarea
-                                className="w-full h-full bg-transparent border-custom-text focus:border-custom-hover outline-none resize-none"
+                                className="w-full h-full bg-transparent outline-none resize-none"
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
                                 placeholder="Add Notes"

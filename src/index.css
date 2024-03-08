@@ -86,3 +86,13 @@ input:-webkit-autofill:focus {
     width: 3vw;
     height: 3vw;
 }
+
+.div-border-true::before,
+.div-border-true::after {
+    border-color: #fbfbfb; /* color when either is true */
+}
+
+.div-border-false::before,
+.div-border-false::after {
+    border-color: #9ea0a2; /* color when both are false */
+}
