@@ -13,11 +13,14 @@ function HabitsStats({ activeHabit }) {
     const { user, guestUUID } = useContext(UserContext);
     const [value, onChange] = useState(new Date());
     const [habitData, setHabitData] = useState({});
-    const [currentDate, setCurrentDate] = useState(null);
     const [notes, setNotes] = useState('');
     const [showAddNote, setShowAddNote] = useState(false);
     const [isEditingNotes, setIsEditingNotes] = useState(false);
     const [initialNotes, setInitialNotes] = useState('');
+    const [currentDate, setCurrentDate] = useState(() => {
+        const now = new Date();
+        return new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    });
 
     const addDate = async (date, success = false, notes = null) => {
         if (!activeHabit) return

@@ -89,10 +89,10 @@ input:-webkit-autofill:focus {
 
 .div-border-true::before,
 .div-border-true::after {
-    border-color: #fbfbfb; /* color when either is true */
+    border-color: #fbfbfb;
 }
 
 .div-border-false::before,
 .div-border-false::after {
-    border-color: #9ea0a2; /* color when both are false */
+    border-color: #9ea0a2;
 }
