@@ -38,11 +38,31 @@ function HabitsStats({ activeHabit }) {
     };
 
     const tileClassName = ({ date, view }) => {
-        // Add class to dates with habit data
         if (activeHabit && view === 'month') {
             const dateKey = date.toISOString().split('T')[0];
+    
             if (habitData[dateKey]) {
-                return habitData[dateKey].success ? 'success-day' : 'habit-day';
+                const isSuccessDay = habitData[dateKey].success;
+                let className = isSuccessDay ? 'success-day' : 'habit-day';
+    
+                if (isSuccessDay) {
+                    const prevDate = new Date(date.getTime() - (24 * 60 * 60 * 1000));
+                    const nextDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
+                    const prevDateKey = prevDate.toISOString().split('T')[0];
+                    const nextDateKey = nextDate.toISOString().split('T')[0];
+                    const prevIsSuccessDay = habitData[prevDateKey]?.success || false;
+                    const nextIsSuccessDay = habitData[nextDateKey]?.success || false;
+    
+                    if (!prevIsSuccessDay && !nextIsSuccessDay) {
+                        className += ' rounded-full';
+                    } else if (!prevIsSuccessDay) {
+                        className += ' rounded-l-full';
+                    } else if (!nextIsSuccessDay) {
+                        className += ' rounded-r-full';
+                    }
+                }
+    
+                return className;
             }
         }
     };
