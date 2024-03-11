@@ -16,6 +16,7 @@ function HabitsStats({ activeHabit }) {
     const [notes, setNotes] = useState('');
     const [showAddNote, setShowAddNote] = useState(false);
     const [isEditingNotes, setIsEditingNotes] = useState(false);
+    const [isAddingNotes, setIsAddingNotes] = useState(false); // New state variable
     const [initialNotes, setInitialNotes] = useState('');
     const [currentDate, setCurrentDate] = useState(() => {
         const now = new Date();
@@ -121,6 +122,25 @@ function HabitsStats({ activeHabit }) {
     const submitEditedNotes = () => {
         submitNotes();
         setIsEditingNotes(false);
+        setIsEditingNotes(false);
+        setInitialNotes('');
+    };
+    const handleAddNotes = () => {
+        setShowAddNote(true);
+        setIsAddingNotes(true); // Set isAddingNotes to true
+        setNotes(''); // Reset notes to an empty string
+    };
+
+    const submitAddedNotes = () => {
+        submitNotes();
+        setIsAddingNotes(false); // Set isAddingNotes to false
+        setShowAddNote(false);
+    };
+
+    const cancelAddNotes = () => {
+        setIsAddingNotes(false); // Set isAddingNotes to false
+        setShowAddNote(false);
+        setNotes(''); // Reset notes to an empty string
     };
 
     useEffect(() => {
@@ -191,41 +211,53 @@ function HabitsStats({ activeHabit }) {
                         {notes ? (
                             <FiEdit onClick={handleEditNotes} />
                         ) : (
-                            <FiPlus onClick={() => setShowAddNote(true)} />
+                            <FiPlus onClick={handleAddNotes} />
                         )}
                     </div>
                 </div>
-                <div className={`div-border ${isEditingNotes || showAddNote ? 'div-border-true' : 'div-border-false'} flex-grow flex flex-col text-left p-4 bg-transparent`}>
-                    {isEditingNotes ? (
+                <div className={`div-border ${(isEditingNotes || isAddingNotes) ? 'div-border-true' : 'div-border-false'} flex-grow flex flex-col text-left p-4 bg-transparent`}>
+                    {isAddingNotes ? (
+                        <textarea
+                            className="w-full h-full bg-blue-400 outline-none resize-none"
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
+                            onKeyDown={e => e.key === 'Enter' && submitAddedNotes()}
+                            onBlur={submitAddedNotes}
+                            placeholder="Add Notes"
+                        />
+                    ) : isEditingNotes ? (
                         <textarea
                             className="w-full h-full bg-red-400 outline-none resize-none textarea-editable"
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
+                            onKeyDown={e => e.key === 'Enter' && submitEditedNotes()}
+                            onBlur={submitEditedNotes}
                             disabled={!isEditingNotes}
                         />
                     ) : notes ? (
                         <div className="w-full h-full bg-green-400">
                             <p>{notes}</p>
                         </div>
-                    ) : showAddNote ? (
-                        <textarea
-                            className="w-full h-full bg-blue-400 outline-none resize-none"
-                            value={notes}
-                            onChange={(e) => setNotes(e.target.value)}
-                            placeholder="Add Notes"
-                        /> 
                     ) : null}
                 </div>
-                {isEditingNotes || showAddNote && (
+                {(isEditingNotes || isAddingNotes) && (
                     <div className='absolute flex bottom-6 right-6 text-4xl'>
-                        <LuUndo2 className="hover:text-custom-hover m-2" onClick={cancelEditNotes} />
-                        <FiCheck className="hover:text-custom-hover m-2" onClick={submitEditedNotes} />
+                        {isAddingNotes ? (
+                            <>
+                                <LuUndo2 className="hover:text-custom-hover m-2" onClick={cancelAddNotes} />
+                                <FiCheck className="hover:text-custom-hover m-2" onClick={submitAddedNotes} />
+                            </>
+                        ) : (
+                            <>
+                                <LuUndo2 className="hover:text-custom-hover m-2" onClick={cancelEditNotes} />
+                                <FiCheck className="hover:text-custom-hover m-2" onClick={submitEditedNotes} />
+                            </>
+                        )}
                     </div>
                 )}
             </div>
         </div>
     );
-    
 }
 
 export default HabitsStats;
