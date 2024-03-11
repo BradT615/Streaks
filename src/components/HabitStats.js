@@ -9,20 +9,20 @@ import './Calendar.css';
 
 function HabitsStats({ activeHabit }) {
     const { user, guestUUID } = useContext(UserContext);
-    const [value, onChange] = useState(new Date());
+    const [value] = useState(new Date());
     const [habitData, setHabitData] = useState({});
     const [notes, setNotes] = useState('');
     const [mode, setMode] = useState('view');
     const [currentDate, setCurrentDate] = useState(() => new Date());
 
-    const getDatesCollection = () => {
+    const getDatesCollection = useCallback(() => {
         if (user) {
             return collection(db, 'users', user.uid, 'habits', activeHabit, 'dates');
         } else if (guestUUID) {
             return collection(db, 'guests', guestUUID, 'habits', activeHabit, 'dates');
         }
         return null;
-    };
+    }, [user, guestUUID, activeHabit]);
 
     const addDate = async (date, success = false, notes = null) => {
         const datesCollection = getDatesCollection();
@@ -66,7 +66,7 @@ function HabitsStats({ activeHabit }) {
             setHabitData(dates.reduce((acc, date) => ({ ...acc, [date.date]: date }), {}));
         });
         return unsubscribe;
-    }, [user, guestUUID, activeHabit]);
+    }, [getDatesCollection, activeHabit]);
 
     useEffect(() => {
         const unsubscribe = fetchDates();
@@ -100,7 +100,7 @@ function HabitsStats({ activeHabit }) {
             }
         });
         return unsubscribe;
-    }, [user, guestUUID, activeHabit, currentDate]);
+    }, [getDatesCollection, activeHabit, currentDate]);
 
     useEffect(() => {
         setMode('view');
@@ -146,7 +146,7 @@ function HabitsStats({ activeHabit }) {
                         )}
                     </div>
                 </div>
-                <div className={`div-border ${mode !== 'view' ? 'div-border-true' : 'div-border-false'} flex-grow flex flex-col text-left text-xl p-4 bg-transparent`}>
+                <div className={`div-border ${mode !== 'view' ? 'div-border-true' : 'div-border-false'} flex-grow flex flex-col text-left text-lg p-4 bg-transparent`}>
                     {mode === 'add' ? (
                         <textarea
                             className="w-full h-full outline-none resize-none bg-transparent"
