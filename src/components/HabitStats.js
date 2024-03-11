@@ -160,10 +160,9 @@ function HabitsStats({ activeHabit }) {
     }
     return (
         <div className='flex flex-col justify-between w-2/3 h-full max-lg:hidden gap-2'>
-            <div className='flex flex-col bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
+            <div className='bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
                 <ReactCalendar
                     onChange={date => { onChange(date); setCurrentDate(date); }}
-                    className={''}
                     value={value}
                     tileClassName={tileClassName}
                     calendarType="gregory"
@@ -199,30 +198,25 @@ function HabitsStats({ activeHabit }) {
                 <div className={`div-border ${isEditingNotes || showAddNote ? 'div-border-true' : 'div-border-false'} flex-grow flex flex-col text-left p-4 bg-transparent`}>
                     {isEditingNotes ? (
                         <textarea
-                            className="w-full h-full bg-transparent outline-none resize-none textarea-editable"
+                            className="w-full h-full bg-red-400 outline-none resize-none textarea-editable"
                             value={notes}
                             onChange={(e) => setNotes(e.target.value)}
                             disabled={!isEditingNotes}
                         />
                     ) : notes ? (
-                        <div className="w-full h-full bg-transparent">
+                        <div className="w-full h-full bg-green-400">
                             <p>{notes}</p>
                         </div>
                     ) : showAddNote ? (
-                        <div className="relative flex-grow flex flex-col">
-                            <textarea
-                                className="w-full h-full bg-transparent outline-none resize-none"
-                                value={notes}
-                                onChange={(e) => setNotes(e.target.value)}
-                                placeholder="Add Notes"
-                            />
-                            {notes && (
-                                <FiCheck onClick={submitNotes} className="self-end mt-4 p-2 absolute bottom-2 right-3 flex items-center justify-center text-4xl hover:text-custom-hover" />
-                            )}
-                        </div>
+                        <textarea
+                            className="w-full h-full bg-blue-400 outline-none resize-none"
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
+                            placeholder="Add Notes"
+                        /> 
                     ) : null}
                 </div>
-                {isEditingNotes && (
+                {isEditingNotes || showAddNote && (
                     <div className='absolute flex bottom-6 right-6 text-4xl'>
                         <LuUndo2 className="hover:text-custom-hover m-2" onClick={cancelEditNotes} />
                         <FiCheck className="hover:text-custom-hover m-2" onClick={submitEditedNotes} />

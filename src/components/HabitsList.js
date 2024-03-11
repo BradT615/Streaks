@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useContext, useRef } from 'rea
 import { UserContext } from '../contexts/UserContext';
 import { db } from '../firebaseConfig';
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
-import { FiPlus, FiEdit, FiTrash } from "react-icons/fi";
+import { FiPlus, FiEdit, FiTrash, FiCheck } from "react-icons/fi";
 
 function HabitsList({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);
@@ -129,7 +129,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                         {items.map((item, index) => (
                             <div 
                                 key={index} 
-                                className={`relative group text-left mb-5 py-4 px-2 border-2 ${item === activeHabit ? 'border-custom-text card' : 'border-transparent hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
+                                className={`relative group text-left mb-5 py-4 px-2 border-2 ${item === activeHabit ? 'border-[#c3c5c8] card' : 'border-[#6c6d6e] hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
                                 onClick={() => handleItemClick(item)}
                             >
                                 {editingHabit === index ? (
@@ -139,7 +139,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                         onChange={e => setEditedHabitName(e.target.value)}
                                         onKeyDown={e => e.key === 'Enter' && handleSaveEdit()}
                                         onBlur={handleSaveEdit}
-                                        className='border-2'
+                                        className='border-2 rounded-none w-full'
                                     />
                                 ) : (
                                     <li 
@@ -157,8 +157,8 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                     </ul>
                 </div>
             </div>
-            <div className='absolute bottom-0 right-0 p-8 rounded-ee-lg'>
-                <FiPlus className='text-4xl cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
+            <div className='absolute bottom-0 right-0 p-6 rounded-ee-lg'>
+                <FiPlus size={40} className='cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
             </div>
         </div>
     );

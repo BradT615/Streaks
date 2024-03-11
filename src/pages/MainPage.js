@@ -15,7 +15,7 @@ function MainPage() {
                     {activeHabit && <HabitStats activeHabit={activeHabit} className='h-full' />}
                 </div>
             </div>
-            <footer className='lg:block h-[10vh] min-h-12 px-4 xl:px-[1vw]'></footer>
+            <footer className='hidden lg:block h-[7vh] min-h-12 px-4 xl:px-[1vw]'></footer>
         </div>
     );
 };
