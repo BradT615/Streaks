@@ -35,23 +35,12 @@ abbr[title] {
 .react-calendar__tile {
     position: relative;
     font-size: 0.8em;
-    border:1px solid red;
     width: 40px;
     height: 40px;
 }
 
 .react-calendar__tile:hover {
     background: #00bcff;
-}
-.react-calendar__tile--active {
-    background: #00b8d1;
-}
-.react-calendar__tile--hasActive--hover, .react-calendar__tile--active:hover {
-    background: #00f6ff;
-}
-
-.success-day {
-    background: #47ffe7;
 }
 
 .dot {

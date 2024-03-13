@@ -33,29 +33,40 @@ function HabitsStats({ activeHabit }) {
 
     const tileClassName = ({ date, view }) => {
         if (activeHabit && view === 'month') {
-            const dateKey = date.toISOString().split('T')[0];
-            if (habitData[dateKey]) {
-                const isSuccessDay = habitData[dateKey].success;
-                let className = isSuccessDay ? 'success-day' : 'habit-day';
-                if (isSuccessDay) {
-                    const prevDate = new Date(date.getTime() - (24 * 60 * 60 * 1000));
-                    const nextDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
-                    const prevDateKey = prevDate.toISOString().split('T')[0];
-                    const nextDateKey = nextDate.toISOString().split('T')[0];
-                    const prevIsSuccessDay = habitData[prevDateKey]?.success || false;
-                    const nextIsSuccessDay = habitData[nextDateKey]?.success || false;
-                    if (!prevIsSuccessDay && !nextIsSuccessDay) {
-                        className += ' rounded-full';
-                    } else if (!prevIsSuccessDay) {
-                        className += ' rounded-l-full';
-                    } else if (!nextIsSuccessDay) {
-                        className += ' rounded-r-full';
-                    }
-                }
-                return className;
+          const dateKey = date.toISOString().split('T')[0];
+          const currentDateKey = currentDate.toISOString().split('T')[0];
+      
+          let className = 'rounded-full';
+      
+          if (dateKey === currentDateKey) {
+            className += ' selected-date';
+          }
+      
+          if (habitData[dateKey]) {
+            const isSuccessDay = habitData[dateKey].success;
+            className += isSuccessDay ? ' success-day bg-[#47ffe7]' : ' habit-day';
+      
+            if (isSuccessDay) {
+              const prevDate = new Date(date.getTime() - (24 * 60 * 60 * 1000));
+              const nextDate = new Date(date.getTime() + (24 * 60 * 60 * 1000));
+              const prevDateKey = prevDate.toISOString().split('T')[0];
+              const nextDateKey = nextDate.toISOString().split('T')[0];
+              const prevIsSuccessDay = habitData[prevDateKey]?.success || false;
+              const nextIsSuccessDay = habitData[nextDateKey]?.success || false;
+      
+              if (prevIsSuccessDay && nextIsSuccessDay) {
+                className = 'success-day bg-[#47ffe7]';
+              } else if (prevIsSuccessDay) {
+                className = 'success-day bg-[#47ffe7] rounded-r-full';
+              } else if (nextIsSuccessDay) {
+                className = 'success-day bg-[#47ffe7] rounded-l-full';
+              }
             }
+          }
+      
+          return className;
         }
-    };
+      };
 
     const fetchDates = useCallback(() => {
         const datesCollection = getDatesCollection();
