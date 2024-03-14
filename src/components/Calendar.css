@@ -39,8 +39,15 @@ abbr[title] {
     height: 40px;
 }
 
-.react-calendar__tile:hover {
+/* .selected-date {
     background: #00bcff;
+    color: #fff;
+    border-radius: 50%;
+} */
+
+.react-calendar__tile:hover {
+    background: #00d9f7;
+    color: #000;
 }
 
 .dot {

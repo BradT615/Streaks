@@ -78,15 +78,23 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     const calculateStreak = useCallback((habitData) => {
         let streak = 0;
         let currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() - 2); // Start from yesterday
-    
-        while (habitData && habitData[currentDate.toISOString().split('T')[0]]?.success) {
-            streak++;
-            currentDate.setDate(currentDate.getDate() - 1);
+        currentDate.setHours(0, 0, 0, 0); // Set the time to 00:00:00.000
+        currentDate.setDate(currentDate.getDate() - 1);
+      
+        const formatDate = (date) => {
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const day = String(date.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+        };
+      
+        while (habitData && habitData[formatDate(currentDate)]?.success) {
+          streak++;
+          currentDate.setDate(currentDate.getDate() - 1);
         }
-    
+      
         return streak;
-    }, []);
+      }, []);
 
     const handleAddItem = () => {
         if (!items.includes('')) {
@@ -181,7 +189,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                         )}
                                     </div>
                                 )}
-                                <div className='absolute right-0 text-3xl flex items-center justify-center gap-2 -top-4 bg-custom-light rounded-lg p-1 opacity-0 group-hover:opacity-100'>
+                                <div className='absolute right-0 text-2xl flex items-center justify-center gap-2 -top-4 bg-custom-light rounded-lg p-1 opacity-0 group-hover:opacity-100'>
                                     <FiEdit onClick={(e) => {e.stopPropagation(); handleEditHabit(item);}} className='text-custom-text hover:text-custom-hover' />
                                     <FiTrash onClick={(e) => {e.stopPropagation(); handleRemoveItem(item);}} className='text-red-400 hover:text-red-500' />
                                 </div>
