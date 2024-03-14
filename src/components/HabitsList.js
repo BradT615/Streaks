@@ -22,14 +22,26 @@ function HabitsList({ activeHabit, setActiveHabit }) {
         } else if (guestUUID) {
             habitsRef = collection(db, 'guests', guestUUID, 'habits');
         }
-
+    
         if (habitsRef) {
             const habitsSnapshot = await getDocs(habitsRef);
-            const habits = habitsSnapshot.docs.map(doc => ({ name: doc.data().name, order: doc.data().order }));
+            const habits = await Promise.all(
+                habitsSnapshot.docs.map(async (doc) => {
+                    const habitName = doc.data().name;
+                    const datesCollection = collection(doc.ref, 'dates');
+                    const datesSnapshot = await getDocs(datesCollection);
+                    const habitData = datesSnapshot.docs.reduce((acc, dateDoc) => {
+                        const dateKey = dateDoc.id;
+                        const dateData = dateDoc.data();
+                        acc[dateKey] = dateData;
+                        return acc;
+                    }, {});
+                    return { name: habitName, order: doc.data().order, data: habitData };
+                })
+            );
             habits.sort((a, b) => a.order - b.order);
-            const habitNames = habits.map(habit => habit.name);
-            setItems(habitNames);
-            setActiveHabit(habitNames[0]);
+            setItems(habits);
+            setActiveHabit(habits[0].name);
         }
     }, [user, guestUUID, setActiveHabit]);
 
@@ -63,6 +75,19 @@ function HabitsList({ activeHabit, setActiveHabit }) {
         }
     };
 
+    const calculateStreak = useCallback((habitData) => {
+        let streak = 0;
+        let currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() - 2); // Start from yesterday
+    
+        while (habitData && habitData[currentDate.toISOString().split('T')[0]]?.success) {
+            streak++;
+            currentDate.setDate(currentDate.getDate() - 1);
+        }
+    
+        return streak;
+    }, []);
+
     const handleAddItem = () => {
         if (!items.includes('')) {
             const updatedItems = [...items, ''];
@@ -81,42 +106,42 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     }, [editingHabit, newItemAdded]);
 
     const handleEditHabit = (habit) => {
-        const index = items.indexOf(habit);
+        const index = items.findIndex(item => item.name === habit.name);
         setEditingHabit(index);
-        setEditedHabitName(habit);
+        setEditedHabitName(habit.name);
     };
     const handleRemoveItem = (itemToRemove) => {
-        const updatedItems = items.filter(item => item !== itemToRemove);
+        const updatedItems = items.filter(item => item.name !== itemToRemove.name);
         setItems(updatedItems);
-        storeHabits(updatedItems);
-        if (activeHabit === itemToRemove) {
-            setActiveHabit(updatedItems[0]);
+        storeHabits(updatedItems.map(item => item.name));
+        if (activeHabit === itemToRemove.name) {
+            setActiveHabit(updatedItems[0].name);
         }
     };
     const handleSaveEdit = async () => {
         if (editedHabitName.trim() !== '') {
-            if (items.includes(editedHabitName)) {
+            if (items.some(item => item.name === editedHabitName)) {
                 setHighlightedItem(editedHabitName);
-                setHighlightedItem(null);
+                setTimeout(() => setHighlightedItem(null), 1000);
             } else {
-                const updatedItems = items.map((item, index) => index === editingHabit ? editedHabitName : item);
+                const updatedItems = items.map((item, index) => index === editingHabit ? { ...item, name: editedHabitName } : item);
                 setItems(updatedItems);
-                await storeHabits(updatedItems);
+                await storeHabits(updatedItems.map(item => item.name));
                 setActiveHabit(editedHabitName);
                 setEditedHabitName('');
             }
         } else {
-            const updatedItems = items.filter((item, index) => index !== editingHabit);
+            const updatedItems = items.filter((_, index) => index !== editingHabit);
             setItems(updatedItems);
-            await storeHabits(updatedItems);
+            await storeHabits(updatedItems.map(item => item.name));
         }
         setEditingHabit(null);
     };
     
 
     const handleItemClick = (item) => {
-        if (item !== '') {
-            setActiveHabit(item);
+        if (item.name !== '') {
+            setActiveHabit(item.name);
         }
     };
 
@@ -129,7 +154,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                         {items.map((item, index) => (
                             <div 
                                 key={index} 
-                                className={`relative group text-left mb-5 py-4 px-2 border-2 ${item === activeHabit ? 'border-[#c3c5c8] card' : 'border-[#6c6d6e] hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
+                                className={`relative group text-left mb-5 py-4 px-2 border-2 ${item.name === activeHabit ? 'border-[#c3c5c8] card' : 'border-[#6c6d6e] hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
                                 onClick={() => handleItemClick(item)}
                             >
                                 {editingHabit === index ? (
@@ -142,11 +167,19 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                         className='border-2 rounded-none w-full'
                                     />
                                 ) : (
-                                    <li 
-                                        className={`cursor-pointer w-2/3 p-1 rounded-lg no-select ${item === activeHabit ? 'text-custom-hover' : ''} ${item === highlightedItem ? 'text-green-500' : ''}`}
-                                    >
-                                        {item}
-                                    </li>
+                                    <div className="flex items-center justify-between">
+                                        <li 
+                                            className={`cursor-pointer w-2/3 p-1 rounded-lg no-select ${item.name === activeHabit ? 'text-custom-hover' : ''} ${item.name === highlightedItem ? 'text-green-500' : ''}`}
+                                        >
+                                            {item.name}
+                                        </li>
+                                        {editingHabit !== index && item.data && calculateStreak(item.data) >= 2 && (
+                                            <div className="flex items-center">
+                                                <i className="fi fi-ss-fire-flame-curved icon-gradient"></i>
+                                                <span className="ml-2">{calculateStreak(item.data)}</span>
+                                            </div>
+                                        )}
+                                    </div>
                                 )}
                                 <div className='absolute right-0 text-3xl flex items-center justify-center gap-2 -top-4 bg-custom-light rounded-lg p-1 opacity-0 group-hover:opacity-100'>
                                     <FiEdit onClick={(e) => {e.stopPropagation(); handleEditHabit(item);}} className='text-custom-text hover:text-custom-hover' />
