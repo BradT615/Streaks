@@ -122,7 +122,7 @@ function HabitsStats({ activeHabit }) {
     const formattedDate = currentDate ? `${monthNames[currentDate.getMonth()]}, ${currentDate.getDate()}` : null;
 
     return (
-        <div className='flex flex-col justify-between w-2/3 h-full max-lg:hidden gap-2'>
+        <div className='flex flex-col justify-between w-2/3 h-full max-md:hidden gap-2'>
             <div className='bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
                 <ReactCalendar
                     onChange={setCurrentDate}
@@ -146,8 +146,8 @@ function HabitsStats({ activeHabit }) {
                 />
                 <button onClick={() => addDate(currentDate, true, notes)} className='bg-green-600 text-white rounded-lg p-2 mt-2 w-full hover:bg-green-500'>Set Success</button>
             </div>
-            <div className="flex-grow p-4 overflow-auto bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card relative flex flex-col">
-                <div className="flex justify-between items-center w-full mb-3">
+            <div className="flex-grow p-3 lg:p-4 overflow-auto bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card relative flex flex-col">
+                <div className="flex justify-between items-center w-full mb-3 text-xl lg:text-2xl">
                     <h1 className="no-select text-left w-1/3">Notes</h1>
                     <h1 className="no-select w-1/3">{formattedDate}</h1>
                     <div className="flex justify-end w-1/3 text-3xl">

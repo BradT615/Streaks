@@ -10,7 +10,7 @@
 }
 
 .react-calendar__navigation__label { 
-    font-size: 1.2em;
+
     border-radius: 8px;
 }
 
@@ -20,16 +20,17 @@
 
 .react-calendar__navigation__arrow {
     padding: 6px;
-    font-size: 1.2em;
     border-radius: 40px;
     cursor: pointer;
 }
 .react-calendar__navigation__arrow:hover {
-    background: #00bcff;
+    background: #00d9f7;
+    color: #000;
 }
 
 abbr[title] {
     text-decoration: none;
+    font-size: 0.8em;
 }
 
 .react-calendar__tile {

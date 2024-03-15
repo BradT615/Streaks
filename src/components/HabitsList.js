@@ -154,10 +154,10 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     return (
-        <div className={`w-full p-4 ${activeHabit ? 'lg:w-1/3' : ''} rounded-lg relative bg-custom-light bg-opacity-85 backdrop-blur-md card`}>
+        <div className={`w-full p-3 lg:p-4 ${activeHabit ? 'md:w-1/3' : ''} rounded-lg relative bg-custom-light bg-opacity-85 backdrop-blur-md card`}>
             <div className='flex flex-col h-full'>
-                <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select'>Habits</h1>
-                <div className='flex flex-col w-full p-4 gap-4 text-xl div-border h-full'>
+                <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select text-xl lg:text-2xl'>Habits</h1>
+                <div className='flex flex-col w-full p-2 lg:p-4 gap-4 text-sm md:text-lg lg:text-xl div-border h-full'>
                     <ul>
                         {items.map((item, index) => (
                             <div 
@@ -177,12 +177,12 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                                 ) : (
                                     <div className="flex items-center justify-between">
                                         <li 
-                                            className={`cursor-pointer w-2/3 p-1 rounded-lg no-select ${item.name === activeHabit ? 'text-custom-hover' : ''} ${item.name === highlightedItem ? 'text-green-500' : ''}`}
+                                            className={`cursor-pointer flex-1 p-1 rounded-lg no-select truncate ${item.name === activeHabit ? 'text-custom-hover' : ''} ${item.name === highlightedItem ? 'text-green-500' : ''}`}
                                         >
                                             {item.name}
                                         </li>
                                         {editingHabit !== index && item.data && calculateStreak(item.data) >= 2 && (
-                                            <div className="flex items-center">
+                                            <div className="flex items-center ml-2">
                                                 <i className="fi fi-ss-fire-flame-curved icon-gradient"></i>
                                                 <span className="ml-2">{calculateStreak(item.data)}</span>
                                             </div>
@@ -198,8 +198,8 @@ function HabitsList({ activeHabit, setActiveHabit }) {
                     </ul>
                 </div>
             </div>
-            <div className='absolute bottom-0 right-0 p-6 rounded-ee-lg'>
-                <FiPlus size={40} className='cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
+            <div className='absolute bottom-0 right-0 p-5 lg:p-6 lg:text-3xl rounded-ee-lg'>
+                <FiPlus className='cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
             </div>
         </div>
     );
