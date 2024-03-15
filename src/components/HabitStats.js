@@ -5,9 +5,10 @@ import { db } from '../firebaseConfig';
 import { collection, doc, query, orderBy, setDoc, onSnapshot } from "firebase/firestore";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiPlus, FiEdit, FiCheck } from "react-icons/fi";
+import { GoArrowLeft } from "react-icons/go";
 import './Calendar.css';
 
-function HabitsStats({ activeHabit }) {
+function HabitsStats({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);
     const [value] = useState(new Date());
     const [habitData, setHabitData] = useState({});
@@ -38,7 +39,7 @@ function HabitsStats({ activeHabit }) {
           const isCurrentDate = dateKey === currentDateKey;
           const isSuccessDay = habitData[dateKey]?.success;
       
-          let className = 'rounded-full';
+          let className = 'rounded-full ';
       
           if (isSuccessDay) {
             const prevDate = new Date(date.getTime() - (24 * 60 * 60 * 1000));
@@ -62,7 +63,7 @@ function HabitsStats({ activeHabit }) {
           }
       
           if (isCurrentDate) {
-            className += ' selected-date bg-[#00b8d1] text-white';
+            className += ' selected-date bg-[#00b8d1] text-black';
           }
       
           return className;
@@ -122,8 +123,11 @@ function HabitsStats({ activeHabit }) {
     const formattedDate = currentDate ? `${monthNames[currentDate.getMonth()]}, ${currentDate.getDate()}` : null;
 
     return (
-        <div className='flex flex-col justify-between w-2/3 h-full max-md:hidden gap-2'>
-            <div className='bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
+        <div className='flex flex-col justify-between w-full h-full gap-2'>
+            <div className='relative bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
+                <div className='md:hidden absolute top-0 left-0 p-2 m-2 hover:text-custom-hover' onClick={() => setActiveHabit(null)}>
+                    <GoArrowLeft />
+                </div>
                 <ReactCalendar
                     onChange={setCurrentDate}
                     value={value}

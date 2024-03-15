@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, useContext, useRef } from 'rea
 import { UserContext } from '../contexts/UserContext';
 import { db } from '../firebaseConfig';
 import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
-import { FiPlus, FiEdit, FiTrash, FiCheck } from "react-icons/fi";
+import { FiPlus, FiEdit, FiTrash } from "react-icons/fi";
 
 function HabitsList({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);
@@ -41,9 +41,23 @@ function HabitsList({ activeHabit, setActiveHabit }) {
             );
             habits.sort((a, b) => a.order - b.order);
             setItems(habits);
-            setActiveHabit(habits[0].name);
         }
-    }, [user, guestUUID, setActiveHabit]);
+    }, [user, guestUUID]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                setActiveHabit(items[0]?.name || null);
+            }
+        };
+    
+        handleResize();
+    
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [items, setActiveHabit]);
 
     useEffect(() => {
         fetchHabits();
@@ -154,54 +168,53 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     };
 
     return (
-        <div className={`w-full p-3 lg:p-4 ${activeHabit ? 'md:w-1/3' : ''} rounded-lg relative bg-custom-light bg-opacity-85 backdrop-blur-md card`}>
-            <div className='flex flex-col h-full'>
-                <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select text-xl lg:text-2xl'>Habits</h1>
-                <div className='flex flex-col w-full p-2 lg:p-4 gap-4 text-sm md:text-lg lg:text-xl div-border h-full'>
-                    <ul>
-                        {items.map((item, index) => (
-                            <div 
-                                key={index} 
-                                className={`relative group text-left mb-5 py-4 px-2 border-2 ${item.name === activeHabit ? 'border-[#c3c5c8] card' : 'border-[#6c6d6e] hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
-                                onClick={() => handleItemClick(item)}
-                            >
-                                {editingHabit === index ? (
-                                    <input
-                                        ref={inputRef}
-                                        value={editedHabitName}
-                                        onChange={e => setEditedHabitName(e.target.value)}
-                                        onKeyDown={e => e.key === 'Enter' && handleSaveEdit()}
-                                        onBlur={handleSaveEdit}
-                                        className='border-2 rounded-none w-full'
-                                    />
-                                ) : (
-                                    <div className="flex items-center justify-between">
-                                        <li 
-                                            className={`cursor-pointer flex-1 p-1 rounded-lg no-select truncate ${item.name === activeHabit ? 'text-custom-hover' : ''} ${item.name === highlightedItem ? 'text-green-500' : ''}`}
-                                        >
-                                            {item.name}
-                                        </li>
-                                        {editingHabit !== index && item.data && calculateStreak(item.data) >= 2 && (
-                                            <div className="flex items-center ml-2">
-                                                <i className="fi fi-ss-fire-flame-curved icon-gradient"></i>
-                                                <span className="ml-2">{calculateStreak(item.data)}</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
-                                <div className='absolute right-0 text-2xl flex items-center justify-center gap-2 -top-4 bg-custom-light rounded-lg p-1 opacity-0 group-hover:opacity-100'>
-                                    <FiEdit onClick={(e) => {e.stopPropagation(); handleEditHabit(item);}} className='text-custom-text hover:text-custom-hover' />
-                                    <FiTrash onClick={(e) => {e.stopPropagation(); handleRemoveItem(item);}} className='text-red-400 hover:text-red-500' />
+        <div className='flex flex-col h-full'>
+            <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select text-xl lg:text-2xl'>Habits</h1>
+            <div className='flex flex-col w-full p-2 lg:p-4 gap-4 text-sm md:text-lg lg:text-xl div-border h-full'>
+                <ul>
+                    {items.map((item, index) => (
+                        <div 
+                            key={index} 
+                            className={`relative group text-left mb-5 py-4 px-2 border-2 ${item.name === activeHabit ? 'border-[#c3c5c8] card' : 'border-[#6c6d6e] hover:shadow-xl'} hover:border-custom-text hover:text-custom-hover`}
+                            onClick={() => handleItemClick(item)}
+                        >
+                            {editingHabit === index ? (
+                                <input
+                                    ref={inputRef}
+                                    value={editedHabitName}
+                                    onChange={e => setEditedHabitName(e.target.value)}
+                                    onKeyDown={e => e.key === 'Enter' && handleSaveEdit()}
+                                    onBlur={handleSaveEdit}
+                                    className='border-2 rounded-none w-full'
+                                />
+                            ) : (
+                                <div className="flex items-center justify-between">
+                                    <li 
+                                        className={`cursor-pointer flex-1 p-1 rounded-lg no-select truncate ${item.name === activeHabit ? 'text-custom-hover' : ''} ${item.name === highlightedItem ? 'text-green-500' : ''}`}
+                                    >
+                                        {item.name}
+                                    </li>
+                                    {editingHabit !== index && item.data && calculateStreak(item.data) >= 2 && (
+                                        <div className="flex items-center ml-2 gap-1">
+                                            <i className="fi fi-ss-fire-flame-curved icon-gradient h-full"></i>
+                                            <span className="mb-1">{calculateStreak(item.data)}</span>
+                                        </div>
+                                    )}
                                 </div>
+                            )}
+                            <div className='absolute right-0 text-2xl flex items-center justify-center gap-2 -top-4 bg-custom-light rounded-lg p-1 opacity-0 group-hover:opacity-100'>
+                                <FiEdit onClick={(e) => {e.stopPropagation(); handleEditHabit(item);}} className='text-custom-text hover:text-custom-hover' />
+                                <FiTrash onClick={(e) => {e.stopPropagation(); handleRemoveItem(item);}} className='text-red-400 hover:text-red-500' />
                             </div>
-                        ))}
-                    </ul>
-                </div>
+                        </div>
+                    ))}
+                </ul>
             </div>
             <div className='absolute bottom-0 right-0 p-5 lg:p-6 lg:text-3xl rounded-ee-lg'>
-                <FiPlus className='cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
-            </div>
+            <FiPlus className='cursor-pointer hover:text-custom-hover' onClick={handleAddItem} />
         </div>
+    </div>
+
     );
 };
 
