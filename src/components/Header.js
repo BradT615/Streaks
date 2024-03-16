@@ -23,14 +23,14 @@ function Header() {
                             {user.photoURL ? (
                                 <img src={user.photoURL} alt="Profile" className="w-10 h-10 m-1 object-cover rounded-full" />
                             ) : (
-                                <CiUser className="w-6 h-6 sm:w-8 sm:h-8 rounded-full" />
+                                <CiUser className="w-6 h-6 sm:w-8 sm:h-8 m-2 rounded-full" />
                             )}
                         </div>
-                        <div className='hidden sm:block lg:hidden text-lg sm:text-xl truncate max-w-48 mr-3' title={user.displayName.split(' ')[0]}>
-                            { user.displayName.split(' ')[0] }
+                        <div className='hidden sm:block lg:hidden text-lg sm:text-xl truncate max-w-48 mr-3' title={user.displayName ? user.displayName.split(' ')[0] : ''}>
+                            {user.displayName ? user.displayName.split(' ')[0] : ''}
                         </div>
-                        <div className='hidden lg:block text-lg sm:text-xl truncate max-w-56 mr-3' title={user.displayName}>
-                            { user.displayName }
+                        <div className='hidden lg:block text-lg sm:text-xl truncate max-w-56 mr-3' title={user.displayName || ''}>
+                            {user.displayName || ''}
                         </div>
                     </button>
                 </Link>
