@@ -68,7 +68,14 @@ function HabitsStats({ activeHabit, setActiveHabit }) {
       
           return className;
         }
-      };
+    };
+
+    const removeSuccess = async (date) => {
+        const datesCollection = getDatesCollection();
+        if (!activeHabit || !datesCollection) return;
+        const dateDoc = doc(datesCollection, date.toISOString().split('T')[0]);
+        await setDoc(dateDoc, { date, success: false }, { merge: true });
+    };
 
     const fetchDates = useCallback(() => {
         const datesCollection = getDatesCollection();
@@ -149,7 +156,19 @@ function HabitsStats({ activeHabit, setActiveHabit }) {
                         return null;
                     }}
                 />
-                <button onClick={() => addDate(currentDate, true, notes)} className='bg-green-600 text-white rounded-lg p-2 mt-2 w-full hover:bg-green-500'>Set Success</button>
+                <button
+                    onClick={() => {
+                        const isSuccess = habitData[currentDate.toISOString().split('T')[0]]?.success;
+                        addDate(currentDate, !isSuccess, notes);
+                    }}
+                    className={`${
+                        habitData[currentDate.toISOString().split('T')[0]]?.success
+                            ? 'bg-red-500 hover:bg-red-600'
+                            : 'bg-green-500 hover:bg-green-600'
+                    } text-white rounded-lg p-2 mt-2 w-full`}
+                >
+                    {habitData[currentDate.toISOString().split('T')[0]]?.success ? 'Remove Success' : 'Set Success'}
+                </button>
             </div>
             <div className="flex-grow p-3 lg:p-4 overflow-auto bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card relative flex flex-col">
                 <div className="flex justify-between items-center w-full mb-3 text-xl lg:text-2xl">
