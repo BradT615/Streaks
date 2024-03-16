@@ -18,14 +18,6 @@ function MainPage() {
         };
     }, []);
 
-    useEffect(() => {
-        console.log('Active Habit:', activeHabit);
-    }, [activeHabit]);
-
-    useEffect(() => {
-        console.log('Is Medium Screen:', isMediumScreen);
-    }, [isMediumScreen]);
-
     return (
         <div className='flex flex-col justify-between w-full h-screen'>
             <Header />

@@ -170,7 +170,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
     return (
         <div className='flex flex-col h-full'>
             <h1 className='mb-4 w-fit max-sm:hover:text-custom-hover no-select text-xl lg:text-2xl'>Habits</h1>
-            <div className='flex flex-col w-full p-2 lg:p-4 gap-4 text-sm md:text-lg lg:text-xl div-border h-full'>
+            <div className='flex flex-col w-full p-2 lg:p-4 gap-4 text-base sm:text-xl div-border h-full'>
                 <ul>
                     {items.map((item, index) => (
                         <div 
