@@ -188,7 +188,7 @@ function HabitsStats({ activeHabit, setActiveHabit }) {
                         )}
                     </div>
                 </div>
-                <div className={`div-border ${mode !== 'view' ? 'div-border-true' : 'div-border-false'} flex-grow flex flex-col text-left text-lg p-4 bg-transparent`}>
+                <div className={`div-border ${mode !== 'view' ? 'div-border-true' : 'div-border-false'} flex-grow flex flex-col text-left text-lg p-2 pl-3  bg-transparent`}>
                     {mode === 'add' ? (
                         <textarea
                             className="w-full h-full outline-none resize-none bg-transparent"
@@ -213,7 +213,7 @@ function HabitsStats({ activeHabit, setActiveHabit }) {
                     ) : null}
                 </div>
                 {mode !== 'view' && (
-                    <FiCheck className="absolute flex bottom-0 right-0 text-4xl hover:text-custom-hover m-10" onClick={confirmNotes} />
+                    <FiCheck className="absolute flex bottom-0 right-0 texl-2xl md:text-4xl hover:text-custom-hover m-5 md:m-6" onClick={confirmNotes} />
                 )}
             </div>
         </div>

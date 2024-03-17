@@ -50,7 +50,7 @@ abbr[title] {
 
 .selected-date {
     background: #00bcff;
-    color: #fff;
+    color: #000;
 }
 
 .react-calendar__tile:hover {
