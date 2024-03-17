@@ -18,10 +18,6 @@ function HabitsStats({ activeHabit, setActiveHabit }) {
     const [mode, setMode] = useState('view');
     const [currentDate, setCurrentDate] = useState(value);
 
-    useEffect(() => {
-        console.log(value);
-    }, [value]);
-
     const getDatesCollection = useCallback(() => {
         if (user) {
             return collection(db, 'users', user.uid, 'habits', activeHabit, 'dates');
@@ -138,9 +134,9 @@ function HabitsStats({ activeHabit, setActiveHabit }) {
     return (
         <div className='flex flex-col justify-between w-full h-full gap-2'>
             <div className='bg-custom-light bg-opacity-85 backdrop-blur-md rounded-lg card'>
-                <div className='flex gap-2 w-fit items-centermax-w-md mt-2 pl-2 md:hidden hover:text-custom-hover' onClick={() => setActiveHabit(null)}>
+                <div className='flex gap-2 w-full items-center mt-2 pr-6 pl-2 md:hidden hover:text-custom-hover' onClick={() => setActiveHabit(null)}>
                     <GoArrowLeft className='text-3xl mt-1' />
-                    <h1 className='h-full truncate'>{activeHabit}</h1>
+                    <h1 className='h-full truncate text-2xl'>{activeHabit}</h1>
                 </div>
                 <ReactCalendar
                     onChange={setCurrentDate}
