@@ -159,7 +159,11 @@ function HabitsStats({ activeHabit, setActiveHabit }) {
                 <button
                     onClick={() => {
                         const isSuccess = habitData[currentDate.toISOString().split('T')[0]]?.success;
-                        addDate(currentDate, !isSuccess, notes);
+                        if (isSuccess) {
+                            removeSuccess(currentDate);
+                        } else {
+                            addDate(currentDate, true, notes);
+                        }
                     }}
                     className={`${
                         habitData[currentDate.toISOString().split('T')[0]]?.success
