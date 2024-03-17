@@ -6,7 +6,7 @@ import { collection, doc, getDocs, writeBatch } from "firebase/firestore";
 import { FiPlus, FiEdit, FiTrash } from "react-icons/fi";
 
 function HabitsList({ activeHabit, setActiveHabit }) {
-    const { user, guestUUID } = useContext(UserContext);
+    const { user, guestUUID, loading } = useContext(UserContext);
     const [items, setItems] = useState([]);
     const [highlightedItem, setHighlightedItem] = useState(null);
     const [editingHabit, setEditingHabit] = useState(null);
@@ -16,6 +16,9 @@ function HabitsList({ activeHabit, setActiveHabit }) {
 
     // Fetch habits from Firestore
     const fetchHabits = useCallback(async () => {
+        if (loading) {
+            return;
+        }
         let habitsRef;
         if (user) {
             habitsRef = collection(db, 'users', user.uid, 'habits');
@@ -42,7 +45,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
             habits.sort((a, b) => a.order - b.order);
             setItems(habits);
         }
-    }, [user, guestUUID]);
+    }, [user, guestUUID, loading]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -61,7 +64,7 @@ function HabitsList({ activeHabit, setActiveHabit }) {
 
     useEffect(() => {
         fetchHabits();
-    }, [fetchHabits]);
+    }, [fetchHabits, loading]);
     // Store habits in Firestore
     const storeHabits = async (habits) => {
         let habitsRef;

@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '../contexts/UserContext';
+import logo from '../assets/logo.png';
 import Header from '../components/Header';
 import HabitsList from '../components/HabitsList';
 import HabitStats from '../components/HabitStats';
 
 function MainPage() {
+    const { loading } = useContext(UserContext);
     const [activeHabit, setActiveHabit] = useState(null);
     const [isMediumScreen, setIsMediumScreen] = useState(window.innerWidth >= 768);
 
@@ -17,6 +20,18 @@ function MainPage() {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <img 
+                    src={logo} 
+                    className="animate-spin h-12 w-12 text-white" 
+                    alt="Loading..." 
+                />
+            </div>
+        );
+    }
 
     return (
         <div className='flex flex-col justify-between w-full h-screen'>
