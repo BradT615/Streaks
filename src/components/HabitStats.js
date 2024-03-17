@@ -10,11 +10,17 @@ import './Calendar.css';
 
 function HabitsStats({ activeHabit, setActiveHabit }) {
     const { user, guestUUID } = useContext(UserContext);
-    const [value] = useState(new Date());
+    const now = new Date();
+    const localNoon = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12);
+    const [value] = useState(localNoon);
     const [habitData, setHabitData] = useState({});
     const [notes, setNotes] = useState('');
     const [mode, setMode] = useState('view');
-    const [currentDate, setCurrentDate] = useState(() => new Date());
+    const [currentDate, setCurrentDate] = useState(value);
+
+    useEffect(() => {
+        console.log(value);
+    }, [value]);
 
     const getDatesCollection = useCallback(() => {
         if (user) {
@@ -138,7 +144,7 @@ function HabitsStats({ activeHabit, setActiveHabit }) {
                 </div>
                 <ReactCalendar
                     onChange={setCurrentDate}
-                    value={value}
+                    value={currentDate}
                     tileClassName={tileClassName}
                     calendarType="gregory"
                     maxDetail="month"
